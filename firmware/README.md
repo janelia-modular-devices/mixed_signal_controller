@@ -34,7 +34,7 @@ Example Response:
   "method":"?",
   "device_info":{
     "name":"mixed_signal_controller",
-    "model_number":1110,
+    "model_number":1120,
     "serial_number":0,
     "firmware_number":1
   },
@@ -44,34 +44,8 @@ Example Response:
     "setSerialNumber",
     "executeStandaloneCallback",
     "getLedsPowered",
-    "setChannelOn",
-    "setChannelOff",
-    "setChannelsOn",
-    "setChannelsOff",
-    "toggleChannel",
-    "toggleChannels",
-    "toggleAllChannels",
-    "setAllChannelsOn",
-    "setAllChannelsOff",
-    "setChannelOnAllOthersOff",
-    "setChannelOffAllOthersOn",
-    "setChannelsOnAllOthersOff",
-    "setChannelsOffAllOthersOn",
-    "getChannelsOn",
-    "getChannelsOff",
-    "getChannelCount",
-    "saveState",
-    "recallState",
-    "getSavedStates",
-    "addPulseCentered",
-    "addPwmPeriodOnDuration",
-    "addPwmFrequencyDutyCycle",
-    "addSpikeAndHold",
-    "stopAllPulses",
-    "startPwmPeriodOnDuration",
-    "startPwmFrequencyDutyCycle",
-    "startSpikeAndHold",
-    "stopPulseWave"
+    "getAnalogInput",
+    "getAnalogInputs"
   ],
   "status":success
 }
@@ -113,7 +87,7 @@ Example Response:
   "method":"??",
   "device_info":{
     "name":"mixed_signal_controller",
-    "model_number":1110,
+    "model_number":1120,
     "serial_number":0,
     "firmware_number":1
   },
@@ -146,208 +120,15 @@ Example Response:
       }
     },
     {
-      "setChannelOn":{
+      "getAnalogInput":{
         "parameters":[
-          "channel"
+          "ain"
         ]
       }
     },
     {
-      "setChannelOff":{
-        "parameters":[
-          "channel"
-        ]
-      }
-    },
-    {
-      "setChannelsOn":{
-        "parameters":[
-          "channels"
-        ]
-      }
-    },
-    {
-      "setChannelsOff":{
-        "parameters":[
-          "channels"
-        ]
-      }
-    },
-    {
-      "toggleChannel":{
-        "parameters":[
-          "channel"
-        ]
-      }
-    },
-    {
-      "toggleChannels":{
-        "parameters":[
-          "channels"
-        ]
-      }
-    },
-    {
-      "toggleAllChannels":{
+      "getAnalogInputs":{
         "parameters":[]
-      }
-    },
-    {
-      "setAllChannelsOn":{
-        "parameters":[]
-      }
-    },
-    {
-      "setAllChannelsOff":{
-        "parameters":[]
-      }
-    },
-    {
-      "setChannelOnAllOthersOff":{
-        "parameters":[
-          "channel"
-        ]
-      }
-    },
-    {
-      "setChannelOffAllOthersOn":{
-        "parameters":[
-          "channel"
-        ]
-      }
-    },
-    {
-      "setChannelsOnAllOthersOff":{
-        "parameters":[
-          "channels"
-        ]
-      }
-    },
-    {
-      "setChannelsOffAllOthersOn":{
-        "parameters":[
-          "channels"
-        ]
-      }
-    },
-    {
-      "getChannelsOn":{
-        "parameters":[]
-      }
-    },
-    {
-      "getChannelsOff":{
-        "parameters":[]
-      }
-    },
-    {
-      "getChannelCount":{
-        "parameters":[]
-      }
-    },
-    {
-      "saveState":{
-        "parameters":[
-          "state"
-        ]
-      }
-    },
-    {
-      "recallState":{
-        "parameters":[
-          "state"
-        ]
-      }
-    },
-    {
-      "getSavedStates":{
-        "parameters":[]
-      }
-    },
-    {
-      "addPulseCentered":{
-        "parameters":[
-          "channels",
-          "delay",
-          "on_duration"
-        ]
-      }
-    },
-    {
-      "addPwmPeriodOnDuration":{
-        "parameters":[
-          "channels",
-          "delay",
-          "period",
-          "on_duration",
-          "count"
-        ]
-      }
-    },
-    {
-      "addPwmFrequencyDutyCycle":{
-        "parameters":[
-          "channels",
-          "delay",
-          "frequency",
-          "duty_cycle",
-          "pwm_duration"
-        ]
-      }
-    },
-    {
-      "addSpikeAndHold":{
-        "parameters":[
-          "channels",
-          "delay",
-          "spike_duty_cycle",
-          "spike_duration",
-          "hold_duty_cycle",
-          "hold_duration"
-        ]
-      }
-    },
-    {
-      "stopAllPulses":{
-        "parameters":[]
-      }
-    },
-    {
-      "startPwmPeriodOnDuration":{
-        "parameters":[
-          "channels",
-          "delay",
-          "period",
-          "on_duration"
-        ]
-      }
-    },
-    {
-      "startPwmFrequencyDutyCycle":{
-        "parameters":[
-          "channels",
-          "delay",
-          "frequency",
-          "duty_cycle"
-        ]
-      }
-    },
-    {
-      "startSpikeAndHold":{
-        "parameters":[
-          "channels",
-          "delay",
-          "spike_duty_cycle",
-          "spike_duration",
-          "hold_duty_cycle"
-        ]
-      }
-    },
-    {
-      "stopPulseWave":{
-        "parameters":[
-          "pulse_wave_index"
-        ]
       }
     }
   ],
