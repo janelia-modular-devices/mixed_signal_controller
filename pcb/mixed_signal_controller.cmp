@@ -1,4 +1,4 @@
-Cmp-Mod V01 Genere par PcbNew le Fri 01 May 2015 02:27:51 PM EDT
+Cmp-Mod V01 Genere par PcbNew le Fri 08 May 2015 02:37:07 PM EDT
 
 BeginCmp
 TimeStamp = 54BEE626
@@ -65,18 +65,10 @@ IdModule  = mixed_signal_controller:ARDUINO_MEGA_SHIELD;
 EndCmp
 
 BeginCmp
-TimeStamp = 5480CA49
-Path = /5489CB72
-Reference = REG1;
-ValeurCmp = CONV_DC_DC_12V_1A;
-IdModule  = mixed_signal_controller:DC_DC_CONV_R78C;
-EndCmp
-
-BeginCmp
 TimeStamp = 5480C9FD
-Path = /5488FCDE
+Path = /554CF53D
 Reference = P1;
-ValeurCmp = PWR_JACK_2.5x5.5;
+ValeurCmp = PWR_JACK_2.1x5.5;
 IdModule  = mixed_signal_controller:DCJACK_2PIN_HIGHCURRENT;
 EndCmp
 
@@ -166,6 +158,46 @@ Path = /5543D40D
 Reference = P4;
 ValeurCmp = HEADER_02X05_SMD;
 IdModule  = mixed_signal_controller:HEADER_02x05_SMD;
+EndCmp
+
+BeginCmp
+TimeStamp = 554D044F
+Path = /554D0794
+Reference = P5;
+ValeurCmp = HEADER_02X05_SMD;
+IdModule  = mixed_signal_controller:HEADER_02x05_SMD;
+EndCmp
+
+BeginCmp
+TimeStamp = 554D04B3
+Path = /554D4F45
+Reference = P9;
+ValeurCmp = HEADER_02X07_SMD;
+IdModule  = mixed_signal_controller:HEADER_02x07_SMD;
+EndCmp
+
+BeginCmp
+TimeStamp = 554D049A
+Path = /554D4BD2
+Reference = P8;
+ValeurCmp = HEADER_02X07_SMD;
+IdModule  = mixed_signal_controller:HEADER_02x07_SMD;
+EndCmp
+
+BeginCmp
+TimeStamp = 554D0481
+Path = /554D4F0E
+Reference = P7;
+ValeurCmp = HEADER_02X07_SMD;
+IdModule  = mixed_signal_controller:HEADER_02x07_SMD;
+EndCmp
+
+BeginCmp
+TimeStamp = 554D0468
+Path = /554D2767
+Reference = P6;
+ValeurCmp = HEADER_02X07_SMD;
+IdModule  = mixed_signal_controller:HEADER_02x07_SMD;
 EndCmp
 
 EndListe

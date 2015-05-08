@@ -3,7 +3,7 @@
     (string_quote ")
     (space_in_quoted_tokens on)
     (host_cad "KiCad's Pcbnew")
-    (host_version "0.201504221001+5618~22~ubuntu14.04.1-product")
+    (host_version "0.201505061231+5645~23~ubuntu14.04.1-product")
   )
   (resolution um 10)
   (unit um)
@@ -64,11 +64,8 @@
     (component mixed_signal_controller:ARDUINO_MEGA_SHIELD
       (place ARDUINO1 97790 -129540 front 0 (PN ARDUINO_MEGA))
     )
-    (component mixed_signal_controller:DC_DC_CONV_R78C
-      (place REG1 200025 -115570 front 270 (PN CONV_DC_DC_12V_1A))
-    )
     (component mixed_signal_controller:DCJACK_2PIN_HIGHCURRENT
-      (place P1 211455 -102870 front 270 (PN PWR_JACK_2.5x5.5))
+      (place P1 211455 -102870 front 270 (PN PWR_JACK_2.1x5.5))
     )
     (component "mixed_signal_controller:Micro-MaTch_6_SMD"
       (place E1 181610 -120015 front 0 (PN ENCODER_C14))
@@ -78,7 +75,14 @@
       (place U2 182880 -83185 back 270 (PN MAX6817))
     )
     (component mixed_signal_controller:HEADER_02x05_SMD
-      (place P4 157480 -102870 front 0 (PN HEADER_02X05_SMD))
+      (place P4 127000 -102870 front 0 (PN HEADER_02X05_SMD))
+      (place P5 127000 -116840 front 0 (PN HEADER_02X05_SMD))
+    )
+    (component mixed_signal_controller:HEADER_02x07_SMD
+      (place P9 158750 -116840 front 0 (PN HEADER_02X07_SMD))
+      (place P8 158750 -102870 front 0 (PN HEADER_02X07_SMD))
+      (place P7 158750 -88900 front 0 (PN HEADER_02X07_SMD))
+      (place P6 127000 -88900 front 0 (PN HEADER_02X07_SMD))
     )
   )
   (library
@@ -308,15 +312,6 @@
       (pin Oval[A][0,508]Pad_1524x2540_um (rotate 90) GND4 93980 7620)
       (pin "Oval[A][0,-508]Pad_1524x2540_um" (rotate 90) GND5 96520 7620)
     )
-    (image mixed_signal_controller:DC_DC_CONV_R78C
-      (outline (path signal 381  5715 -1905  5715 6350))
-      (outline (path signal 381  5715 6350  -5715 6350))
-      (outline (path signal 381  -5715 6350  -5715 -1905))
-      (outline (path signal 381  -5715 -1905  5715 -1905))
-      (pin Oval[A]Pad_1524x2540_um 2 0 0)
-      (pin Oval[A]Pad_1524x2540_um 3 2540 0)
-      (pin Oval[A]Pad_1524x2540_um 1 -2540 0)
-    )
     (image mixed_signal_controller:DCJACK_2PIN_HIGHCURRENT
       (outline (path signal 381  -5080 -13335  5080 -13335))
       (outline (path signal 381  5080 -13335  5080 0))
@@ -375,6 +370,29 @@
       (pin Rect[T]Pad_1016x4495.8_um 9 -5080 2997.2)
       (pin Rect[T]Pad_1016x4495.8_um 10 -5080 -2997.2)
     )
+    (image mixed_signal_controller:HEADER_02x07_SMD
+      (outline (path signal 381  -12700 -4572  12700 -4572))
+      (outline (path signal 381  -12700 4572  12700 4572))
+      (outline (path signal 381  -12700 4572  -12700 -4572))
+      (outline (path signal 381  12700 4572  12700 -4572))
+      (outline (path signal 381  7620 4572  8890 5842))
+      (outline (path signal 381  8890 5842  6350 5842))
+      (outline (path signal 381  6350 5842  7620 4572))
+      (pin Rect[T]Pad_1016x4495.8_um 2 7620 -2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 1 7620 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 14 -7620 -2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 13 -7620 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 3 5080 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 4 5080 -2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 5 2540 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 6 2540 -2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 7 0 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 8 0 -2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 9 -2540 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 10 -2540 -2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 11 -5080 2997.2)
+      (pin Rect[T]Pad_1016x4495.8_um 12 -5080 -2997.2)
+    )
     (padstack Round[A]Pad_1930.4_um
       (shape (circle F.Cu 1930.4))
       (shape (circle In1.Cu 1930.4))
@@ -408,11 +426,6 @@
     (padstack Oval[A]Pad_1524x2032_um
       (shape (path F.Cu 1524  0 -254  0 254))
       (shape (path In1.Cu 1524  0 -254  0 254))
-      (attach off)
-    )
-    (padstack Oval[A]Pad_1524x2540_um
-      (shape (path F.Cu 1524  0 -508  0 508))
-      (shape (path In1.Cu 1524  0 -508  0 508))
       (attach off)
     )
     (padstack Oval[A][0,508]Pad_1524x2540_um
@@ -498,17 +511,16 @@
   )
   (network
     (net VAA
-      (pins SW1-2 REG1-1 P1-1 C1-1)
+      (pins SW1-2 ARDUINO1-V_IN P1-1 C1-1 C2-1 P9-1 P9-3 P8-1 P8-3 P7-1 P7-3 P6-1
+        P6-3)
     )
     (net GND
-      (pins SW2-3 S1-2 P2-2 D1-2 P3-2 P3-4 R3-2 ARDUINO1-GND1 ARDUINO1-GND2 REG1-2
-        P1-2 C1-2 C2-2 C3-2 C4-2 C5-2 E1-1 E1-2 U1-2 U2-2 P4-2)
-    )
-    (net /V_IN
-      (pins ARDUINO1-V_IN REG1-3 C2-1)
+      (pins SW2-3 S1-2 P2-2 D1-2 P3-2 P3-4 R3-2 ARDUINO1-GND1 ARDUINO1-GND2 P1-2 C1-2
+        C2-2 C3-2 C4-2 C5-2 E1-1 E1-2 U1-2 U2-2 P4-2 P5-2 P9-2 P9-4 P9-6 P8-2 P8-4
+        P8-6 P7-2 P7-4 P7-6 P6-2 P6-4 P6-6)
     )
     (net +5V
-      (pins P2-3 ARDUINO1-5V_1 C3-1 R1-1 R2-1 E1-6 P4-1)
+      (pins P2-3 ARDUINO1-5V_1 C3-1 R1-1 R2-1 E1-6 P4-1 P5-1 P9-5 P8-5 P7-5 P6-5)
     )
     (net /ENC_BTN
       (pins E1-3 U1-1)
@@ -555,30 +567,6 @@
     (net "Net-(ARDUINO1-Pad3V3)"
       (pins ARDUINO1-3V3)
     )
-    (net "Net-(ARDUINO1-PadA8)"
-      (pins ARDUINO1-A8)
-    )
-    (net "Net-(ARDUINO1-PadA9)"
-      (pins ARDUINO1-A9)
-    )
-    (net "Net-(ARDUINO1-PadA10)"
-      (pins ARDUINO1-A10)
-    )
-    (net "Net-(ARDUINO1-PadA11)"
-      (pins ARDUINO1-A11)
-    )
-    (net "Net-(ARDUINO1-PadA12)"
-      (pins ARDUINO1-A12)
-    )
-    (net "Net-(ARDUINO1-PadA13)"
-      (pins ARDUINO1-A13)
-    )
-    (net "Net-(ARDUINO1-PadA14)"
-      (pins ARDUINO1-A14)
-    )
-    (net "Net-(ARDUINO1-PadA15)"
-      (pins ARDUINO1-A15)
-    )
     (net "Net-(ARDUINO1-Pad21B)"
       (pins ARDUINO1-21B)
     )
@@ -590,27 +578,6 @@
     )
     (net "Net-(ARDUINO1-PadGND3)"
       (pins ARDUINO1-GND3)
-    )
-    (net "Net-(ARDUINO1-Pad13)"
-      (pins ARDUINO1-13)
-    )
-    (net "Net-(ARDUINO1-Pad12)"
-      (pins ARDUINO1-12)
-    )
-    (net "Net-(ARDUINO1-Pad11)"
-      (pins ARDUINO1-11)
-    )
-    (net "Net-(ARDUINO1-Pad10)"
-      (pins ARDUINO1-10)
-    )
-    (net "Net-(ARDUINO1-Pad9)"
-      (pins ARDUINO1-9)
-    )
-    (net "Net-(ARDUINO1-Pad8)"
-      (pins ARDUINO1-8)
-    )
-    (net "Net-(ARDUINO1-Pad7)"
-      (pins ARDUINO1-7)
     )
     (net "Net-(ARDUINO1-Pad0)"
       (pins ARDUINO1-0)
@@ -624,9 +591,6 @@
     (net "Net-(ARDUINO1-Pad5)"
       (pins ARDUINO1-5)
     )
-    (net "Net-(ARDUINO1-Pad6)"
-      (pins ARDUINO1-6)
-    )
     (net "Net-(ARDUINO1-Pad15)"
       (pins ARDUINO1-15)
     )
@@ -638,78 +602,6 @@
     )
     (net "Net-(ARDUINO1-Pad5V_5)"
       (pins ARDUINO1-5V_5)
-    )
-    (net "Net-(ARDUINO1-Pad22)"
-      (pins ARDUINO1-22)
-    )
-    (net "Net-(ARDUINO1-Pad23)"
-      (pins ARDUINO1-23)
-    )
-    (net "Net-(ARDUINO1-Pad24)"
-      (pins ARDUINO1-24)
-    )
-    (net "Net-(ARDUINO1-Pad25)"
-      (pins ARDUINO1-25)
-    )
-    (net "Net-(ARDUINO1-Pad26)"
-      (pins ARDUINO1-26)
-    )
-    (net "Net-(ARDUINO1-Pad27)"
-      (pins ARDUINO1-27)
-    )
-    (net "Net-(ARDUINO1-Pad28)"
-      (pins ARDUINO1-28)
-    )
-    (net "Net-(ARDUINO1-Pad29)"
-      (pins ARDUINO1-29)
-    )
-    (net "Net-(ARDUINO1-Pad30)"
-      (pins ARDUINO1-30)
-    )
-    (net "Net-(ARDUINO1-Pad31)"
-      (pins ARDUINO1-31)
-    )
-    (net "Net-(ARDUINO1-Pad32)"
-      (pins ARDUINO1-32)
-    )
-    (net "Net-(ARDUINO1-Pad33)"
-      (pins ARDUINO1-33)
-    )
-    (net "Net-(ARDUINO1-Pad34)"
-      (pins ARDUINO1-34)
-    )
-    (net "Net-(ARDUINO1-Pad35)"
-      (pins ARDUINO1-35)
-    )
-    (net "Net-(ARDUINO1-Pad36)"
-      (pins ARDUINO1-36)
-    )
-    (net "Net-(ARDUINO1-Pad37)"
-      (pins ARDUINO1-37)
-    )
-    (net "Net-(ARDUINO1-Pad38)"
-      (pins ARDUINO1-38)
-    )
-    (net "Net-(ARDUINO1-Pad39)"
-      (pins ARDUINO1-39)
-    )
-    (net "Net-(ARDUINO1-Pad40)"
-      (pins ARDUINO1-40)
-    )
-    (net "Net-(ARDUINO1-Pad41)"
-      (pins ARDUINO1-41)
-    )
-    (net "Net-(ARDUINO1-Pad42)"
-      (pins ARDUINO1-42)
-    )
-    (net "Net-(ARDUINO1-Pad43)"
-      (pins ARDUINO1-43)
-    )
-    (net "Net-(ARDUINO1-Pad44)"
-      (pins ARDUINO1-44)
-    )
-    (net "Net-(ARDUINO1-Pad45)"
-      (pins ARDUINO1-45)
     )
     (net "Net-(ARDUINO1-Pad46)"
       (pins ARDUINO1-46)
@@ -768,6 +660,126 @@
     (net "Net-(ARDUINO1-Pad52)"
       (pins ARDUINO1-52)
     )
+    (net /A8
+      (pins ARDUINO1-A8 P5-3)
+    )
+    (net /A9
+      (pins ARDUINO1-A9 P5-4)
+    )
+    (net /A10
+      (pins ARDUINO1-A10 P5-5)
+    )
+    (net /A11
+      (pins ARDUINO1-A11 P5-6)
+    )
+    (net /A12
+      (pins ARDUINO1-A12 P5-7)
+    )
+    (net /A13
+      (pins ARDUINO1-A13 P5-8)
+    )
+    (net /A14
+      (pins ARDUINO1-A14 P5-9)
+    )
+    (net /A15
+      (pins ARDUINO1-A15 P5-10)
+    )
+    (net /IO7
+      (pins ARDUINO1-13 P6-14)
+    )
+    (net /IO6
+      (pins ARDUINO1-12 P6-13)
+    )
+    (net /IO5
+      (pins ARDUINO1-11 P6-12)
+    )
+    (net /IO4
+      (pins ARDUINO1-10 P6-11)
+    )
+    (net /IO3
+      (pins ARDUINO1-9 P6-10)
+    )
+    (net /IO2
+      (pins ARDUINO1-8 P6-9)
+    )
+    (net /IO1
+      (pins ARDUINO1-7 P6-8)
+    )
+    (net /IO0
+      (pins ARDUINO1-6 P6-7)
+    )
+    (net /IO8
+      (pins ARDUINO1-22 P7-7)
+    )
+    (net /IO9
+      (pins ARDUINO1-23 P7-8)
+    )
+    (net /IO10
+      (pins ARDUINO1-24 P7-9)
+    )
+    (net /IO11
+      (pins ARDUINO1-25 P7-10)
+    )
+    (net /IO12
+      (pins ARDUINO1-26 P7-11)
+    )
+    (net /IO13
+      (pins ARDUINO1-27 P7-12)
+    )
+    (net /IO14
+      (pins ARDUINO1-28 P7-13)
+    )
+    (net /IO15
+      (pins ARDUINO1-29 P7-14)
+    )
+    (net /IO16
+      (pins ARDUINO1-30 P8-7)
+    )
+    (net /IO17
+      (pins ARDUINO1-31 P8-8)
+    )
+    (net /IO18
+      (pins ARDUINO1-32 P8-9)
+    )
+    (net /IO19
+      (pins ARDUINO1-33 P8-10)
+    )
+    (net /IO20
+      (pins ARDUINO1-34 P8-11)
+    )
+    (net /IO21
+      (pins ARDUINO1-35 P8-12)
+    )
+    (net /IO22
+      (pins ARDUINO1-36 P8-13)
+    )
+    (net /IO23
+      (pins ARDUINO1-37 P8-14)
+    )
+    (net /IO31
+      (pins ARDUINO1-38 P9-14)
+    )
+    (net /IO30
+      (pins ARDUINO1-39 P9-13)
+    )
+    (net /IO29
+      (pins ARDUINO1-40 P9-12)
+    )
+    (net /IO28
+      (pins ARDUINO1-41 P9-11)
+    )
+    (net /IO27
+      (pins ARDUINO1-42 P9-10)
+    )
+    (net /IO26
+      (pins ARDUINO1-43 P9-9)
+    )
+    (net /IO25
+      (pins ARDUINO1-44 P9-8)
+    )
+    (net /IO24
+      (pins ARDUINO1-45 P9-7)
+    )
     (class kicad_default ""
       (circuit
         (use_via Via[0-1]_889:635_um)
@@ -804,32 +816,29 @@
         (clearance 254.1)
       )
     )
-    (class SIGNAL +5VD /A0 /A1 /A2 /A3 /A4 /A5 /A6 /A7 /BNC_A /BNC_B /BTN
-      /CS /D_BTN /D_ENC_BTN /D_LED_PWR /D_SWITCH /ENC_A /ENC_B /ENC_BTN /IN
-      /MISO /MOSI /OUT0 /OUT1 /OUT10 /OUT11 /OUT12 /OUT13 /OUT14 /OUT15 /OUT16
-      /OUT17 /OUT18 /OUT19 /OUT2 /OUT20 /OUT21 /OUT22 /OUT23 /OUT24 /OUT25
-      /OUT26 /OUT27 /OUT28 /OUT29 /OUT3 /OUT30 /OUT31 /OUT4 /OUT5 /OUT6 /OUT7
-      /OUT8 /OUT9 /RST /SCK /SI1 /SI2 /SI3 /SWITCH /TX3 /V_IN "Net-(ARDUINO1-Pad0)"
-      "Net-(ARDUINO1-Pad1)" "Net-(ARDUINO1-Pad10)" "Net-(ARDUINO1-Pad11)"
-      "Net-(ARDUINO1-Pad12)" "Net-(ARDUINO1-Pad13)" "Net-(ARDUINO1-Pad15)"
-      "Net-(ARDUINO1-Pad16)" "Net-(ARDUINO1-Pad20B)" "Net-(ARDUINO1-Pad21B)"
-      "Net-(ARDUINO1-Pad22)" "Net-(ARDUINO1-Pad23)" "Net-(ARDUINO1-Pad24)"
-      "Net-(ARDUINO1-Pad25)" "Net-(ARDUINO1-Pad26)" "Net-(ARDUINO1-Pad27)"
-      "Net-(ARDUINO1-Pad28)" "Net-(ARDUINO1-Pad29)" "Net-(ARDUINO1-Pad30)"
-      "Net-(ARDUINO1-Pad31)" "Net-(ARDUINO1-Pad32)" "Net-(ARDUINO1-Pad33)"
-      "Net-(ARDUINO1-Pad34)" "Net-(ARDUINO1-Pad35)" "Net-(ARDUINO1-Pad36)"
-      "Net-(ARDUINO1-Pad37)" "Net-(ARDUINO1-Pad38)" "Net-(ARDUINO1-Pad39)"
-      "Net-(ARDUINO1-Pad3V3)" "Net-(ARDUINO1-Pad4)" "Net-(ARDUINO1-Pad40)"
-      "Net-(ARDUINO1-Pad41)" "Net-(ARDUINO1-Pad42)" "Net-(ARDUINO1-Pad43)"
-      "Net-(ARDUINO1-Pad44)" "Net-(ARDUINO1-Pad45)" "Net-(ARDUINO1-Pad46)"
-      "Net-(ARDUINO1-Pad47)" "Net-(ARDUINO1-Pad49)" "Net-(ARDUINO1-Pad5)"
-      "Net-(ARDUINO1-Pad50)" "Net-(ARDUINO1-Pad51)" "Net-(ARDUINO1-Pad52)"
-      "Net-(ARDUINO1-Pad53)" "Net-(ARDUINO1-Pad5V_5)" "Net-(ARDUINO1-Pad6)"
-      "Net-(ARDUINO1-Pad7)" "Net-(ARDUINO1-Pad8)" "Net-(ARDUINO1-Pad9)" "Net-(ARDUINO1-PadA1)"
+    (class SIGNAL +5VD /A0 /A1 /A10 /A11 /A12 /A13 /A14 /A15 /A2 /A3 /A4 /A5
+      /A6 /A7 /A8 /A9 /BNC_A /BNC_B /BTN /D_BTN /D_ENC_BTN /D_LED_PWR /D_SWITCH
+      /ENC_A /ENC_B /ENC_BTN /IO0 /IO1 /IO10 /IO11 /IO12 /IO13 /IO14 /IO15
+      /IO16 /IO17 /IO18 /IO19 /IO2 /IO20 /IO21 /IO22 /IO23 /IO24 /IO25 /IO26
+      /IO27 /IO28 /IO29 /IO3 /IO30 /IO31 /IO4 /IO5 /IO6 /IO7 /IO8 /IO9 /SWITCH
+      /TX3 /V_IN "Net-(ARDUINO1-Pad0)" "Net-(ARDUINO1-Pad1)" "Net-(ARDUINO1-Pad10)"
+      "Net-(ARDUINO1-Pad11)" "Net-(ARDUINO1-Pad12)" "Net-(ARDUINO1-Pad13)"
+      "Net-(ARDUINO1-Pad15)" "Net-(ARDUINO1-Pad16)" "Net-(ARDUINO1-Pad20B)"
+      "Net-(ARDUINO1-Pad21B)" "Net-(ARDUINO1-Pad22)" "Net-(ARDUINO1-Pad23)"
+      "Net-(ARDUINO1-Pad24)" "Net-(ARDUINO1-Pad25)" "Net-(ARDUINO1-Pad26)"
+      "Net-(ARDUINO1-Pad27)" "Net-(ARDUINO1-Pad28)" "Net-(ARDUINO1-Pad29)"
+      "Net-(ARDUINO1-Pad30)" "Net-(ARDUINO1-Pad31)" "Net-(ARDUINO1-Pad32)"
+      "Net-(ARDUINO1-Pad33)" "Net-(ARDUINO1-Pad34)" "Net-(ARDUINO1-Pad35)"
+      "Net-(ARDUINO1-Pad36)" "Net-(ARDUINO1-Pad37)" "Net-(ARDUINO1-Pad38)"
+      "Net-(ARDUINO1-Pad39)" "Net-(ARDUINO1-Pad3V3)" "Net-(ARDUINO1-Pad4)"
+      "Net-(ARDUINO1-Pad40)" "Net-(ARDUINO1-Pad41)" "Net-(ARDUINO1-Pad42)"
+      "Net-(ARDUINO1-Pad43)" "Net-(ARDUINO1-Pad44)" "Net-(ARDUINO1-Pad45)"
+      "Net-(ARDUINO1-Pad46)" "Net-(ARDUINO1-Pad47)" "Net-(ARDUINO1-Pad49)"
+      "Net-(ARDUINO1-Pad5)" "Net-(ARDUINO1-Pad50)" "Net-(ARDUINO1-Pad51)"
+      "Net-(ARDUINO1-Pad52)" "Net-(ARDUINO1-Pad53)" "Net-(ARDUINO1-Pad5V_5)"
+      "Net-(ARDUINO1-Pad6)" "Net-(ARDUINO1-Pad7)" "Net-(ARDUINO1-Pad8)" "Net-(ARDUINO1-Pad9)"
       "Net-(ARDUINO1-PadA10)" "Net-(ARDUINO1-PadA11)" "Net-(ARDUINO1-PadA12)"
       "Net-(ARDUINO1-PadA13)" "Net-(ARDUINO1-PadA14)" "Net-(ARDUINO1-PadA15)"
-      "Net-(ARDUINO1-PadA2)" "Net-(ARDUINO1-PadA3)" "Net-(ARDUINO1-PadA4)"
-      "Net-(ARDUINO1-PadA5)" "Net-(ARDUINO1-PadA6)" "Net-(ARDUINO1-PadA7)"
       "Net-(ARDUINO1-PadA8)" "Net-(ARDUINO1-PadA9)" "Net-(ARDUINO1-PadAREF)"
       "Net-(ARDUINO1-PadGND3)" "Net-(ARDUINO1-PadGND4)" "Net-(ARDUINO1-PadGND5)"
       "Net-(ARDUINO1-PadIREF)" "Net-(ARDUINO1-PadNC)" "Net-(ARDUINO1-PadRST)"
@@ -852,5 +861,13 @@
     )
   )
   (wiring
+    (wire (path F.Cu 1016  163830 -113843  166370 -113843)(net VAA)(type protect))
+    (wire (path F.Cu 1016  163830 -99872.8  166370 -99872.8)(net VAA)(type protect))
+    (wire (path F.Cu 1016  163830 -85902.8  166370 -85902.8)(net VAA)(type protect))
+    (wire (path F.Cu 1016  132080 -85902.8  134620 -85902.8)(net VAA)(type protect))
+    (wire (path F.Cu 508  161290 -119837  163830 -119837  166370 -119837)(net GND)(type protect))
+    (wire (path F.Cu 508  161290 -105867  163830 -105867  166370 -105867)(net GND)(type protect))
+    (wire (path F.Cu 508  161290 -91897.2  163830 -91897.2  166370 -91897.2)(net GND)(type protect))
+    (wire (path F.Cu 508  129540 -91897.2  132080 -91897.2  134620 -91897.2)(net GND)(type protect))
   )
 )
