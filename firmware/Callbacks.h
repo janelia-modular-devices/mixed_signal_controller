@@ -21,7 +21,17 @@ void getAnalogInputCallback();
 
 void getAnalogInputsCallback();
 
+void getAnalogMinValuesCallback();
+
+void getAnalogMaxValuesCallback();
+
+void setAsAnalogMinValuesCallback();
+
+void setAsAnalogMaxValuesCallback();
+
 // Standalone Callbacks
 void executeStandaloneCallbackCallback();
+
+void resetDefaultsCallback();
 }
 #endif

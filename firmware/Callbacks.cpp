@@ -52,9 +52,54 @@ void getAnalogInputsCallback()
   modular_device.stopResponseArray();
 }
 
+void getAnalogMinValuesCallback()
+{
+  modular_device.addKeyToResponse("analog_min_values");
+  modular_device.startResponseArray();
+  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  {
+    int value = controller.getAnalogMinValue(ain);
+    modular_device.addToResponse(value);
+  }
+  modular_device.stopResponseArray();
+}
+
+void getAnalogMaxValuesCallback()
+{
+  modular_device.addKeyToResponse("analog_max_values");
+  modular_device.startResponseArray();
+  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  {
+    int value = controller.getAnalogMaxValue(ain);
+    modular_device.addToResponse(value);
+  }
+  modular_device.stopResponseArray();
+}
+
+void setAsAnalogMinValuesCallback()
+{
+  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  {
+    controller.setAsAnalogMinValue(ain);
+  }
+}
+
+void setAsAnalogMaxValuesCallback()
+{
+  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  {
+    controller.setAsAnalogMaxValue(ain);
+  }
+}
+
 // Standalone Callbacks
 void executeStandaloneCallbackCallback()
 {
   controller.executeStandaloneCallback();
+}
+
+void resetDefaultsCallback()
+{
+  modular_device.resetDefaults();
 }
 }

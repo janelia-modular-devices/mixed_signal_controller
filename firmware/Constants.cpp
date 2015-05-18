@@ -30,6 +30,22 @@ const int ain_pins[] = {0,1,2,3,4,5,6,7};
 
 const int ain_min = 0;
 const int ain_max = 1023;
+const int ain_min_array_default[AIN_COUNT] = {ain_min,
+                                              ain_min,
+                                              ain_min,
+                                              ain_min,
+                                              ain_min,
+                                              ain_min,
+                                              ain_min,
+                                              ain_min};
+const int ain_max_array_default[AIN_COUNT] = {ain_max,
+                                              ain_max,
+                                              ain_max,
+                                              ain_max,
+                                              ain_max,
+                                              ain_max,
+                                              ain_max,
+                                              ain_max};
 
 const int percent_min = 0;
 const int percent_max = 100;
@@ -49,11 +65,22 @@ CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallba
 CONSTANT_STRING(get_leds_powered_method_name,"getLedsPowered");
 CONSTANT_STRING(get_analog_input_method_name,"getAnalogInput");
 CONSTANT_STRING(get_analog_inputs_method_name,"getAnalogInputs");
+CONSTANT_STRING(get_analog_min_values_method_name,"getAnalogMinValues");
+CONSTANT_STRING(get_analog_max_values_method_name,"getAnalogMaxValues");
+CONSTANT_STRING(set_as_analog_min_values_method_name,"setAsAnalogMinValues");
+CONSTANT_STRING(set_as_analog_max_values_method_name,"setAsAnalogMaxValues");
 
-CONSTANT_STRING(frame0_name,"getAnalogInputs0-7");
+CONSTANT_STRING(ain_min_array_name,"ain_min_array");
+CONSTANT_STRING(ain_max_array_name,"ain_max_array");
+
+CONSTANT_STRING(frame0_name,"getAnalogInputs00-07");
+CONSTANT_STRING(frame1_name,"resetDefaults");
 const ConstantString frame_name_array[] =
   {
     frame0_name,
+    frame1_name,
+    set_as_analog_min_values_method_name,
+    set_as_analog_max_values_method_name,
   };
 
 CONSTANT_STRING(ain0_dsp_lbl_string,"0");
