@@ -11,8 +11,8 @@
 
 namespace constants
 {
-enum {FRAME_COUNT=4};
-enum {AIN_COUNT=8};
+enum {FRAME_COUNT=5};
+enum {AIN_COUNT=16};
 
 extern const int baudrate;
 
@@ -65,11 +65,25 @@ extern ConstantString ain_max_array_name;
 
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;
+extern ConstantString frame2_name;
 extern const ConstantString frame_name_array[FRAME_COUNT];
 
 extern ConstantString ain0_dsp_lbl_string;
 extern ConstantString ain1_dsp_lbl_string;
 extern ConstantString ain2_dsp_lbl_string;
+extern ConstantString ain3_dsp_lbl_string;
+extern ConstantString ain4_dsp_lbl_string;
+extern ConstantString ain5_dsp_lbl_string;
+extern ConstantString ain6_dsp_lbl_string;
+extern ConstantString ain7_dsp_lbl_string;
+extern ConstantString ain8_dsp_lbl_string;
+extern ConstantString ain9_dsp_lbl_string;
+extern ConstantString ain10_dsp_lbl_string;
+extern ConstantString ain11_dsp_lbl_string;
+extern ConstantString ain12_dsp_lbl_string;
+extern ConstantString ain13_dsp_lbl_string;
+extern ConstantString ain14_dsp_lbl_string;
+extern ConstantString ain15_dsp_lbl_string;
 extern const ConstantString ain_dsp_lbl_strings[AIN_COUNT];
 }
 #endif

@@ -102,7 +102,7 @@ void Controller::setup()
 
   // Frame 0
   int frame = 0;
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  for (int ain=0; ain<8; ain++)
   {
     ain_dsp_lbl_ptr_array[ain]->addToFrame(frame);
     ain_dsp_var_ptr_array_[ain]->addToFrame(frame);
@@ -110,29 +110,22 @@ void Controller::setup()
 
   // Frame 1
   frame = 1;
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  for (int ain=8; ain<constants::AIN_COUNT; ain++)
   {
     ain_dsp_lbl_ptr_array[ain]->addToFrame(frame);
     ain_dsp_var_ptr_array_[ain]->addToFrame(frame);
   }
-  standalone_interface_.attachCallbackToFrame(callbacks::resetDefaultsCallback,frame);
 
   // Frame 2
   frame = 2;
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    ain_dsp_lbl_ptr_array[ain]->addToFrame(frame);
-    ain_dsp_var_ptr_array_[ain]->addToFrame(frame);
-  }
-  standalone_interface_.attachCallbackToFrame(callbacks::setAsAnalogMinValuesCallback,frame);
+  standalone_interface_.attachCallbackToFrame(callbacks::resetDefaultsCallback,frame);
 
   // Frame 3
   frame = 3;
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    ain_dsp_lbl_ptr_array[ain]->addToFrame(frame);
-    ain_dsp_var_ptr_array_[ain]->addToFrame(frame);
-  }
+  standalone_interface_.attachCallbackToFrame(callbacks::setAsAnalogMinValuesCallback,frame);
+
+  // Frame 4
+  frame = 4;
   standalone_interface_.attachCallbackToFrame(callbacks::setAsAnalogMaxValuesCallback,frame);
 
   // Enable Standalone Interface
