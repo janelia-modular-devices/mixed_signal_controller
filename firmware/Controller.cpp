@@ -22,6 +22,11 @@ Controller::Controller() :
 void Controller::setup()
 {
   // Pin Setup
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    pinMode(constants::io_pins[channel],OUTPUT);
+  }
+  setAllChannelsOff();
 
   // Device Info
   modular_device.setName(constants::device_name);
@@ -29,13 +34,13 @@ void Controller::setup()
   modular_device.setFirmwareNumber(constants::firmware_number);
 
   // Saved Variables
-  modular_device.createSavedVariable(constants::ain_min_array_name,constants::ain_min_array_default,constants::AIN_COUNT);
+  ain_min_svd_var_ptr_ = &(modular_device.createSavedVariable(constants::ain_min_array_name,constants::ain_min_array_default,constants::AIN_COUNT));
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
     modular_device.getSavedVariableValue(constants::ain_min_array_name,ain_min_array_,ain);
   }
 
-  modular_device.createSavedVariable(constants::ain_max_array_name,constants::ain_max_array_default,constants::AIN_COUNT);
+  ain_max_svd_var_ptr_ = &(modular_device.createSavedVariable(constants::ain_max_array_name,constants::ain_max_array_default,constants::AIN_COUNT));
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
     modular_device.getSavedVariableValue(constants::ain_max_array_name,ain_max_array_,ain);
@@ -44,6 +49,10 @@ void Controller::setup()
   // Parameters
   ModularDevice::Parameter& ain_parameter = modular_device.createParameter(constants::ain_parameter_name);
   ain_parameter.setRange(0,constants::AIN_COUNT-1);
+
+  ModularDevice::Parameter& channels_parameter = modular_device.createParameter(constants::channels_parameter_name);
+  channels_parameter.setTypeArray();
+  channels_parameter.setRange(constants::channel_min,constants::channel_max);
 
   // Methods
   ModularDevice::Method& execute_standalone_callback_method = modular_device.createMethod(constants::execute_standalone_callback_method_name);
@@ -70,6 +79,47 @@ void Controller::setup()
 
   ModularDevice::Method& set_as_analog_max_values_method = modular_device.createMethod(constants::set_as_analog_max_values_method_name);
   set_as_analog_max_values_method.attachCallback(callbacks::setAsAnalogMaxValuesCallback);
+
+  ModularDevice::Method& reset_analog_min_max_defaults_method = modular_device.createMethod(constants::reset_analog_min_max_defaults_method_name);
+  reset_analog_min_max_defaults_method.attachCallback(callbacks::resetAnalogMinMaxDefaultsCallback);
+
+  ModularDevice::Method& set_channels_on_method = modular_device.createMethod(constants::set_channels_on_method_name);
+  set_channels_on_method.attachCallback(callbacks::setChannelsOnCallback);
+  set_channels_on_method.addParameter(channels_parameter);
+
+  ModularDevice::Method& set_channels_off_method = modular_device.createMethod(constants::set_channels_off_method_name);
+  set_channels_off_method.attachCallback(callbacks::setChannelsOffCallback);
+  set_channels_off_method.addParameter(channels_parameter);
+
+  ModularDevice::Method& toggle_channels_method = modular_device.createMethod(constants::toggle_channels_method_name);
+  toggle_channels_method.attachCallback(callbacks::toggleChannelsCallback);
+  toggle_channels_method.addParameter(channels_parameter);
+
+  ModularDevice::Method& toggle_all_channels_method = modular_device.createMethod(constants::toggle_all_channels_method_name);
+  toggle_all_channels_method.attachCallback(callbacks::toggleAllChannelsCallback);
+
+  ModularDevice::Method& set_all_channels_on_method = modular_device.createMethod(constants::set_all_channels_on_method_name);
+  set_all_channels_on_method.attachCallback(callbacks::setAllChannelsOnCallback);
+
+  ModularDevice::Method& set_all_channels_off_method = modular_device.createMethod(constants::set_all_channels_off_method_name);
+  set_all_channels_off_method.attachCallback(callbacks::setAllChannelsOffCallback);
+
+  ModularDevice::Method& set_channels_on_all_others_off_method = modular_device.createMethod(constants::set_channels_on_all_others_off_method_name);
+  set_channels_on_all_others_off_method.attachCallback(callbacks::setChannelsOnAllOthersOffCallback);
+  set_channels_on_all_others_off_method.addParameter(channels_parameter);
+
+  ModularDevice::Method& set_channels_off_all_others_on_method = modular_device.createMethod(constants::set_channels_off_all_others_on_method_name);
+  set_channels_off_all_others_on_method.attachCallback(callbacks::setChannelsOffAllOthersOnCallback);
+  set_channels_off_all_others_on_method.addParameter(channels_parameter);
+
+  ModularDevice::Method& get_channels_on_method = modular_device.createMethod(constants::get_channels_on_method_name);
+  get_channels_on_method.attachCallback(callbacks::getChannelsOnCallback);
+
+  ModularDevice::Method& get_channels_off_method = modular_device.createMethod(constants::get_channels_off_method_name);
+  get_channels_off_method.attachCallback(callbacks::getChannelsOffCallback);
+
+  ModularDevice::Method& get_channel_count_method = modular_device.createMethod(constants::get_channel_count_method_name);
+  get_channel_count_method.attachCallback(callbacks::getChannelCountCallback);
 
   // Start Server
   modular_device.startServer(constants::baudrate);
@@ -118,7 +168,7 @@ void Controller::setup()
 
   // Frame 2
   frame = 2;
-  standalone_interface_.attachCallbackToFrame(callbacks::resetDefaultsCallback,frame);
+  standalone_interface_.attachCallbackToFrame(callbacks::resetAnalogMinMaxDefaultsCallback,frame);
 
   // Frame 3
   frame = 3;
@@ -205,6 +255,180 @@ void Controller::setAsAnalogMaxValue(const uint8_t ain)
   }
 }
 
+void Controller::resetAnalogMinMaxDefaults()
+{
+  ain_min_svd_var_ptr_->setDefaultValue();
+  ain_max_svd_var_ptr_->setDefaultValue();
+}
+
+void Controller::setChannelOn(int channel)
+{
+  digitalWrite(constants::io_pins[channel],HIGH);
+  updateChannelsVariable(channel,1);
+}
+
+void Controller::setChannelOff(int channel)
+{
+  digitalWrite(constants::io_pins[channel],LOW);
+  updateChannelsVariable(channel,0);
+}
+
+void Controller::setChannelsOn(uint32_t channels)
+{
+  uint32_t bit;
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    bit = 1;
+    bit = bit << channel;
+    if (bit & channels)
+    {
+      setChannelOn(channel);
+    }
+  }
+}
+
+void Controller::setChannelsOff(uint32_t channels)
+{
+  uint32_t bit;
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    bit = 1;
+    bit = bit << channel;
+    if (bit & channels)
+    {
+      setChannelOff(channel);
+    }
+  }
+}
+
+void Controller::toggleChannel(int channel)
+{
+  uint32_t bit = 1;
+  bit = bit << channel;
+  if (bit & channels_)
+  {
+    setChannelOff(channel);
+  }
+  else
+  {
+    setChannelOn(channel);
+  }
+}
+
+void Controller::toggleChannels(uint32_t channels)
+{
+  uint32_t bit;
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    bit = 1;
+    bit = bit << channel;
+    if (bit & channels)
+    {
+      toggleChannel(channel);
+    }
+  }
+}
+
+void Controller::toggleAllChannels()
+{
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    toggleChannel(channel);
+  }
+}
+
+void Controller::setAllChannelsOn()
+{
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    setChannelOn(channel);
+  }
+}
+
+void Controller::setAllChannelsOff()
+{
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    setChannelOff(channel);
+  }
+}
+
+void Controller::setChannelOnAllOthersOff(int channel)
+{
+  for (int c=0; c<constants::CHANNEL_COUNT; ++c)
+  {
+    if (c == channel)
+    {
+      setChannelOn(c);
+    }
+    else
+    {
+      setChannelOff(c);
+    }
+  }
+}
+
+void Controller::setChannelOffAllOthersOn(int channel)
+{
+  for (int c=0; c<constants::CHANNEL_COUNT; ++c)
+  {
+    if (c == channel)
+    {
+      setChannelOff(c);
+    }
+    else
+    {
+      setChannelOn(c);
+    }
+  }
+}
+
+void Controller::setChannelsOnAllOthersOff(uint32_t channels)
+{
+  uint32_t bit;
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    bit = 1;
+    bit = bit << channel;
+    if (bit & channels)
+    {
+      setChannelOn(channel);
+    }
+    else
+    {
+      setChannelOff(channel);
+    }
+  }
+}
+
+void Controller::setChannelsOffAllOthersOn(uint32_t channels)
+{
+  uint32_t bit;
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    bit = 1;
+    bit = bit << channel;
+    if (bit & channels)
+    {
+      setChannelOff(channel);
+    }
+    else
+    {
+      setChannelOn(channel);
+    }
+  }
+}
+
+uint32_t Controller::getChannelsOn()
+{
+  return channels_;
+}
+
+int Controller::getChannelCount()
+{
+  return constants::CHANNEL_COUNT;
+}
+
 void Controller::updateDisplayVariables()
 {
   int percent;
@@ -212,6 +436,20 @@ void Controller::updateDisplayVariables()
   {
     percent = getAnalogInput(ain);
     ain_dsp_var_ptr_array_[ain]->setValue(percent);
+  }
+}
+
+void Controller::updateChannelsVariable(int channel, int value)
+{
+  uint32_t bit = 1;
+  bit = bit << channel;
+  if (value)
+  {
+    channels_ |= bit;
+  }
+  else
+  {
+    channels_ &= ~bit;
   }
 }
 

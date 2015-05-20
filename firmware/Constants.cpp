@@ -66,16 +66,30 @@ const int ain_max_array_default[AIN_COUNT] = {ain_max,
 const int percent_min = 0;
 const int percent_max = 100;
 
-const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,21,28,35,41,48,55,61,68};
+const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,
+                                                 21,28,35,41,48,55,61,68};
 
 const uint8_t ain_dsp_lbl_width = 2;
 const uint8_t percent_display_width = 3;
 
-const uint8_t ain_dsp_var_display_positions[] = {23,30,37,43,50,57,63,70,23,30,37,43,50,57,63,70};
+const uint8_t ain_dsp_var_display_positions[] = {23,30,37,43,50,57,63,70,
+                                                 23,30,37,43,50,57,63,70};
+
+const int io_pins[] = {6,7,8,9,10,11,12,13,
+                       22,23,24,25,26,27,28,29,
+                       30,31,32,33,34,35,36,37,
+                       45,44,43,42,41,40,39,38};
+
+const uint8_t channel_min = 0;
+const uint8_t channel_max = CHANNEL_COUNT-1;
+
+CONSTANT_STRING(ain_min_array_name,"ain_min_array");
+CONSTANT_STRING(ain_max_array_name,"ain_max_array");
 
 CONSTANT_STRING(device_name,"mixed_signal_controller");
 
 CONSTANT_STRING(ain_parameter_name,"ain");
+CONSTANT_STRING(channels_parameter_name,"channels");
 
 CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallback");
 CONSTANT_STRING(get_leds_powered_method_name,"getLedsPowered");
@@ -85,13 +99,23 @@ CONSTANT_STRING(get_analog_min_values_method_name,"getAnalogMinValues");
 CONSTANT_STRING(get_analog_max_values_method_name,"getAnalogMaxValues");
 CONSTANT_STRING(set_as_analog_min_values_method_name,"setAsAnalogMinValues");
 CONSTANT_STRING(set_as_analog_max_values_method_name,"setAsAnalogMaxValues");
+CONSTANT_STRING(reset_analog_min_max_defaults_method_name,"resetAnalogMinMaxDefaults");
 
-CONSTANT_STRING(ain_min_array_name,"ain_min_array");
-CONSTANT_STRING(ain_max_array_name,"ain_max_array");
+CONSTANT_STRING(set_channels_on_method_name,"setChannelsOn");
+CONSTANT_STRING(set_channels_off_method_name,"setChannelsOff");
+CONSTANT_STRING(toggle_channels_method_name,"toggleChannels");
+CONSTANT_STRING(toggle_all_channels_method_name,"toggleAllChannels");
+CONSTANT_STRING(set_all_channels_on_method_name,"setAllChannelsOn");
+CONSTANT_STRING(set_all_channels_off_method_name,"setAllChannelsOff");
+CONSTANT_STRING(set_channels_on_all_others_off_method_name,"setChannelsOnAllOthersOff");
+CONSTANT_STRING(set_channels_off_all_others_on_method_name,"setChannelsOffAllOthersOn");
+CONSTANT_STRING(get_channels_on_method_name,"getChannelsOn");
+CONSTANT_STRING(get_channels_off_method_name,"getChannelsOff");
+CONSTANT_STRING(get_channel_count_method_name,"getChannelCount");
 
 CONSTANT_STRING(frame0_name,"getAnalogInputs00-07");
 CONSTANT_STRING(frame1_name,"getAnalogInputs08-15");
-CONSTANT_STRING(frame2_name,"resetDefaults");
+CONSTANT_STRING(frame2_name,"resetMinMaxDefaults");
 const ConstantString frame_name_array[] =
   {
     frame0_name,

@@ -13,6 +13,7 @@ namespace constants
 {
 enum {FRAME_COUNT=5};
 enum {AIN_COUNT=16};
+enum {CHANNEL_COUNT=32};
 
 extern const int baudrate;
 
@@ -47,9 +48,18 @@ extern const uint8_t percent_display_width;
 
 extern const uint8_t ain_dsp_var_display_positions[AIN_COUNT];
 
+extern const int io_pins[CHANNEL_COUNT];
+
+extern const uint8_t channel_min;
+extern const uint8_t channel_max;
+
+extern ConstantString ain_min_array_name;
+extern ConstantString ain_max_array_name;
+
 extern ConstantString device_name;
 
 extern ConstantString ain_parameter_name;
+extern ConstantString channels_parameter_name;
 
 extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
@@ -59,9 +69,19 @@ extern ConstantString get_analog_min_values_method_name;
 extern ConstantString get_analog_max_values_method_name;
 extern ConstantString set_as_analog_min_values_method_name;
 extern ConstantString set_as_analog_max_values_method_name;
+extern ConstantString reset_analog_min_max_defaults_method_name;
 
-extern ConstantString ain_min_array_name;
-extern ConstantString ain_max_array_name;
+extern ConstantString set_channels_on_method_name;
+extern ConstantString set_channels_off_method_name;
+extern ConstantString toggle_channels_method_name;
+extern ConstantString toggle_all_channels_method_name;
+extern ConstantString set_all_channels_on_method_name;
+extern ConstantString set_all_channels_off_method_name;
+extern ConstantString set_channels_on_all_others_off_method_name;
+extern ConstantString set_channels_off_all_others_on_method_name;
+extern ConstantString get_channels_on_method_name;
+extern ConstantString get_channels_off_method_name;
+extern ConstantString get_channel_count_method_name;
 
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;
