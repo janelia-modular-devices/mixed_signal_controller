@@ -212,8 +212,8 @@ void executeStandaloneCallbackCallback()
 
 void toggleChannelStandaloneCallback()
 {
-  // uint8_t channel = controller.getChannelIntVar();
-  // controller.toggleChannel(channel);
+  uint8_t channel = controller.getChannelIntVar();
+  controller.toggleChannel(channel);
 }
 
 }

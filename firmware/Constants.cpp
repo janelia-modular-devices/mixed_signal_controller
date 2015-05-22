@@ -83,8 +83,13 @@ const int io_pins[] = {6,7,8,9,10,11,12,13,
 const uint8_t channel_min = 0;
 const uint8_t channel_max = CHANNEL_COUNT-1;
 
+const uint8_t channel_dsp_lbl_display_position = 68;
+const uint8_t channel_int_var_display_position = 71;
+
 CONSTANT_STRING(ain_min_array_name,"ain_min_array");
 CONSTANT_STRING(ain_max_array_name,"ain_max_array");
+
+CONSTANT_STRING(channel_dsp_lbl_str,"channel");
 
 CONSTANT_STRING(device_name,"mixed_signal_controller");
 
@@ -116,6 +121,7 @@ CONSTANT_STRING(get_channel_count_method_name,"getChannelCount");
 CONSTANT_STRING(frame0_name,"getAnalogInputs00-07");
 CONSTANT_STRING(frame1_name,"getAnalogInputs08-15");
 CONSTANT_STRING(frame2_name,"resetMinMaxDefaults");
+CONSTANT_STRING(frame5_name,"toggleChannel");
 const ConstantString frame_name_array[] =
   {
     frame0_name,
@@ -123,6 +129,7 @@ const ConstantString frame_name_array[] =
     frame2_name,
     set_as_analog_min_values_method_name,
     set_as_analog_max_values_method_name,
+    frame5_name,
   };
 
 CONSTANT_STRING(ain0_dsp_lbl_string,"0");

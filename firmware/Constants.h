@@ -11,7 +11,7 @@
 
 namespace constants
 {
-enum {FRAME_COUNT=5};
+enum {FRAME_COUNT=6};
 enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
 
@@ -53,8 +53,13 @@ extern const int io_pins[CHANNEL_COUNT];
 extern const uint8_t channel_min;
 extern const uint8_t channel_max;
 
+extern const uint8_t channel_dsp_lbl_display_position;
+extern const uint8_t channel_int_var_display_position;
+
 extern ConstantString ain_min_array_name;
 extern ConstantString ain_max_array_name;
+
+extern ConstantString channel_dsp_lbl_str;
 
 extern ConstantString device_name;
 
@@ -86,6 +91,7 @@ extern ConstantString get_channel_count_method_name;
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;
 extern ConstantString frame2_name;
+extern ConstantString frame5_name;
 extern const ConstantString frame_name_array[FRAME_COUNT];
 
 extern ConstantString ain0_dsp_lbl_string;

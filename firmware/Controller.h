@@ -42,6 +42,7 @@ public:
   void setChannelsOffAllOthersOn(uint32_t channels);
   uint32_t getChannelsOn();
   int getChannelCount();
+  uint8_t getChannelIntVar();
 private:
   int ain_min_array_[constants::AIN_COUNT];
   int ain_max_array_[constants::AIN_COUNT];
@@ -49,6 +50,7 @@ private:
   SavedVariable* ain_max_svd_var_ptr_;
   Standalone::StandaloneInterface standalone_interface_;
   Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
+  Standalone::InteractiveVariable *channel_int_var_ptr_;
   uint32_t channels_;
   void updateDisplayVariables();
   void updateChannelsVariable(int channel, int value);

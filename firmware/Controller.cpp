@@ -138,6 +138,11 @@ void Controller::setup()
     ain_dsp_lbl_ptr_array[ain]->setDisplayWidth(constants::ain_dsp_lbl_width);
   }
 
+  Standalone::DisplayLabel& channel_dsp_lbl = standalone_interface_.createDisplayLabel();
+  channel_dsp_lbl.setDisplayPosition(constants::channel_dsp_lbl_display_position);
+  channel_dsp_lbl.setConstantString(constants::channel_dsp_lbl_str);
+  channel_dsp_lbl.setRightJustify();
+
   // Display Variables
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
@@ -147,6 +152,10 @@ void Controller::setup()
   }
 
   // Interactive Variables
+  channel_int_var_ptr_ = &(standalone_interface_.createInteractiveVariable());
+  channel_int_var_ptr_->setDisplayPosition(constants::channel_int_var_display_position);
+  channel_int_var_ptr_->setRange(constants::channel_min,constants::channel_max);
+  channel_int_var_ptr_->trimDisplayWidthUsingRange();
 
   // All Frames
 
@@ -177,6 +186,12 @@ void Controller::setup()
   // Frame 4
   frame = 4;
   standalone_interface_.attachCallbackToFrame(callbacks::setAsAnalogMaxValuesCallback,frame);
+
+  // Frame 5
+  frame = 5;
+  channel_dsp_lbl.addToFrame(frame);
+  channel_int_var_ptr_->addToFrame(frame);
+  standalone_interface_.attachCallbackToFrame(callbacks::toggleChannelStandaloneCallback,frame);
 
   // Enable Standalone Interface
   standalone_interface_.enable();
@@ -427,6 +442,11 @@ uint32_t Controller::getChannelsOn()
 int Controller::getChannelCount()
 {
   return constants::CHANNEL_COUNT;
+}
+
+uint8_t Controller::getChannelIntVar()
+{
+  return channel_int_var_ptr_->getValue();
 }
 
 void Controller::updateDisplayVariables()
