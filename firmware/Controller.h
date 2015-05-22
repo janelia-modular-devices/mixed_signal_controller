@@ -29,6 +29,7 @@ public:
   void resetAnalogMinMaxDefaults();
   void setChannelOn(int channel);
   void setChannelOff(int channel);
+  void setChannels(uint32_t channels);
   void setChannelsOn(uint32_t channels);
   void setChannelsOff(uint32_t channels);
   void toggleChannel(int channel);
@@ -43,6 +44,10 @@ public:
   uint32_t getChannelsOn();
   int getChannelCount();
   uint8_t getChannelIntVar();
+  void saveState(int state);
+  void recallState(int state);
+  void getStatesArray(uint32_t states_array[]);
+  uint8_t getStateIntVar();
 private:
   int ain_min_array_[constants::AIN_COUNT];
   int ain_max_array_[constants::AIN_COUNT];
@@ -51,7 +56,9 @@ private:
   Standalone::StandaloneInterface standalone_interface_;
   Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
   Standalone::InteractiveVariable *channel_int_var_ptr_;
+  Standalone::InteractiveVariable *state_int_var_ptr_;
   uint32_t channels_;
+  uint32_t states_array_[constants::STATE_COUNT];
   void updateDisplayVariables();
   void updateChannelsVariable(int channel, int value);
 };

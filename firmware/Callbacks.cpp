@@ -190,6 +190,44 @@ void getChannelCountCallback()
   modular_device.addToResponse("channel_count",channel_count);
 }
 
+void saveStateCallback()
+{
+  long state = modular_device.getParameterValue(constants::state_parameter_name);
+  controller.saveState(state);
+}
+
+void recallStateCallback()
+{
+  long state = modular_device.getParameterValue(constants::state_parameter_name);
+  controller.recallState(state);
+}
+
+void getSavedStatesCallback()
+{
+  uint32_t states_array[constants::STATE_COUNT];
+  controller.getStatesArray(states_array);
+  uint32_t bit = 1;
+  modular_device.addKeyToResponse("saved_states");
+  modular_device.startResponseArray();
+  for (int state=0; state<constants::STATE_COUNT; state++)
+  {
+    modular_device.startResponseArray();
+    for (int channel=0; channel<=(constants::CHANNEL_COUNT-1); channel++)
+    {
+      if ((bit<<channel) & states_array[state])
+      {
+        modular_device.addToResponse("on");
+      }
+      else
+      {
+        modular_device.addToResponse("off");
+      }
+    }
+    modular_device.stopResponseArray();
+  }
+  modular_device.stopResponseArray();
+}
+
 uint32_t arrayToChannels(JsonArray channels_array)
 {
   uint32_t channels = 0;
@@ -216,4 +254,15 @@ void toggleChannelStandaloneCallback()
   controller.toggleChannel(channel);
 }
 
+void saveStateStandaloneCallback()
+{
+  uint8_t state = controller.getStateIntVar();
+  controller.saveState(state);
+}
+
+void recallStateStandaloneCallback()
+{
+  uint8_t state = controller.getStateIntVar();
+  controller.recallState(state);
+}
 }

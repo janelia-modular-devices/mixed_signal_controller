@@ -11,9 +11,10 @@
 
 namespace constants
 {
-enum {FRAME_COUNT=6};
+enum {FRAME_COUNT=8};
 enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
+enum {STATE_COUNT=16};
 
 extern const int baudrate;
 
@@ -50,14 +51,18 @@ extern const uint8_t ain_dsp_var_display_positions[AIN_COUNT];
 
 extern const int io_pins[CHANNEL_COUNT];
 
-extern const uint8_t channel_min;
-extern const uint8_t channel_max;
+extern const uint32_t states_array_default[STATE_COUNT];
 
 extern const uint8_t channel_dsp_lbl_display_position;
 extern const uint8_t channel_int_var_display_position;
 
+extern const uint8_t state_dsp_lbl_display_position;
+extern const uint8_t state_int_var_display_position;
+
 extern ConstantString ain_min_array_name;
 extern ConstantString ain_max_array_name;
+
+extern ConstantString states_name;
 
 extern ConstantString channel_dsp_lbl_str;
 
@@ -65,6 +70,7 @@ extern ConstantString device_name;
 
 extern ConstantString ain_parameter_name;
 extern ConstantString channels_parameter_name;
+extern ConstantString state_parameter_name;
 
 extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
@@ -87,6 +93,10 @@ extern ConstantString set_channels_off_all_others_on_method_name;
 extern ConstantString get_channels_on_method_name;
 extern ConstantString get_channels_off_method_name;
 extern ConstantString get_channel_count_method_name;
+
+extern ConstantString save_state_method_name;
+extern ConstantString recall_state_method_name;
+extern ConstantString get_saved_states_method_name;
 
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;

@@ -80,14 +80,18 @@ const int io_pins[] = {6,7,8,9,10,11,12,13,
                        30,31,32,33,34,35,36,37,
                        45,44,43,42,41,40,39,38};
 
-const uint8_t channel_min = 0;
-const uint8_t channel_max = CHANNEL_COUNT-1;
+const uint32_t states_array_default[STATE_COUNT] = {0};
 
 const uint8_t channel_dsp_lbl_display_position = 68;
 const uint8_t channel_int_var_display_position = 71;
 
+const uint8_t state_dsp_lbl_display_position = 68;
+const uint8_t state_int_var_display_position = 71;
+
 CONSTANT_STRING(ain_min_array_name,"ain_min_array");
 CONSTANT_STRING(ain_max_array_name,"ain_max_array");
+
+CONSTANT_STRING(states_name,"states");
 
 CONSTANT_STRING(channel_dsp_lbl_str,"channel");
 
@@ -95,6 +99,7 @@ CONSTANT_STRING(device_name,"mixed_signal_controller");
 
 CONSTANT_STRING(ain_parameter_name,"ain");
 CONSTANT_STRING(channels_parameter_name,"channels");
+CONSTANT_STRING(state_parameter_name,"state");
 
 CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallback");
 CONSTANT_STRING(get_leds_powered_method_name,"getLedsPowered");
@@ -118,6 +123,10 @@ CONSTANT_STRING(get_channels_on_method_name,"getChannelsOn");
 CONSTANT_STRING(get_channels_off_method_name,"getChannelsOff");
 CONSTANT_STRING(get_channel_count_method_name,"getChannelCount");
 
+CONSTANT_STRING(save_state_method_name,"saveState");
+CONSTANT_STRING(recall_state_method_name,"recallState");
+CONSTANT_STRING(get_saved_states_method_name,"getSavedStates");
+
 CONSTANT_STRING(frame0_name,"getAnalogInputs00-07");
 CONSTANT_STRING(frame1_name,"getAnalogInputs08-15");
 CONSTANT_STRING(frame2_name,"resetMinMaxDefaults");
@@ -130,6 +139,8 @@ const ConstantString frame_name_array[] =
     set_as_analog_min_values_method_name,
     set_as_analog_max_values_method_name,
     frame5_name,
+    save_state_method_name,
+    recall_state_method_name,
   };
 
 CONSTANT_STRING(ain0_dsp_lbl_string,"0");

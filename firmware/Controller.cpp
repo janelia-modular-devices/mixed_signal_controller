@@ -46,13 +46,18 @@ void Controller::setup()
     modular_device.getSavedVariableValue(constants::ain_max_array_name,ain_max_array_,ain);
   }
 
+  modular_device.createSavedVariable(constants::states_name,constants::states_array_default,constants::STATE_COUNT);
+
   // Parameters
   ModularDevice::Parameter& ain_parameter = modular_device.createParameter(constants::ain_parameter_name);
   ain_parameter.setRange(0,constants::AIN_COUNT-1);
 
   ModularDevice::Parameter& channels_parameter = modular_device.createParameter(constants::channels_parameter_name);
   channels_parameter.setTypeArray();
-  channels_parameter.setRange(constants::channel_min,constants::channel_max);
+  channels_parameter.setRange(0,constants::CHANNEL_COUNT-1);
+
+  ModularDevice::Parameter& state_parameter = modular_device.createParameter(constants::state_parameter_name);
+  state_parameter.setRange(0,constants::STATE_COUNT-1);
 
   // Methods
   ModularDevice::Method& execute_standalone_callback_method = modular_device.createMethod(constants::execute_standalone_callback_method_name);
@@ -121,6 +126,17 @@ void Controller::setup()
   ModularDevice::Method& get_channel_count_method = modular_device.createMethod(constants::get_channel_count_method_name);
   get_channel_count_method.attachCallback(callbacks::getChannelCountCallback);
 
+  ModularDevice::Method& save_state_method = modular_device.createMethod(constants::save_state_method_name);
+  save_state_method.attachCallback(callbacks::saveStateCallback);
+  save_state_method.addParameter(state_parameter);
+
+  ModularDevice::Method& recall_state_method = modular_device.createMethod(constants::recall_state_method_name);
+  recall_state_method.attachCallback(callbacks::recallStateCallback);
+  recall_state_method.addParameter(state_parameter);
+
+  ModularDevice::Method& get_saved_states_method = modular_device.createMethod(constants::get_saved_states_method_name);
+  get_saved_states_method.attachCallback(callbacks::getSavedStatesCallback);
+
   // Start Server
   modular_device.startServer(constants::baudrate);
 
@@ -143,6 +159,11 @@ void Controller::setup()
   channel_dsp_lbl.setConstantString(constants::channel_dsp_lbl_str);
   channel_dsp_lbl.setRightJustify();
 
+  Standalone::DisplayLabel& state_dsp_lbl = standalone_interface_.createDisplayLabel();
+  state_dsp_lbl.setDisplayPosition(constants::state_dsp_lbl_display_position);
+  state_dsp_lbl.setConstantString(constants::state_parameter_name);
+  state_dsp_lbl.setRightJustify();
+
   // Display Variables
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
@@ -154,8 +175,13 @@ void Controller::setup()
   // Interactive Variables
   channel_int_var_ptr_ = &(standalone_interface_.createInteractiveVariable());
   channel_int_var_ptr_->setDisplayPosition(constants::channel_int_var_display_position);
-  channel_int_var_ptr_->setRange(constants::channel_min,constants::channel_max);
+  channel_int_var_ptr_->setRange(0,constants::CHANNEL_COUNT-1);
   channel_int_var_ptr_->trimDisplayWidthUsingRange();
+
+  state_int_var_ptr_ = &(standalone_interface_.createInteractiveVariable());
+  state_int_var_ptr_->setDisplayPosition(constants::state_int_var_display_position);
+  state_int_var_ptr_->setRange(0,constants::STATE_COUNT-1);
+  state_int_var_ptr_->trimDisplayWidthUsingRange();
 
   // All Frames
 
@@ -192,6 +218,18 @@ void Controller::setup()
   channel_dsp_lbl.addToFrame(frame);
   channel_int_var_ptr_->addToFrame(frame);
   standalone_interface_.attachCallbackToFrame(callbacks::toggleChannelStandaloneCallback,frame);
+
+  // Frame 6
+  frame = 6;
+  state_dsp_lbl.addToFrame(frame);
+  state_int_var_ptr_->addToFrame(frame);
+  standalone_interface_.attachCallbackToFrame(callbacks::saveStateStandaloneCallback,frame);
+
+  // Frame 7
+  frame = 7;
+  state_dsp_lbl.addToFrame(frame);
+  state_int_var_ptr_->addToFrame(frame);
+  standalone_interface_.attachCallbackToFrame(callbacks::recallStateStandaloneCallback,frame);
 
   // Enable Standalone Interface
   standalone_interface_.enable();
@@ -286,6 +324,24 @@ void Controller::setChannelOff(int channel)
 {
   digitalWrite(constants::io_pins[channel],LOW);
   updateChannelsVariable(channel,0);
+}
+
+void Controller::setChannels(uint32_t channels)
+{
+  uint32_t bit;
+  for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
+  {
+    bit = 1;
+    bit = bit << channel;
+    if (bit & channels)
+    {
+      setChannelOn(channel);
+    }
+    else
+    {
+      setChannelOff(channel);
+    }
+  }
 }
 
 void Controller::setChannelsOn(uint32_t channels)
@@ -447,6 +503,41 @@ int Controller::getChannelCount()
 uint8_t Controller::getChannelIntVar()
 {
   return channel_int_var_ptr_->getValue();
+}
+
+void Controller::saveState(int state)
+{
+  if (state >= constants::STATE_COUNT)
+  {
+    return;
+  }
+  uint32_t channels = getChannelsOn();
+  states_array_[state] = channels;
+  modular_device.setSavedVariableValue(constants::states_name,states_array_,state);
+}
+
+void Controller::recallState(int state)
+{
+  if (state >= constants::STATE_COUNT)
+  {
+    return;
+  }
+  modular_device.getSavedVariableValue(constants::states_name,states_array_,state);
+  uint32_t channels = states_array_[state];
+  setChannels(channels);
+}
+
+void Controller::getStatesArray(uint32_t states_array[])
+{
+  for (int state=0; state<constants::STATE_COUNT; state++)
+  {
+    modular_device.getSavedVariableValue(constants::states_name,states_array,state);
+  }
+}
+
+uint8_t Controller::getStateIntVar()
+{
+  return state_int_var_ptr_->getValue();
 }
 
 void Controller::updateDisplayVariables()
