@@ -11,7 +11,7 @@
 
 namespace constants
 {
-enum {FRAME_COUNT=8};
+enum {FRAME_COUNT=10};
 enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
 enum {STATE_COUNT=16};

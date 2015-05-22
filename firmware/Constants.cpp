@@ -139,6 +139,8 @@ const ConstantString frame_name_array[] =
     set_as_analog_min_values_method_name,
     set_as_analog_max_values_method_name,
     frame5_name,
+    set_all_channels_on_method_name,
+    set_all_channels_off_method_name,
     save_state_method_name,
     recall_state_method_name,
   };

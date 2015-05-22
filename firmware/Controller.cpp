@@ -221,12 +221,20 @@ void Controller::setup()
 
   // Frame 6
   frame = 6;
+  standalone_interface_.attachCallbackToFrame(callbacks::setAllChannelsOnCallback,frame);
+
+  // Frame 7
+  frame = 7;
+  standalone_interface_.attachCallbackToFrame(callbacks::setAllChannelsOffCallback,frame);
+
+  // Frame 8
+  frame = 8;
   state_dsp_lbl.addToFrame(frame);
   state_int_var_ptr_->addToFrame(frame);
   standalone_interface_.attachCallbackToFrame(callbacks::saveStateStandaloneCallback,frame);
 
-  // Frame 7
-  frame = 7;
+  // Frame 9
+  frame = 9;
   state_dsp_lbl.addToFrame(frame);
   state_int_var_ptr_->addToFrame(frame);
   standalone_interface_.attachCallbackToFrame(callbacks::recallStateStandaloneCallback,frame);
