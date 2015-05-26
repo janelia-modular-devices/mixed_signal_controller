@@ -57,6 +57,8 @@ private:
   Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
   Standalone::InteractiveVariable *channel_int_var_ptr_;
   Standalone::InteractiveVariable *state_int_var_ptr_;
+  Standalone::DisplayLabel* channels_dsp_lbl_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
+  Standalone::DisplayVariable* channels_dsp_var_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
   uint32_t channels_;
   uint32_t states_array_[constants::STATE_COUNT];
   void updateDisplayVariables();

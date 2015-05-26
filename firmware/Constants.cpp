@@ -84,6 +84,9 @@ const uint32_t states_array_default[STATE_COUNT] = {0};
 
 const uint8_t channel_dsp_lbl_display_position = 68;
 const uint8_t channel_int_var_display_position = 71;
+const uint8_t channels_dsp_lbl_display_positions[] = {38,20,58,40};
+const uint8_t channels_dsp_var_display_positions[] = {37,29,57,49};
+const uint8_t channels_dsp_var_display_width = 8;
 
 const uint8_t state_dsp_lbl_display_position = 68;
 const uint8_t state_int_var_display_position = 71;
@@ -145,39 +148,50 @@ const ConstantString frame_name_array[] =
     recall_state_method_name,
   };
 
-CONSTANT_STRING(ain0_dsp_lbl_string,"0");
-CONSTANT_STRING(ain1_dsp_lbl_string,"1");
-CONSTANT_STRING(ain2_dsp_lbl_string,"2");
-CONSTANT_STRING(ain3_dsp_lbl_string,"3");
-CONSTANT_STRING(ain4_dsp_lbl_string,"4");
-CONSTANT_STRING(ain5_dsp_lbl_string,"5");
-CONSTANT_STRING(ain6_dsp_lbl_string,"6");
-CONSTANT_STRING(ain7_dsp_lbl_string,"7");
-CONSTANT_STRING(ain8_dsp_lbl_string,"8");
-CONSTANT_STRING(ain9_dsp_lbl_string,"9");
-CONSTANT_STRING(ain10_dsp_lbl_string,"10");
-CONSTANT_STRING(ain11_dsp_lbl_string,"11");
-CONSTANT_STRING(ain12_dsp_lbl_string,"12");
-CONSTANT_STRING(ain13_dsp_lbl_string,"13");
-CONSTANT_STRING(ain14_dsp_lbl_string,"14");
-CONSTANT_STRING(ain15_dsp_lbl_string,"15");
-const ConstantString ain_dsp_lbl_strings[] =
+CONSTANT_STRING(ain0_dsp_lbl_str,"0");
+CONSTANT_STRING(ain1_dsp_lbl_str,"1");
+CONSTANT_STRING(ain2_dsp_lbl_str,"2");
+CONSTANT_STRING(ain3_dsp_lbl_str,"3");
+CONSTANT_STRING(ain4_dsp_lbl_str,"4");
+CONSTANT_STRING(ain5_dsp_lbl_str,"5");
+CONSTANT_STRING(ain6_dsp_lbl_str,"6");
+CONSTANT_STRING(ain7_dsp_lbl_str,"7");
+CONSTANT_STRING(ain8_dsp_lbl_str,"8");
+CONSTANT_STRING(ain9_dsp_lbl_str,"9");
+CONSTANT_STRING(ain10_dsp_lbl_str,"10");
+CONSTANT_STRING(ain11_dsp_lbl_str,"11");
+CONSTANT_STRING(ain12_dsp_lbl_str,"12");
+CONSTANT_STRING(ain13_dsp_lbl_str,"13");
+CONSTANT_STRING(ain14_dsp_lbl_str,"14");
+CONSTANT_STRING(ain15_dsp_lbl_str,"15");
+const ConstantString ain_dsp_lbl_strs[] =
   {
-    ain0_dsp_lbl_string,
-    ain1_dsp_lbl_string,
-    ain2_dsp_lbl_string,
-    ain3_dsp_lbl_string,
-    ain4_dsp_lbl_string,
-    ain5_dsp_lbl_string,
-    ain6_dsp_lbl_string,
-    ain7_dsp_lbl_string,
-    ain8_dsp_lbl_string,
-    ain9_dsp_lbl_string,
-    ain10_dsp_lbl_string,
-    ain11_dsp_lbl_string,
-    ain12_dsp_lbl_string,
-    ain13_dsp_lbl_string,
-    ain14_dsp_lbl_string,
-    ain15_dsp_lbl_string,
+    ain0_dsp_lbl_str,
+    ain1_dsp_lbl_str,
+    ain2_dsp_lbl_str,
+    ain3_dsp_lbl_str,
+    ain4_dsp_lbl_str,
+    ain5_dsp_lbl_str,
+    ain6_dsp_lbl_str,
+    ain7_dsp_lbl_str,
+    ain8_dsp_lbl_str,
+    ain9_dsp_lbl_str,
+    ain10_dsp_lbl_str,
+    ain11_dsp_lbl_str,
+    ain12_dsp_lbl_str,
+    ain13_dsp_lbl_str,
+    ain14_dsp_lbl_str,
+    ain15_dsp_lbl_str,
+  };
+CONSTANT_STRING(channels0_dsp_lbl_str,"00");
+CONSTANT_STRING(channels1_dsp_lbl_str,"15");
+CONSTANT_STRING(channels2_dsp_lbl_str,"16");
+CONSTANT_STRING(channels3_dsp_lbl_str,"31");
+const ConstantString channels_dsp_lbl_strs[] =
+  {
+    channels0_dsp_lbl_str,
+    channels1_dsp_lbl_str,
+    channels2_dsp_lbl_str,
+    channels3_dsp_lbl_str,
   };
 }

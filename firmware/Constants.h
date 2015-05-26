@@ -15,6 +15,7 @@ enum {FRAME_COUNT=10};
 enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
 enum {STATE_COUNT=16};
+enum {CHANNELS_DISPLAY_COUNT=4};
 
 extern const int baudrate;
 
@@ -55,6 +56,9 @@ extern const uint32_t states_array_default[STATE_COUNT];
 
 extern const uint8_t channel_dsp_lbl_display_position;
 extern const uint8_t channel_int_var_display_position;
+extern const uint8_t channels_dsp_lbl_display_positions[CHANNELS_DISPLAY_COUNT];
+extern const uint8_t channels_dsp_var_display_positions[CHANNELS_DISPLAY_COUNT];
+extern const uint8_t channels_dsp_var_display_width;
 
 extern const uint8_t state_dsp_lbl_display_position;
 extern const uint8_t state_int_var_display_position;
@@ -104,22 +108,27 @@ extern ConstantString frame2_name;
 extern ConstantString frame5_name;
 extern const ConstantString frame_name_array[FRAME_COUNT];
 
-extern ConstantString ain0_dsp_lbl_string;
-extern ConstantString ain1_dsp_lbl_string;
-extern ConstantString ain2_dsp_lbl_string;
-extern ConstantString ain3_dsp_lbl_string;
-extern ConstantString ain4_dsp_lbl_string;
-extern ConstantString ain5_dsp_lbl_string;
-extern ConstantString ain6_dsp_lbl_string;
-extern ConstantString ain7_dsp_lbl_string;
-extern ConstantString ain8_dsp_lbl_string;
-extern ConstantString ain9_dsp_lbl_string;
-extern ConstantString ain10_dsp_lbl_string;
-extern ConstantString ain11_dsp_lbl_string;
-extern ConstantString ain12_dsp_lbl_string;
-extern ConstantString ain13_dsp_lbl_string;
-extern ConstantString ain14_dsp_lbl_string;
-extern ConstantString ain15_dsp_lbl_string;
-extern const ConstantString ain_dsp_lbl_strings[AIN_COUNT];
+extern ConstantString ain0_dsp_lbl_str;
+extern ConstantString ain1_dsp_lbl_str;
+extern ConstantString ain2_dsp_lbl_str;
+extern ConstantString ain3_dsp_lbl_str;
+extern ConstantString ain4_dsp_lbl_str;
+extern ConstantString ain5_dsp_lbl_str;
+extern ConstantString ain6_dsp_lbl_str;
+extern ConstantString ain7_dsp_lbl_str;
+extern ConstantString ain8_dsp_lbl_str;
+extern ConstantString ain9_dsp_lbl_str;
+extern ConstantString ain10_dsp_lbl_str;
+extern ConstantString ain11_dsp_lbl_str;
+extern ConstantString ain12_dsp_lbl_str;
+extern ConstantString ain13_dsp_lbl_str;
+extern ConstantString ain14_dsp_lbl_str;
+extern ConstantString ain15_dsp_lbl_str;
+extern const ConstantString ain_dsp_lbl_strs[AIN_COUNT];
+extern ConstantString channels0_dsp_lbl_str;
+extern ConstantString channels1_dsp_lbl_str;
+extern ConstantString channels2_dsp_lbl_str;
+extern ConstantString channels3_dsp_lbl_str;
+extern const ConstantString channels_dsp_lbl_strs[CHANNELS_DISPLAY_COUNT];
 }
 #endif

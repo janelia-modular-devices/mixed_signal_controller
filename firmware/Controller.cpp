@@ -149,7 +149,7 @@ void Controller::setup()
   {
     ain_dsp_lbl_ptr_array[ain] = &(standalone_interface_.createDisplayLabel());
     ain_dsp_lbl_ptr_array[ain]->setDisplayPosition(constants::ain_dsp_lbl_display_positions[ain]);
-    ain_dsp_lbl_ptr_array[ain]->setConstantString(constants::ain_dsp_lbl_strings[ain]);
+    ain_dsp_lbl_ptr_array[ain]->setConstantString(constants::ain_dsp_lbl_strs[ain]);
     ain_dsp_lbl_ptr_array[ain]->setRightJustify();
     ain_dsp_lbl_ptr_array[ain]->setDisplayWidth(constants::ain_dsp_lbl_width);
   }
@@ -164,12 +164,29 @@ void Controller::setup()
   state_dsp_lbl.setConstantString(constants::state_parameter_name);
   state_dsp_lbl.setRightJustify();
 
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_lbl_ptr_array_[channels] = &(standalone_interface_.createDisplayLabel());
+    channels_dsp_lbl_ptr_array_[channels]->setDisplayPosition(constants::channels_dsp_lbl_display_positions[channels]);
+    channels_dsp_lbl_ptr_array_[channels]->setConstantString(constants::channels_dsp_lbl_strs[channels]);
+  }
+
   // Display Variables
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
     ain_dsp_var_ptr_array_[ain] = &(standalone_interface_.createDisplayVariable());
     ain_dsp_var_ptr_array_[ain]->setDisplayPosition(constants::ain_dsp_var_display_positions[ain]);
     ain_dsp_var_ptr_array_[ain]->setDisplayWidth(constants::percent_display_width);
+  }
+
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_var_ptr_array_[channels] = &(standalone_interface_.createDisplayVariable());
+    channels_dsp_var_ptr_array_[channels]->setDisplayPosition(constants::channels_dsp_var_display_positions[channels]);
+    channels_dsp_var_ptr_array_[channels]->setRightJustify();
+    channels_dsp_var_ptr_array_[channels]->setBaseBin();
+    channels_dsp_var_ptr_array_[channels]->setDisplayWidth(constants::channels_dsp_var_display_width);
+    channels_dsp_var_ptr_array_[channels]->setPaddingChar(0);
   }
 
   // Interactive Variables
@@ -217,26 +234,51 @@ void Controller::setup()
   frame = 5;
   channel_dsp_lbl.addToFrame(frame);
   channel_int_var_ptr_->addToFrame(frame);
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
+    channels_dsp_var_ptr_array_[channels]->addToFrame(frame);
+  }
   standalone_interface_.attachCallbackToFrame(callbacks::toggleChannelStandaloneCallback,frame);
 
   // Frame 6
   frame = 6;
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
+    channels_dsp_var_ptr_array_[channels]->addToFrame(frame);
+  }
   standalone_interface_.attachCallbackToFrame(callbacks::setAllChannelsOnCallback,frame);
 
   // Frame 7
   frame = 7;
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
+    channels_dsp_var_ptr_array_[channels]->addToFrame(frame);
+  }
   standalone_interface_.attachCallbackToFrame(callbacks::setAllChannelsOffCallback,frame);
 
   // Frame 8
   frame = 8;
   state_dsp_lbl.addToFrame(frame);
   state_int_var_ptr_->addToFrame(frame);
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
+    channels_dsp_var_ptr_array_[channels]->addToFrame(frame);
+  }
   standalone_interface_.attachCallbackToFrame(callbacks::saveStateStandaloneCallback,frame);
 
   // Frame 9
   frame = 9;
   state_dsp_lbl.addToFrame(frame);
   state_int_var_ptr_->addToFrame(frame);
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
+    channels_dsp_var_ptr_array_[channels]->addToFrame(frame);
+  }
   standalone_interface_.attachCallbackToFrame(callbacks::recallStateStandaloneCallback,frame);
 
   // Enable Standalone Interface
@@ -555,6 +597,14 @@ void Controller::updateDisplayVariables()
   {
     percent = getAnalogInput(ain);
     ain_dsp_var_ptr_array_[ain]->setValue(percent);
+  }
+  for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
+  {
+    uint8_t bit_shift = (constants::CHANNELS_DISPLAY_COUNT - 1 - channels)*constants::channels_dsp_var_display_width;
+    uint32_t value = channels_ << bit_shift;
+    bit_shift = (constants::CHANNELS_DISPLAY_COUNT - 1)*constants::channels_dsp_var_display_width;
+    value = value >> bit_shift;
+    channels_dsp_var_ptr_array_[channels]->setValue(value);
   }
 }
 
