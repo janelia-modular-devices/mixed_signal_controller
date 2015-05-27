@@ -16,6 +16,7 @@ enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
 enum {STATE_COUNT=16};
 enum {CHANNELS_DISPLAY_COUNT=4};
+enum {INDEXED_SET_UNTILS_COUNT_MAX=8};
 
 extern const int baudrate;
 
@@ -42,6 +43,8 @@ extern const int ain_max_array_default[AIN_COUNT];
 
 extern const int percent_min;
 extern const int percent_max;
+
+extern const int set_until_update_period;
 
 extern const uint8_t ain_dsp_lbl_display_positions[AIN_COUNT];
 
@@ -75,6 +78,7 @@ extern ConstantString device_name;
 extern ConstantString ain_parameter_name;
 extern ConstantString channels_parameter_name;
 extern ConstantString state_parameter_name;
+extern ConstantString percent_parameter_name;
 
 extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
@@ -101,6 +105,9 @@ extern ConstantString get_channel_count_method_name;
 extern ConstantString save_state_method_name;
 extern ConstantString recall_state_method_name;
 extern ConstantString get_saved_states_method_name;
+
+extern ConstantString set_channels_on_until_method_name;
+extern ConstantString set_channels_off_until_method_name;
 
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;

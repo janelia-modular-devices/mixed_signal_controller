@@ -27,6 +27,8 @@ namespace callbacks
 // modular_device.setSavedVariableValue type must match the saved variable default type
 
 
+IndexedContainer<SetUntilInfo,constants::INDEXED_SET_UNTILS_COUNT_MAX> indexed_set_untils;
+
 void getLedsPoweredCallback()
 {
   boolean leds_powered = controller.getLedsPowered();
@@ -226,6 +228,43 @@ void getSavedStatesCallback()
     modular_device.stopResponseArray();
   }
   modular_device.stopResponseArray();
+}
+
+void setChannelsOnUntilCallback()
+{
+  if (indexed_set_untils.full())
+  {
+    return;
+  }
+  JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  uint32_t channels = arrayToChannels(channels_array);
+  long ain = modular_device.getParameterValue(constants::ain_parameter_name);
+  long percent = modular_device.getParameterValue(constants::percent_parameter_name);
+  SetUntilInfo set_until_info;
+  set_until_info.channels = channels;
+  set_until_info.ain = ain;
+  set_until_info.percent = percent;
+  set_until_index = indexed_set_untils.add(set_until_info);
+  uint8_t percent_current = controller.getAnalogInput(ain);
+  // controller.setChannelsOn(channels);
+  // EventId addInfiniteRecurringEvent(const Callback callback,
+  //                                   const uint32_t period_ms,
+  //                                   const int arg=-1,
+  //                                   const Callback callback_start=NULL);
+  if (percent_current < percent)
+  {
+    set_until_info.event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenGreaterThanEventCallback,
+                                                                                          constants::set_until_update_period,
+                                                                                          set_until_index,
+                                                                                          setChannelsOnEventCallback);
+  }
+  else
+  {
+    set_until_info.event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenLessThanEventCallback,
+                                                                                          constants::set_until_update_period,
+                                                                                          set_until_index,
+                                                                                          setChannelsOnEventCallback);
+  }
 }
 
 uint32_t arrayToChannels(JsonArray channels_array)

@@ -9,6 +9,7 @@
 #define CALLBACKS_H
 #include "JsonParser.h"
 #include "EventController.h"
+#include "IndexedContainer.h"
 #include "ModularDevice.h"
 #include "Constants.h"
 #include "Controller.h"
@@ -16,6 +17,14 @@
 
 namespace callbacks
 {
+struct SetUntilInfo
+{
+  uint32_t channels;
+  uint8_t ain;
+  uint8_t percent;
+  EventController::EventId event_id;
+};
+
 void getLedsPoweredCallback();
 
 void getAnalogInputCallback();
@@ -60,6 +69,10 @@ void recallStateCallback();
 
 void getSavedStatesCallback();
 
+void setChannelsOnUntilCallback();
+
+void setChannelsOffUntilCallback();
+
 uint32_t arrayToChannels(ArduinoJson::Parser::JsonArray channels_array);
 
 // Standalone Callbacks
@@ -70,6 +83,21 @@ void toggleChannelStandaloneCallback();
 void saveStateStandaloneCallback();
 
 void recallStateStandaloneCallback();
+
+// EventController Callbacks
+void removeIndexedSetUntilCallback(int index);
+
+void setChannelsOnEventCallback(int index);
+
+void setChannelsOffEventCallback(int index);
+
+void setChannelsOffWhenGreaterThanEventCallback(int index);
+
+void setChannelsOffWhenLessThanEventCallback(int index);
+
+void setChannelsOnWhenGreaterThanEventCallback(int index);
+
+void setChannelsOnWhenLessThanEventCallback(int index);
 
 }
 #endif

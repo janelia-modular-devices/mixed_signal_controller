@@ -27,25 +27,25 @@ public:
   void setAsAnalogMinValue(const uint8_t ain);
   void setAsAnalogMaxValue(const uint8_t ain);
   void resetAnalogMinMaxDefaults();
-  void setChannelOn(int channel);
-  void setChannelOff(int channel);
-  void setChannels(uint32_t channels);
-  void setChannelsOn(uint32_t channels);
-  void setChannelsOff(uint32_t channels);
-  void toggleChannel(int channel);
-  void toggleChannels(uint32_t channels);
+  void setChannelOn(const int channel);
+  void setChannelOff(const int channel);
+  void setChannels(const uint32_t channels);
+  void setChannelsOn(const uint32_t channels);
+  void setChannelsOff(const uint32_t channels);
+  void toggleChannel(const int channel);
+  void toggleChannels(const uint32_t channels);
   void toggleAllChannels();
   void setAllChannelsOn();
   void setAllChannelsOff();
-  void setChannelOnAllOthersOff(int channel);
-  void setChannelOffAllOthersOn(int channel);
-  void setChannelsOnAllOthersOff(uint32_t channels);
-  void setChannelsOffAllOthersOn(uint32_t channels);
+  void setChannelOnAllOthersOff(const int channel);
+  void setChannelOffAllOthersOn(const int channel);
+  void setChannelsOnAllOthersOff(const uint32_t channels);
+  void setChannelsOffAllOthersOn(const uint32_t channels);
   uint32_t getChannelsOn();
   int getChannelCount();
   uint8_t getChannelIntVar();
-  void saveState(int state);
-  void recallState(int state);
+  void saveState(const int state);
+  void recallState(const int state);
   void getStatesArray(uint32_t states_array[]);
   uint8_t getStateIntVar();
 private:
@@ -62,7 +62,7 @@ private:
   uint32_t channels_;
   uint32_t states_array_[constants::STATE_COUNT];
   void updateDisplayVariables();
-  void updateChannelsVariable(int channel, int value);
+  void updateChannelsVariable(const int channel, const int value);
 };
 
 extern Controller controller;

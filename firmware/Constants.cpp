@@ -66,6 +66,8 @@ const int ain_max_array_default[AIN_COUNT] = {ain_max,
 const int percent_min = 0;
 const int percent_max = 100;
 
+const int set_until_update_period = 200;
+
 const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,
                                                  21,28,35,41,48,55,61,68};
 
@@ -103,6 +105,7 @@ CONSTANT_STRING(device_name,"mixed_signal_controller");
 CONSTANT_STRING(ain_parameter_name,"ain");
 CONSTANT_STRING(channels_parameter_name,"channels");
 CONSTANT_STRING(state_parameter_name,"state");
+CONSTANT_STRING(percent_parameter_name,"percent");
 
 CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallback");
 CONSTANT_STRING(get_leds_powered_method_name,"getLedsPowered");
@@ -129,6 +132,9 @@ CONSTANT_STRING(get_channel_count_method_name,"getChannelCount");
 CONSTANT_STRING(save_state_method_name,"saveState");
 CONSTANT_STRING(recall_state_method_name,"recallState");
 CONSTANT_STRING(get_saved_states_method_name,"getSavedStates");
+
+CONSTANT_STRING(set_channels_on_until_method_name,"setChannelsOnUntil");
+CONSTANT_STRING(set_channels_off_until_method_name,"setChannelsOffUntil");
 
 CONSTANT_STRING(frame0_name,"getAnalogInputs00-07");
 CONSTANT_STRING(frame1_name,"getAnalogInputs08-15");
