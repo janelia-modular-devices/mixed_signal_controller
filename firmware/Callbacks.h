@@ -21,7 +21,8 @@ struct SetUntilInfo
 {
   uint32_t channels;
   uint8_t ain;
-  uint8_t percent;
+  uint8_t percent_goal;
+  boolean complete;
   EventController::EventId event_id;
 };
 
@@ -73,6 +74,16 @@ void setChannelsOnUntilCallback();
 
 void setChannelsOffUntilCallback();
 
+void isSetUntilCompleteCallback();
+
+void areAllSetUntilsCompleteCallback();
+
+void removeSetUntilCallback();
+
+void removeAllSetUntilsCallback();
+
+void getAllSetUntilIndexesCallback();
+
 uint32_t arrayToChannels(ArduinoJson::Parser::JsonArray channels_array);
 
 // Standalone Callbacks
@@ -85,7 +96,7 @@ void saveStateStandaloneCallback();
 void recallStateStandaloneCallback();
 
 // EventController Callbacks
-void removeIndexedSetUntilCallback(int index);
+// void removeIndexedSetUntilCallback(int index);
 
 void setChannelsOnEventCallback(int index);
 

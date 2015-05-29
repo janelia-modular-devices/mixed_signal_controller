@@ -28,6 +28,8 @@ namespace callbacks
 
 
 IndexedContainer<SetUntilInfo,constants::INDEXED_SET_UNTILS_COUNT_MAX> indexed_set_untils;
+CONSTANT_STRING(indexed_set_untils_full_error,"No more available space for a new set_until, remove some to make more room.");
+CONSTANT_STRING(set_until_index_invalid_error,"Invalid set_until_index, it never existed or has been removed.");
 
 void getLedsPoweredCallback()
 {
@@ -234,37 +236,141 @@ void setChannelsOnUntilCallback()
 {
   if (indexed_set_untils.full())
   {
+    modular_device.sendErrorResponse(indexed_set_untils_full_error);
     return;
   }
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  long percent = modular_device.getParameterValue(constants::percent_parameter_name);
+  long percent_goal = modular_device.getParameterValue(constants::percent_parameter_name);
   SetUntilInfo set_until_info;
   set_until_info.channels = channels;
   set_until_info.ain = ain;
-  set_until_info.percent = percent;
-  set_until_index = indexed_set_untils.add(set_until_info);
+  set_until_info.percent_goal = percent_goal;
+  set_until_info.complete = false;
+  int set_until_index = indexed_set_untils.add(set_until_info);
+  EventController::EventId event_id;
   uint8_t percent_current = controller.getAnalogInput(ain);
-  // controller.setChannelsOn(channels);
-  // EventId addInfiniteRecurringEvent(const Callback callback,
-  //                                   const uint32_t period_ms,
-  //                                   const int arg=-1,
-  //                                   const Callback callback_start=NULL);
-  if (percent_current < percent)
+  if (percent_current < percent_goal)
   {
-    set_until_info.event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenGreaterThanEventCallback,
-                                                                                          constants::set_until_update_period,
-                                                                                          set_until_index,
-                                                                                          setChannelsOnEventCallback);
+    event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenGreaterThanEventCallback,
+                                                                           constants::set_until_update_period,
+                                                                           set_until_index,
+                                                                           setChannelsOnEventCallback);
   }
   else
   {
-    set_until_info.event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenLessThanEventCallback,
-                                                                                          constants::set_until_update_period,
-                                                                                          set_until_index,
-                                                                                          setChannelsOnEventCallback);
+    event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenLessThanEventCallback,
+                                                                           constants::set_until_update_period,
+                                                                           set_until_index,
+                                                                           setChannelsOnEventCallback);
   }
+  indexed_set_untils[set_until_index].event_id =  event_id;
+  modular_device.addToResponse("set_until_index",set_until_index);
+}
+
+void setChannelsOffUntilCallback()
+{
+  if (indexed_set_untils.full())
+  {
+    modular_device.sendErrorResponse(indexed_set_untils_full_error);
+    return;
+  }
+  JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  uint32_t channels = arrayToChannels(channels_array);
+  long ain = modular_device.getParameterValue(constants::ain_parameter_name);
+  long percent_goal = modular_device.getParameterValue(constants::percent_parameter_name);
+  SetUntilInfo set_until_info;
+  set_until_info.channels = channels;
+  set_until_info.ain = ain;
+  set_until_info.percent_goal = percent_goal;
+  set_until_info.complete = false;
+  int set_until_index = indexed_set_untils.add(set_until_info);
+  EventController::EventId event_id;
+  uint8_t percent_current = controller.getAnalogInput(ain);
+  if (percent_current < percent_goal)
+  {
+    event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOnWhenGreaterThanEventCallback,
+                                                                           constants::set_until_update_period,
+                                                                           set_until_index,
+                                                                           setChannelsOffEventCallback);
+  }
+  else
+  {
+    event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOnWhenLessThanEventCallback,
+                                                                           constants::set_until_update_period,
+                                                                           set_until_index,
+                                                                           setChannelsOffEventCallback);
+  }
+  indexed_set_untils[set_until_index].event_id =  event_id;
+  modular_device.addToResponse("set_until_index",set_until_index);
+}
+
+void isSetUntilCompleteCallback()
+{
+  long set_until_index = modular_device.getParameterValue(constants::set_until_index_parameter_name);
+  if (indexed_set_untils.indexHasValue(set_until_index))
+  {
+    modular_device.addBooleanToResponse("complete",indexed_set_untils[set_until_index].complete);
+  }
+  else
+  {
+    modular_device.sendErrorResponse(set_until_index_invalid_error);
+  }
+}
+
+void areAllSetUntilsCompleteCallback()
+{
+  boolean complete = true;
+  for (int i=0; i<indexed_set_untils.max_size(); ++i)
+  {
+    if (indexed_set_untils.indexHasValue(i))
+    {
+      complete = complete && indexed_set_untils[i].complete;
+    }
+  }
+  modular_device.addBooleanToResponse("complete",complete);
+}
+
+void removeSetUntilCallback()
+{
+  long set_until_index = modular_device.getParameterValue(constants::set_until_index_parameter_name);
+  if (!indexed_set_untils[set_until_index].complete)
+  {
+    EventController::event_controller.removeEvent(indexed_set_untils[set_until_index].event_id);
+  }
+  indexed_set_untils.remove(set_until_index);
+}
+
+void removeAllSetUntilsCallback()
+{
+  for (int i=0; i<indexed_set_untils.max_size(); ++i)
+  {
+    if (indexed_set_untils.indexHasValue(i))
+    {
+      if (!indexed_set_untils[i].complete)
+      {
+        EventController::event_controller.removeEvent(indexed_set_untils[i].event_id);
+      }
+      indexed_set_untils.remove(i);
+    }
+  }
+}
+
+void getAllSetUntilIndexesCallback()
+{
+  uint32_t channels_on = controller.getChannelsOn();
+  uint32_t bit = 1;
+  modular_device.addKeyToResponse("set_until_indexes");
+  modular_device.startResponseArray();
+  for (int i=0; i<indexed_set_untils.max_size(); ++i)
+  {
+    if (indexed_set_untils.indexHasValue(i))
+    {
+      modular_device.addToResponse(i);
+    }
+  }
+  modular_device.stopResponseArray();
 }
 
 uint32_t arrayToChannels(JsonArray channels_array)
@@ -304,4 +410,64 @@ void recallStateStandaloneCallback()
   uint8_t state = controller.getStateIntVar();
   controller.recallState(state);
 }
+
+// EventController Callbacks
+void setChannelsOnEventCallback(int index)
+{
+  controller.setChannelsOn(indexed_set_untils[index].channels);
+}
+
+void setChannelsOffEventCallback(int index)
+{
+  controller.setChannelsOff(indexed_set_untils[index].channels);
+}
+
+void setChannelsOffWhenGreaterThanEventCallback(int index)
+{
+  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
+  if (percent_current >= set_until_info.percent_goal)
+  {
+    controller.setChannelsOff(set_until_info.channels);
+    EventController::event_controller.removeEvent(set_until_info.event_id);
+    set_until_info.complete = true;
+  }
+}
+
+void setChannelsOffWhenLessThanEventCallback(int index)
+{
+  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
+  if (percent_current <= set_until_info.percent_goal)
+  {
+    controller.setChannelsOff(set_until_info.channels);
+    EventController::event_controller.removeEvent(set_until_info.event_id);
+    set_until_info.complete = true;
+  }
+}
+
+void setChannelsOnWhenGreaterThanEventCallback(int index)
+{
+  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
+  if (percent_current >= set_until_info.percent_goal)
+  {
+    controller.setChannelsOn(set_until_info.channels);
+    EventController::event_controller.removeEvent(set_until_info.event_id);
+    set_until_info.complete = true;
+  }
+}
+
+void setChannelsOnWhenLessThanEventCallback(int index)
+{
+  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
+  if (percent_current <= set_until_info.percent_goal)
+  {
+    controller.setChannelsOn(set_until_info.channels);
+    EventController::event_controller.removeEvent(set_until_info.event_id);
+    set_until_info.complete = true;
+  }
+}
+
 }

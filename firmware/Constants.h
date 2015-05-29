@@ -79,6 +79,7 @@ extern ConstantString ain_parameter_name;
 extern ConstantString channels_parameter_name;
 extern ConstantString state_parameter_name;
 extern ConstantString percent_parameter_name;
+extern ConstantString set_until_index_parameter_name;
 
 extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
@@ -108,6 +109,11 @@ extern ConstantString get_saved_states_method_name;
 
 extern ConstantString set_channels_on_until_method_name;
 extern ConstantString set_channels_off_until_method_name;
+extern ConstantString is_set_until_complete_method_name;
+extern ConstantString are_all_set_untils_complete_method_name;
+extern ConstantString remove_set_until_method_name;
+extern ConstantString remove_all_set_untils_method_name;
+extern ConstantString get_all_set_until_indexes_method_name;
 
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;

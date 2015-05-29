@@ -21,6 +21,8 @@ Controller::Controller() :
 
 void Controller::setup()
 {
+  EventController::event_controller.setup();
+
   // Pin Setup
   for (int channel=0; channel<constants::CHANNEL_COUNT; ++channel)
   {
@@ -61,6 +63,9 @@ void Controller::setup()
 
   ModularDevice::Parameter& percent_parameter = modular_device.createParameter(constants::percent_parameter_name);
   percent_parameter.setRange(constants::percent_min,constants::percent_max);
+
+  ModularDevice::Parameter& set_until_index_parameter = modular_device.createParameter(constants::set_until_index_parameter_name);
+  set_until_index_parameter.setRange(0,(constants::INDEXED_SET_UNTILS_COUNT_MAX-1));
 
   // Methods
   ModularDevice::Method& execute_standalone_callback_method = modular_device.createMethod(constants::execute_standalone_callback_method_name);
@@ -151,6 +156,23 @@ void Controller::setup()
   set_channels_off_until_method.addParameter(channels_parameter);
   set_channels_off_until_method.addParameter(ain_parameter);
   set_channels_off_until_method.addParameter(percent_parameter);
+
+  ModularDevice::Method& is_set_until_complete_method = modular_device.createMethod(constants::is_set_until_complete_method_name);
+  is_set_until_complete_method.attachCallback(callbacks::isSetUntilCompleteCallback);
+  is_set_until_complete_method.addParameter(set_until_index_parameter);
+
+  ModularDevice::Method& are_all_set_untils_complete_method = modular_device.createMethod(constants::are_all_set_untils_complete_method_name);
+  are_all_set_untils_complete_method.attachCallback(callbacks::areAllSetUntilsCompleteCallback);
+
+  ModularDevice::Method& remove_set_until_method = modular_device.createMethod(constants::remove_set_until_method_name);
+  remove_set_until_method.attachCallback(callbacks::removeSetUntilCallback);
+  remove_set_until_method.addParameter(set_until_index_parameter);
+
+  ModularDevice::Method& remove_all_set_untils_method = modular_device.createMethod(constants::remove_all_set_untils_method_name);
+  remove_all_set_untils_method.attachCallback(callbacks::removeAllSetUntilsCallback);
+
+  ModularDevice::Method& get_all_set_until_indexes_method = modular_device.createMethod(constants::get_all_set_until_indexes_method_name);
+  get_all_set_until_indexes_method.attachCallback(callbacks::getAllSetUntilIndexesCallback);
 
  // Start Server
   modular_device.startServer(constants::baudrate);
@@ -327,11 +349,11 @@ uint8_t Controller::getAnalogInput(const uint8_t ain)
     return 0;
   }
   int ain_value = analogRead(constants::ain_pins[ain]);
-  int percent = betterMap(ain_value,
-                          getAnalogMinValue(ain),
-                          getAnalogMaxValue(ain),
-                          constants::percent_min,
-                          constants::percent_max);
+  int percent = map(ain_value,
+                    getAnalogMinValue(ain),
+                    getAnalogMaxValue(ain),
+                    constants::percent_min,
+                    constants::percent_max);
   return percent;
 }
 

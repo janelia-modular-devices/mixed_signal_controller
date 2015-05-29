@@ -66,7 +66,7 @@ const int ain_max_array_default[AIN_COUNT] = {ain_max,
 const int percent_min = 0;
 const int percent_max = 100;
 
-const int set_until_update_period = 200;
+const int set_until_update_period = 250;
 
 const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,
                                                  21,28,35,41,48,55,61,68};
@@ -106,6 +106,7 @@ CONSTANT_STRING(ain_parameter_name,"ain");
 CONSTANT_STRING(channels_parameter_name,"channels");
 CONSTANT_STRING(state_parameter_name,"state");
 CONSTANT_STRING(percent_parameter_name,"percent");
+CONSTANT_STRING(set_until_index_parameter_name,"set_until_index");
 
 CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallback");
 CONSTANT_STRING(get_leds_powered_method_name,"getLedsPowered");
@@ -135,6 +136,11 @@ CONSTANT_STRING(get_saved_states_method_name,"getSavedStates");
 
 CONSTANT_STRING(set_channels_on_until_method_name,"setChannelsOnUntil");
 CONSTANT_STRING(set_channels_off_until_method_name,"setChannelsOffUntil");
+CONSTANT_STRING(is_set_until_complete_method_name,"isSetUntilComplete");
+CONSTANT_STRING(are_all_set_untils_complete_method_name,"areAllSetUntilsComplete");
+CONSTANT_STRING(remove_set_until_method_name,"removeSetUntil");
+CONSTANT_STRING(remove_all_set_untils_method_name,"removeAllSetUntils");
+CONSTANT_STRING(get_all_set_until_indexes_method_name,"getAllSetUntilIndexes");
 
 CONSTANT_STRING(frame0_name,"getAnalogInputs00-07");
 CONSTANT_STRING(frame1_name,"getAnalogInputs08-15");
