@@ -38,6 +38,7 @@ extern const int ain_pins[AIN_COUNT];
 
 extern const int ain_min;
 extern const int ain_max;
+extern const int ain_sample_count;
 extern const int ain_min_array_default[AIN_COUNT];
 extern const int ain_max_array_default[AIN_COUNT];
 

@@ -348,7 +348,13 @@ uint8_t Controller::getAnalogInput(const uint8_t ain)
   {
     return 0;
   }
-  int ain_value = analogRead(constants::ain_pins[ain]);
+  long ain_total = 0;
+  for (int sample=0; sample<constants::ain_sample_count; ++sample)
+  {
+    ain_total += analogRead(constants::ain_pins[ain]);
+  }
+  int ain_value = ain_total/constants::ain_sample_count;
+
   int percent = map(ain_value,
                     getAnalogMinValue(ain),
                     getAnalogMaxValue(ain),
