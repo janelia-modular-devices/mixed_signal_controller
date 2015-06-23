@@ -63,6 +63,7 @@ private:
   uint32_t states_array_[constants::STATE_COUNT];
   void updateDisplayVariables();
   void updateChannelsVariable(const int channel, const int value);
+  int analogReadSampled(const uint8_t ain);
 };
 
 extern Controller controller;

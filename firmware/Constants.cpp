@@ -30,7 +30,7 @@ const int ain_pins[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
 const int ain_min = 0;
 const int ain_max = 1023;
-const int ain_sample_count = 5;
+const int ain_sample_count = 15;
 const int ain_min_array_default[AIN_COUNT] = {ain_min,
                                               ain_min,
                                               ain_min,

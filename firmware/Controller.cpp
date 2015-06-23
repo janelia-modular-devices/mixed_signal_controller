@@ -348,13 +348,7 @@ uint8_t Controller::getAnalogInput(const uint8_t ain)
   {
     return 0;
   }
-  long ain_total = 0;
-  for (int sample=0; sample<constants::ain_sample_count; ++sample)
-  {
-    ain_total += analogRead(constants::ain_pins[ain]);
-  }
-  int ain_value = ain_total/constants::ain_sample_count;
-
+  int ain_value = analogReadSampled(ain);
   int percent = map(ain_value,
                     getAnalogMinValue(ain),
                     getAnalogMaxValue(ain),
@@ -387,7 +381,7 @@ void Controller::setAsAnalogMinValue(const uint8_t ain)
 {
   if (ain < constants::AIN_COUNT)
   {
-    ain_min_array_[ain] = analogRead(constants::ain_pins[ain]);
+    ain_min_array_[ain] = analogReadSampled(ain);
     modular_device.setSavedVariableValue(constants::ain_min_array_name,ain_min_array_,ain);
   }
 }
@@ -396,7 +390,7 @@ void Controller::setAsAnalogMaxValue(const uint8_t ain)
 {
   if (ain < constants::AIN_COUNT)
   {
-    ain_max_array_[ain] = analogRead(constants::ain_pins[ain]);
+    ain_max_array_[ain] = analogReadSampled(ain);
     modular_device.setSavedVariableValue(constants::ain_max_array_name,ain_max_array_,ain);
   }
 }
@@ -663,6 +657,21 @@ void Controller::updateChannelsVariable(const int channel, const int value)
   {
     channels_ &= ~bit;
   }
+}
+
+int Controller::analogReadSampled(const uint8_t ain)
+{
+  if (ain >= constants::AIN_COUNT)
+  {
+    return 0;
+  }
+  long ain_total = 0;
+  for (int sample=0; sample<constants::ain_sample_count; ++sample)
+  {
+    ain_total += analogRead(constants::ain_pins[ain]);
+  }
+  int ain_value = ain_total/constants::ain_sample_count;
+  return ain_value;
 }
 
 Controller controller;
