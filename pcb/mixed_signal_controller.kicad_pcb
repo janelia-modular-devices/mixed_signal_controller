@@ -1561,7 +1561,7 @@
   (gr_text DISPLAY (at 104.14 118.745) (layer F.SilkS)
     (effects (font (size 1.016 1.016) (thickness 0.254)))
   )
-  (gr_text https://github.com/JaneliaSciComp/modular-devices (at 189.23 102.87 90) (layer F.SilkS)
+  (gr_text https://github.com/janelia-modular-devices/modular-devices (at 189.23 102.87 90) (layer F.SilkS)
     (effects (font (size 0.762 0.762) (thickness 0.1905)))
   )
   (gr_text "Janelia Modular Device\nmixed_signal_controller\nmodel_number: 1120\n05/2015 version 1.1" (at 207.01 85.725 90) (layer F.SilkS)
