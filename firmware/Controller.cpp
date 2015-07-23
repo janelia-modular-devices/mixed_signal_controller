@@ -64,6 +64,9 @@ void Controller::setup()
   ModularDevice::Parameter& percent_parameter = modular_device.createParameter(constants::percent_parameter_name);
   percent_parameter.setRange(constants::percent_min,constants::percent_max);
 
+  ModularDevice::Parameter& ain_value_parameter = modular_device.createParameter(constants::ain_value_parameter_name);
+  percent_parameter.setRange(constants::ain_value_min,constants::ain_value_max);
+
   ModularDevice::Parameter& set_until_index_parameter = modular_device.createParameter(constants::set_until_index_parameter_name);
   set_until_index_parameter.setRange(0,(constants::INDEXED_SET_UNTILS_COUNT_MAX-1));
 
@@ -149,13 +152,13 @@ void Controller::setup()
   set_channels_on_until_method.attachCallback(callbacks::setChannelsOnUntilCallback);
   set_channels_on_until_method.addParameter(channels_parameter);
   set_channels_on_until_method.addParameter(ain_parameter);
-  set_channels_on_until_method.addParameter(percent_parameter);
+  set_channels_on_until_method.addParameter(ain_value_parameter);
 
   ModularDevice::Method& set_channels_off_until_method = modular_device.createMethod(constants::set_channels_off_until_method_name);
   set_channels_off_until_method.attachCallback(callbacks::setChannelsOffUntilCallback);
   set_channels_off_until_method.addParameter(channels_parameter);
   set_channels_off_until_method.addParameter(ain_parameter);
-  set_channels_off_until_method.addParameter(percent_parameter);
+  set_channels_off_until_method.addParameter(ain_value_parameter);
 
   ModularDevice::Method& is_set_until_complete_method = modular_device.createMethod(constants::is_set_until_complete_method_name);
   is_set_until_complete_method.attachCallback(callbacks::isSetUntilCompleteCallback);
@@ -342,13 +345,25 @@ bool Controller::getLedsPowered()
   return digitalRead(constants::led_pwr_pin) == HIGH;
 }
 
-uint8_t Controller::getAnalogInput(const uint8_t ain)
+int Controller::getAnalogInput(const uint8_t ain)
 {
   if (ain >= constants::AIN_COUNT)
   {
     return 0;
   }
-  int ain_value = analogReadSampled(ain);
+  // int ain_value = analogReadSampled(ain);
+  int ain_value = analogRead(ain);
+  return ain_value;
+}
+
+uint8_t Controller::getAnalogInputPercent(const uint8_t ain)
+{
+  if (ain >= constants::AIN_COUNT)
+  {
+    return 0;
+  }
+  // int ain_value = analogReadSampled(ain);
+  int ain_value = analogRead(ain);
   int percent = map(ain_value,
                     getAnalogMinValue(ain),
                     getAnalogMaxValue(ain),
@@ -632,7 +647,7 @@ void Controller::updateDisplayVariables()
   int percent;
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
-    percent = getAnalogInput(ain);
+    percent = getAnalogInputPercent(ain);
     ain_dsp_var_ptr_array_[ain]->setValue(percent);
   }
   for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)

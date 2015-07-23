@@ -21,7 +21,7 @@ struct SetUntilInfo
 {
   uint32_t channels;
   uint8_t ain;
-  uint8_t percent_goal;
+  int ain_value_goal;
   boolean complete;
   EventController::EventId event_id;
 };

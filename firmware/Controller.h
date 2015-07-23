@@ -21,7 +21,8 @@ public:
   void update();
   void executeStandaloneCallback();
   bool getLedsPowered();
-  uint8_t getAnalogInput(const uint8_t ain);
+  int getAnalogInput(const uint8_t ain);
+  uint8_t getAnalogInputPercent(const uint8_t ain);
   int getAnalogMinValue(const uint8_t ain);
   int getAnalogMaxValue(const uint8_t ain);
   void setAsAnalogMinValue(const uint8_t ain);

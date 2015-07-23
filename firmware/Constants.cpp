@@ -67,6 +67,9 @@ const int ain_max_array_default[AIN_COUNT] = {ain_max,
 const int percent_min = 0;
 const int percent_max = 100;
 
+const int ain_value_min = 0;
+const int ain_value_max = 1023;
+
 const int set_until_update_period = 250;
 
 const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,
@@ -107,6 +110,7 @@ CONSTANT_STRING(ain_parameter_name,"ain");
 CONSTANT_STRING(channels_parameter_name,"channels");
 CONSTANT_STRING(state_parameter_name,"state");
 CONSTANT_STRING(percent_parameter_name,"percent");
+CONSTANT_STRING(ain_value_parameter_name,"ain_value");
 CONSTANT_STRING(set_until_index_parameter_name,"set_until_index");
 
 CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallback");

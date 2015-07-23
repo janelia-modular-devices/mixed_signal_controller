@@ -40,18 +40,18 @@ void getLedsPoweredCallback()
 void getAnalogInputCallback()
 {
   long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  uint8_t percent = controller.getAnalogInput(ain);
-  modular_device.addToResponse("percent",percent);
+  int ain_value = controller.getAnalogInput(ain);
+  modular_device.addToResponse("ain_value",ain_value);
 }
 
 void getAnalogInputsCallback()
 {
-  modular_device.addKeyToResponse("percents");
+  modular_device.addKeyToResponse("ain_values");
   modular_device.startResponseArray();
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
-    uint8_t percent = controller.getAnalogInput(ain);
-    modular_device.addToResponse(percent);
+    int ain_value = controller.getAnalogInput(ain);
+    modular_device.addToResponse(ain_value);
   }
   modular_device.stopResponseArray();
 }
@@ -242,16 +242,16 @@ void setChannelsOnUntilCallback()
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  long percent_goal = modular_device.getParameterValue(constants::percent_parameter_name);
+  long ain_value_goal = modular_device.getParameterValue(constants::ain_value_parameter_name);
   SetUntilInfo set_until_info;
   set_until_info.channels = channels;
   set_until_info.ain = ain;
-  set_until_info.percent_goal = percent_goal;
+  set_until_info.ain_value_goal = ain_value_goal;
   set_until_info.complete = false;
   int set_until_index = indexed_set_untils.add(set_until_info);
   EventController::EventId event_id;
-  uint8_t percent_current = controller.getAnalogInput(ain);
-  if (percent_current < percent_goal)
+  int ain_value_current = controller.getAnalogInput(ain);
+  if (ain_value_current < ain_value_goal)
   {
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenGreaterThanEventCallback,
                                                                            constants::set_until_update_period,
@@ -279,16 +279,16 @@ void setChannelsOffUntilCallback()
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  long percent_goal = modular_device.getParameterValue(constants::percent_parameter_name);
+  long ain_value_goal = modular_device.getParameterValue(constants::ain_value_parameter_name);
   SetUntilInfo set_until_info;
   set_until_info.channels = channels;
   set_until_info.ain = ain;
-  set_until_info.percent_goal = percent_goal;
+  set_until_info.ain_value_goal = ain_value_goal;
   set_until_info.complete = false;
   int set_until_index = indexed_set_untils.add(set_until_info);
   EventController::EventId event_id;
-  uint8_t percent_current = controller.getAnalogInput(ain);
-  if (percent_current < percent_goal)
+  int ain_value_current = controller.getAnalogInput(ain);
+  if (ain_value_current < ain_value_goal)
   {
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOnWhenGreaterThanEventCallback,
                                                                            constants::set_until_update_period,
@@ -425,8 +425,8 @@ void setChannelsOffEventCallback(int index)
 void setChannelsOffWhenGreaterThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
-  if (percent_current >= set_until_info.percent_goal)
+  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  if (ain_value_current >= set_until_info.ain_value_goal)
   {
     controller.setChannelsOff(set_until_info.channels);
     EventController::event_controller.removeEvent(set_until_info.event_id);
@@ -437,8 +437,8 @@ void setChannelsOffWhenGreaterThanEventCallback(int index)
 void setChannelsOffWhenLessThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
-  if (percent_current <= set_until_info.percent_goal)
+  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  if (ain_value_current <= set_until_info.ain_value_goal)
   {
     controller.setChannelsOff(set_until_info.channels);
     EventController::event_controller.removeEvent(set_until_info.event_id);
@@ -449,8 +449,8 @@ void setChannelsOffWhenLessThanEventCallback(int index)
 void setChannelsOnWhenGreaterThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
-  if (percent_current >= set_until_info.percent_goal)
+  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  if (ain_value_current >= set_until_info.ain_value_goal)
   {
     controller.setChannelsOn(set_until_info.channels);
     EventController::event_controller.removeEvent(set_until_info.event_id);
@@ -461,8 +461,8 @@ void setChannelsOnWhenGreaterThanEventCallback(int index)
 void setChannelsOnWhenLessThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  uint8_t percent_current = controller.getAnalogInput(set_until_info.ain);
-  if (percent_current <= set_until_info.percent_goal)
+  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  if (ain_value_current <= set_until_info.ain_value_goal)
   {
     controller.setChannelsOn(set_until_info.channels);
     EventController::event_controller.removeEvent(set_until_info.event_id);

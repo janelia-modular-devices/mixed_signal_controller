@@ -45,6 +45,9 @@ extern const int ain_max_array_default[AIN_COUNT];
 extern const int percent_min;
 extern const int percent_max;
 
+extern const int ain_value_min;
+extern const int ain_value_max;
+
 extern const int set_until_update_period;
 
 extern const uint8_t ain_dsp_lbl_display_positions[AIN_COUNT];
@@ -80,6 +83,7 @@ extern ConstantString ain_parameter_name;
 extern ConstantString channels_parameter_name;
 extern ConstantString state_parameter_name;
 extern ConstantString percent_parameter_name;
+extern ConstantString ain_value_parameter_name;
 extern ConstantString set_until_index_parameter_name;
 
 extern ConstantString execute_standalone_callback_method_name;
