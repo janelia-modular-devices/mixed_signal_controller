@@ -22,7 +22,7 @@ struct SetUntilInfo
   uint32_t channels;
   uint8_t ain;
   int ain_value_goal;
-  boolean complete;
+  bool complete;
   EventController::EventId event_id;
 };
 

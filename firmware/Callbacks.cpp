@@ -33,8 +33,8 @@ CONSTANT_STRING(set_until_index_invalid_error,"Invalid set_until_index, it never
 
 void getLedsPoweredCallback()
 {
-  boolean leds_powered = controller.getLedsPowered();
-  modular_device.addBooleanToResponse("leds_powered",leds_powered);
+  bool leds_powered = controller.getLedsPowered();
+  modular_device.addBoolToResponse("leds_powered",leds_powered);
 }
 
 void getAnalogInputCallback()
@@ -311,7 +311,7 @@ void isSetUntilCompleteCallback()
   long set_until_index = modular_device.getParameterValue(constants::set_until_index_parameter_name);
   if (indexed_set_untils.indexHasValue(set_until_index))
   {
-    modular_device.addBooleanToResponse("complete",indexed_set_untils[set_until_index].complete);
+    modular_device.addBoolToResponse("complete",indexed_set_untils[set_until_index].complete);
   }
   else
   {
@@ -321,7 +321,7 @@ void isSetUntilCompleteCallback()
 
 void areAllSetUntilsCompleteCallback()
 {
-  boolean complete = true;
+  bool complete = true;
   for (int i=0; i<indexed_set_untils.max_size(); ++i)
   {
     if (indexed_set_untils.indexHasValue(i))
@@ -329,7 +329,7 @@ void areAllSetUntilsCompleteCallback()
       complete = complete && indexed_set_untils[i].complete;
     }
   }
-  modular_device.addBooleanToResponse("complete",complete);
+  modular_device.addBoolToResponse("complete",complete);
 }
 
 void removeSetUntilCallback()
