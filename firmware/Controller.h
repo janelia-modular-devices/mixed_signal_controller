@@ -23,11 +23,6 @@ public:
   bool getLedsPowered();
   int getAnalogInput(const uint8_t ain);
   uint8_t getAnalogInputPercent(const uint8_t ain);
-  int getAnalogMinValue(const uint8_t ain);
-  int getAnalogMaxValue(const uint8_t ain);
-  void setAsAnalogMinValue(const uint8_t ain);
-  void setAsAnalogMaxValue(const uint8_t ain);
-  void resetAnalogMinMaxDefaults();
   void setChannelOn(const int channel);
   void setChannelOff(const int channel);
   void setChannels(const uint32_t channels);
@@ -50,10 +45,6 @@ public:
   void getStatesArray(uint32_t states_array[]);
   uint8_t getStateIntVar();
 private:
-  int ain_min_array_[constants::AIN_COUNT];
-  int ain_max_array_[constants::AIN_COUNT];
-  SavedVariable* ain_min_svd_var_ptr_;
-  SavedVariable* ain_max_svd_var_ptr_;
   Standalone::StandaloneInterface standalone_interface_;
   Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
   Standalone::InteractiveVariable *channel_int_var_ptr_;
@@ -64,7 +55,6 @@ private:
   uint32_t states_array_[constants::STATE_COUNT];
   void updateDisplayVariables();
   void updateChannelsVariable(const int channel, const int value);
-  int analogReadSampled(const uint8_t ain);
 };
 
 extern Controller controller;

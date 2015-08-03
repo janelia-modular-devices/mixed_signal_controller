@@ -11,7 +11,7 @@
 
 namespace constants
 {
-enum {FRAME_COUNT=10};
+enum {FRAME_COUNT=7};
 enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
 enum {STATE_COUNT=16};
@@ -38,9 +38,6 @@ extern const int ain_pins[AIN_COUNT];
 
 extern const int ain_min;
 extern const int ain_max;
-extern const int ain_sample_count;
-extern const int ain_min_array_default[AIN_COUNT];
-extern const int ain_max_array_default[AIN_COUNT];
 
 extern const int percent_min;
 extern const int percent_max;
@@ -90,11 +87,6 @@ extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
 extern ConstantString get_analog_input_method_name;
 extern ConstantString get_analog_inputs_method_name;
-extern ConstantString get_analog_min_values_method_name;
-extern ConstantString get_analog_max_values_method_name;
-extern ConstantString set_as_analog_min_values_method_name;
-extern ConstantString set_as_analog_max_values_method_name;
-extern ConstantString reset_analog_min_max_defaults_method_name;
 
 extern ConstantString set_channels_on_method_name;
 extern ConstantString set_channels_off_method_name;

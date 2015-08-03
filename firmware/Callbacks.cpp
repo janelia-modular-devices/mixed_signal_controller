@@ -56,51 +56,6 @@ void getAnalogInputsCallback()
   modular_device.stopResponseArray();
 }
 
-void getAnalogMinValuesCallback()
-{
-  modular_device.addKeyToResponse("analog_min_values");
-  modular_device.startResponseArray();
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    int value = controller.getAnalogMinValue(ain);
-    modular_device.addToResponse(value);
-  }
-  modular_device.stopResponseArray();
-}
-
-void getAnalogMaxValuesCallback()
-{
-  modular_device.addKeyToResponse("analog_max_values");
-  modular_device.startResponseArray();
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    int value = controller.getAnalogMaxValue(ain);
-    modular_device.addToResponse(value);
-  }
-  modular_device.stopResponseArray();
-}
-
-void setAsAnalogMinValuesCallback()
-{
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    controller.setAsAnalogMinValue(ain);
-  }
-}
-
-void setAsAnalogMaxValuesCallback()
-{
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    controller.setAsAnalogMaxValue(ain);
-  }
-}
-
-void resetAnalogMinMaxDefaultsCallback()
-{
-  controller.resetAnalogMinMaxDefaults();
-}
-
 void setChannelsOnCallback()
 {
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
@@ -129,13 +84,13 @@ void toggleAllChannelsCallback()
 
 void setAllChannelsOnCallback()
 {
-  EventController::event_controller.removeAllEvents();
+  removeAllSetUntilsCallback();
   controller.setAllChannelsOn();
 }
 
 void setAllChannelsOffCallback()
 {
-  EventController::event_controller.removeAllEvents();
+  removeAllSetUntilsCallback();
   controller.setAllChannelsOff();
 }
 
@@ -143,7 +98,7 @@ void setChannelsOnAllOthersOffCallback()
 {
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
-  EventController::event_controller.removeAllEvents();
+  removeAllSetUntilsCallback();
   controller.setChannelsOnAllOthersOff(channels);
 }
 
@@ -151,7 +106,7 @@ void setChannelsOffAllOthersOnCallback()
 {
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
-  EventController::event_controller.removeAllEvents();
+  removeAllSetUntilsCallback();
   controller.setChannelsOffAllOthersOn(channels);
 }
 

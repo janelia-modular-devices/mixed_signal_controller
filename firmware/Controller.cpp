@@ -36,18 +36,6 @@ void Controller::setup()
   modular_device.setFirmwareNumber(constants::firmware_number);
 
   // Saved Variables
-  ain_min_svd_var_ptr_ = &(modular_device.createSavedVariable(constants::ain_min_array_name,constants::ain_min_array_default,constants::AIN_COUNT));
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    modular_device.getSavedVariableValue(constants::ain_min_array_name,ain_min_array_,ain);
-  }
-
-  ain_max_svd_var_ptr_ = &(modular_device.createSavedVariable(constants::ain_max_array_name,constants::ain_max_array_default,constants::AIN_COUNT));
-  for (int ain=0; ain<constants::AIN_COUNT; ain++)
-  {
-    modular_device.getSavedVariableValue(constants::ain_max_array_name,ain_max_array_,ain);
-  }
-
   modular_device.createSavedVariable(constants::states_name,constants::states_array_default,constants::STATE_COUNT);
 
   // Parameters
@@ -83,21 +71,6 @@ void Controller::setup()
 
   ModularDevice::Method& get_analog_inputs_method = modular_device.createMethod(constants::get_analog_inputs_method_name);
   get_analog_inputs_method.attachCallback(callbacks::getAnalogInputsCallback);
-
-  ModularDevice::Method& get_analog_min_values_method = modular_device.createMethod(constants::get_analog_min_values_method_name);
-  get_analog_min_values_method.attachCallback(callbacks::getAnalogMinValuesCallback);
-
-  ModularDevice::Method& get_analog_max_values_method = modular_device.createMethod(constants::get_analog_max_values_method_name);
-  get_analog_max_values_method.attachCallback(callbacks::getAnalogMaxValuesCallback);
-
-  ModularDevice::Method& set_as_analog_min_values_method = modular_device.createMethod(constants::set_as_analog_min_values_method_name);
-  set_as_analog_min_values_method.attachCallback(callbacks::setAsAnalogMinValuesCallback);
-
-  ModularDevice::Method& set_as_analog_max_values_method = modular_device.createMethod(constants::set_as_analog_max_values_method_name);
-  set_as_analog_max_values_method.attachCallback(callbacks::setAsAnalogMaxValuesCallback);
-
-  ModularDevice::Method& reset_analog_min_max_defaults_method = modular_device.createMethod(constants::reset_analog_min_max_defaults_method_name);
-  reset_analog_min_max_defaults_method.attachCallback(callbacks::resetAnalogMinMaxDefaultsCallback);
 
   ModularDevice::Method& set_channels_on_method = modular_device.createMethod(constants::set_channels_on_method_name);
   set_channels_on_method.attachCallback(callbacks::setChannelsOnCallback);
@@ -260,18 +233,6 @@ void Controller::setup()
 
   // Frame 2
   frame = 2;
-  standalone_interface_.attachCallbackToFrame(callbacks::resetAnalogMinMaxDefaultsCallback,frame);
-
-  // Frame 3
-  frame = 3;
-  standalone_interface_.attachCallbackToFrame(callbacks::setAsAnalogMinValuesCallback,frame);
-
-  // Frame 4
-  frame = 4;
-  standalone_interface_.attachCallbackToFrame(callbacks::setAsAnalogMaxValuesCallback,frame);
-
-  // Frame 5
-  frame = 5;
   channel_dsp_lbl.addToFrame(frame);
   channel_int_var_ptr_->addToFrame(frame);
   for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
@@ -281,8 +242,8 @@ void Controller::setup()
   }
   standalone_interface_.attachCallbackToFrame(callbacks::toggleChannelStandaloneCallback,frame);
 
-  // Frame 6
-  frame = 6;
+  // Frame 3
+  frame = 3;
   for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
   {
     channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
@@ -290,8 +251,8 @@ void Controller::setup()
   }
   standalone_interface_.attachCallbackToFrame(callbacks::setAllChannelsOnCallback,frame);
 
-  // Frame 7
-  frame = 7;
+  // Frame 4
+  frame = 4;
   for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
   {
     channels_dsp_lbl_ptr_array_[channels]->addToFrame(frame);
@@ -299,8 +260,8 @@ void Controller::setup()
   }
   standalone_interface_.attachCallbackToFrame(callbacks::setAllChannelsOffCallback,frame);
 
-  // Frame 8
-  frame = 8;
+  // Frame 5
+  frame = 5;
   state_dsp_lbl.addToFrame(frame);
   state_int_var_ptr_->addToFrame(frame);
   for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
@@ -310,8 +271,8 @@ void Controller::setup()
   }
   standalone_interface_.attachCallbackToFrame(callbacks::saveStateStandaloneCallback,frame);
 
-  // Frame 9
-  frame = 9;
+  // Frame 6
+  frame = 6;
   state_dsp_lbl.addToFrame(frame);
   state_int_var_ptr_->addToFrame(frame);
   for (int channels=0; channels<constants::CHANNELS_DISPLAY_COUNT; channels++)
@@ -351,7 +312,6 @@ int Controller::getAnalogInput(const uint8_t ain)
   {
     return 0;
   }
-  // int ain_value = analogReadSampled(ain);
   int ain_value = analogRead(ain);
   return ain_value;
 }
@@ -362,58 +322,13 @@ uint8_t Controller::getAnalogInputPercent(const uint8_t ain)
   {
     return 0;
   }
-  // int ain_value = analogReadSampled(ain);
   int ain_value = analogRead(ain);
   int percent = map(ain_value,
-                    getAnalogMinValue(ain),
-                    getAnalogMaxValue(ain),
+                    constants::ain_value_min,
+                    constants::ain_value_max,
                     constants::percent_min,
                     constants::percent_max);
   return percent;
-}
-
-int Controller::getAnalogMinValue(const uint8_t ain)
-{
-  if (ain >= constants::AIN_COUNT)
-  {
-    return 0;
-  }
-  modular_device.getSavedVariableValue(constants::ain_min_array_name,ain_min_array_,ain);
-  return ain_min_array_[ain];
-}
-
-int Controller::getAnalogMaxValue(const uint8_t ain)
-{
-  if (ain >= constants::AIN_COUNT)
-  {
-    return 0;
-  }
-  modular_device.getSavedVariableValue(constants::ain_max_array_name,ain_max_array_,ain);
-  return ain_max_array_[ain];
-}
-
-void Controller::setAsAnalogMinValue(const uint8_t ain)
-{
-  if (ain < constants::AIN_COUNT)
-  {
-    ain_min_array_[ain] = analogReadSampled(ain);
-    modular_device.setSavedVariableValue(constants::ain_min_array_name,ain_min_array_,ain);
-  }
-}
-
-void Controller::setAsAnalogMaxValue(const uint8_t ain)
-{
-  if (ain < constants::AIN_COUNT)
-  {
-    ain_max_array_[ain] = analogReadSampled(ain);
-    modular_device.setSavedVariableValue(constants::ain_max_array_name,ain_max_array_,ain);
-  }
-}
-
-void Controller::resetAnalogMinMaxDefaults()
-{
-  ain_min_svd_var_ptr_->setDefaultValue();
-  ain_max_svd_var_ptr_->setDefaultValue();
 }
 
 void Controller::setChannelOn(const int channel)
@@ -672,21 +587,6 @@ void Controller::updateChannelsVariable(const int channel, const int value)
   {
     channels_ &= ~bit;
   }
-}
-
-int Controller::analogReadSampled(const uint8_t ain)
-{
-  if (ain >= constants::AIN_COUNT)
-  {
-    return 0;
-  }
-  long ain_total = 0;
-  for (int sample=0; sample<constants::ain_sample_count; ++sample)
-  {
-    ain_total += analogRead(constants::ain_pins[ain]);
-  }
-  int ain_value = ain_total/constants::ain_sample_count;
-  return ain_value;
 }
 
 Controller controller;

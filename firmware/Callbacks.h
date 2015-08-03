@@ -32,16 +32,6 @@ void getAnalogInputCallback();
 
 void getAnalogInputsCallback();
 
-void getAnalogMinValuesCallback();
-
-void getAnalogMaxValuesCallback();
-
-void setAsAnalogMinValuesCallback();
-
-void setAsAnalogMaxValuesCallback();
-
-void resetAnalogMinMaxDefaultsCallback();
-
 void setChannelsOnCallback();
 
 void setChannelsOffCallback();
