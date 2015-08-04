@@ -56,6 +56,18 @@ void getAnalogInputsCallback()
   modular_device.stopResponseArray();
 }
 
+void getAnalogInputsFilteredCallback()
+{
+  modular_device.addKeyToResponse("ain_values");
+  modular_device.startResponseArray();
+  for (int ain=0; ain<constants::AIN_COUNT; ain++)
+  {
+    int ain_value = controller.getAnalogInputFiltered(ain);
+    modular_device.addToResponse(ain_value);
+  }
+  modular_device.stopResponseArray();
+}
+
 void setChannelsOnCallback()
 {
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
@@ -205,7 +217,7 @@ void setChannelsOnUntilCallback()
   set_until_info.complete = false;
   int set_until_index = indexed_set_untils.add(set_until_info);
   EventController::EventId event_id;
-  int ain_value_current = controller.getAnalogInput(ain);
+  int ain_value_current = controller.getAnalogInputFiltered(ain);
   if (ain_value_current < ain_value_goal)
   {
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenGreaterThanEventCallback,
@@ -242,7 +254,7 @@ void setChannelsOffUntilCallback()
   set_until_info.complete = false;
   int set_until_index = indexed_set_untils.add(set_until_info);
   EventController::EventId event_id;
-  int ain_value_current = controller.getAnalogInput(ain);
+  int ain_value_current = controller.getAnalogInputFiltered(ain);
   if (ain_value_current < ain_value_goal)
   {
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOnWhenGreaterThanEventCallback,
@@ -380,7 +392,7 @@ void setChannelsOffEventCallback(int index)
 void setChannelsOffWhenGreaterThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current >= set_until_info.ain_value_goal)
   {
     controller.setChannelsOff(set_until_info.channels);
@@ -392,7 +404,7 @@ void setChannelsOffWhenGreaterThanEventCallback(int index)
 void setChannelsOffWhenLessThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current <= set_until_info.ain_value_goal)
   {
     controller.setChannelsOff(set_until_info.channels);
@@ -404,7 +416,7 @@ void setChannelsOffWhenLessThanEventCallback(int index)
 void setChannelsOnWhenGreaterThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current >= set_until_info.ain_value_goal)
   {
     controller.setChannelsOn(set_until_info.channels);
@@ -416,12 +428,22 @@ void setChannelsOnWhenGreaterThanEventCallback(int index)
 void setChannelsOnWhenLessThanEventCallback(int index)
 {
   SetUntilInfo& set_until_info = indexed_set_untils[index];
-  int ain_value_current = controller.getAnalogInput(set_until_info.ain);
+  int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current <= set_until_info.ain_value_goal)
   {
     controller.setChannelsOn(set_until_info.channels);
     EventController::event_controller.removeEvent(set_until_info.event_id);
     set_until_info.complete = true;
+  }
+}
+
+void updateFilterBlockCallback(int index)
+{
+  uint8_t start = index*constants::filter_block_ain_count;
+  uint8_t stop = (index+1)*constants::filter_block_ain_count;
+  for (uint8_t ain=start;ain<stop;++ain)
+  {
+    controller.updateAnalogInputFilter(ain);
   }
 }
 

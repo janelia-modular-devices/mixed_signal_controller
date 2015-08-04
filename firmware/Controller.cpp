@@ -72,6 +72,9 @@ void Controller::setup()
   ModularDevice::Method& get_analog_inputs_method = modular_device.createMethod(constants::get_analog_inputs_method_name);
   get_analog_inputs_method.attachCallback(callbacks::getAnalogInputsCallback);
 
+  ModularDevice::Method& get_analog_inputs_filtered_method = modular_device.createMethod(constants::get_analog_inputs_filtered_method_name);
+  get_analog_inputs_filtered_method.attachCallback(callbacks::getAnalogInputsFilteredCallback);
+
   ModularDevice::Method& set_channels_on_method = modular_device.createMethod(constants::set_channels_on_method_name);
   set_channels_on_method.attachCallback(callbacks::setChannelsOnCallback);
   set_channels_on_method.addParameter(channels_parameter);
@@ -284,6 +287,8 @@ void Controller::setup()
 
   // Enable Standalone Interface
   standalone_interface_.enable();
+
+  setupFilters();
 }
 
 void Controller::update()
@@ -318,11 +323,7 @@ int Controller::getAnalogInput(const uint8_t ain)
 
 uint8_t Controller::getAnalogInputPercent(const uint8_t ain)
 {
-  if (ain >= constants::AIN_COUNT)
-  {
-    return 0;
-  }
-  int ain_value = analogRead(ain);
+  int ain_value = getAnalogInput(ain);
   int percent = map(ain_value,
                     constants::ain_value_min,
                     constants::ain_value_max,
@@ -555,6 +556,39 @@ void Controller::getStatesArray(uint32_t states_array[])
 uint8_t Controller::getStateIntVar()
 {
   return state_int_var_ptr_->getValue();
+}
+
+void Controller::setupFilters()
+{
+  EventController::EventId event_id;
+  event_id = EventController::event_controller.addInfiniteRecurringEventUsingDelay(callbacks::updateFilterBlockCallback,
+                                                                                   500,
+                                                                                   constants::filter_update_period,
+                                                                                   0);
+  for (int i=1;i<constants::filter_block_ain_count;++i)
+  {
+    event_id = EventController::event_controller.addInfiniteRecurringEventUsingOffset(callbacks::updateFilterBlockCallback,
+                                                                                      event_id,
+                                                                                      1,
+                                                                                      constants::filter_update_period,
+                                                                                      i);
+  }
+}
+
+void Controller::updateAnalogInputFilter(const uint8_t ain)
+{
+  int ain_value = getAnalogInput(ain);
+  filters_[ain].addSample(ain_value);
+}
+
+int Controller::getAnalogInputFiltered(const uint8_t ain)
+{
+  if (ain >= constants::AIN_COUNT)
+  {
+    return 0;
+  }
+  int ain_value = filters_[ain].getFilteredValue();
+  return ain_value;
 }
 
 void Controller::updateDisplayVariables()

@@ -32,6 +32,8 @@ void getAnalogInputCallback();
 
 void getAnalogInputsCallback();
 
+void getAnalogInputsFilteredCallback();
+
 void setChannelsOnCallback();
 
 void setChannelsOffCallback();
@@ -99,6 +101,8 @@ void setChannelsOffWhenLessThanEventCallback(int index);
 void setChannelsOnWhenGreaterThanEventCallback(int index);
 
 void setChannelsOnWhenLessThanEventCallback(int index);
+
+void updateFilterBlockCallback(int index);
 
 }
 #endif

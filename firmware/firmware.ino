@@ -18,6 +18,7 @@
 #include "Controller.h"
 
 #include "IndexedContainer.h"
+#include "FilterSmooth.h"
 
 
 // See README.md for more information

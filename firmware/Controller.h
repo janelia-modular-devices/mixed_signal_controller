@@ -10,8 +10,12 @@
 #include "ModularDevice.h"
 #include "StandaloneInterface.h"
 #include "BetterMap.h"
+#include "FilterSmooth.h"
 #include "Constants.h"
 #include "Callbacks.h"
+
+
+typedef FilterMean<constants::FILTER_SAMPLE_COUNT> Filter;
 
 class Controller
 {
@@ -44,6 +48,9 @@ public:
   void recallState(const int state);
   void getStatesArray(uint32_t states_array[]);
   uint8_t getStateIntVar();
+  void setupFilters();
+  void updateAnalogInputFilter(const uint8_t ain);
+  int getAnalogInputFiltered(const uint8_t ain);
 private:
   Standalone::StandaloneInterface standalone_interface_;
   Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
@@ -53,6 +60,7 @@ private:
   Standalone::DisplayVariable* channels_dsp_var_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
   uint32_t channels_;
   uint32_t states_array_[constants::STATE_COUNT];
+  Filter filters_[constants::AIN_COUNT];
   void updateDisplayVariables();
   void updateChannelsVariable(const int channel, const int value);
 };

@@ -39,6 +39,9 @@ const int ain_value_max = 1023;
 
 const int set_until_update_period = 250;
 
+const uint8_t filter_block_ain_count = 4;
+const uint8_t filter_update_period = 10;
+
 const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,
                                                  21,28,35,41,48,55,61,68};
 
@@ -84,6 +87,7 @@ CONSTANT_STRING(execute_standalone_callback_method_name,"executeStandaloneCallba
 CONSTANT_STRING(get_leds_powered_method_name,"getLedsPowered");
 CONSTANT_STRING(get_analog_input_method_name,"getAnalogInput");
 CONSTANT_STRING(get_analog_inputs_method_name,"getAnalogInputs");
+CONSTANT_STRING(get_analog_inputs_filtered_method_name,"getAnalogInputsFiltered");
 
 CONSTANT_STRING(set_channels_on_method_name,"setChannelsOn");
 CONSTANT_STRING(set_channels_off_method_name,"setChannelsOff");

@@ -17,6 +17,7 @@ enum {CHANNEL_COUNT=32};
 enum {STATE_COUNT=16};
 enum {CHANNELS_DISPLAY_COUNT=4};
 enum {INDEXED_SET_UNTILS_COUNT_MAX=8};
+enum {FILTER_SAMPLE_COUNT=5};
 
 extern const int baudrate;
 
@@ -46,6 +47,9 @@ extern const int ain_value_min;
 extern const int ain_value_max;
 
 extern const int set_until_update_period;
+
+extern const uint8_t filter_block_ain_count;
+extern const uint8_t filter_update_period;
 
 extern const uint8_t ain_dsp_lbl_display_positions[AIN_COUNT];
 
@@ -87,6 +91,7 @@ extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
 extern ConstantString get_analog_input_method_name;
 extern ConstantString get_analog_inputs_method_name;
+extern ConstantString get_analog_inputs_filtered_method_name;
 
 extern ConstantString set_channels_on_method_name;
 extern ConstantString set_channels_off_method_name;
