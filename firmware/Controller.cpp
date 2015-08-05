@@ -49,14 +49,12 @@ void Controller::setup()
   ModularDevice::Parameter& state_parameter = modular_device.createParameter(constants::state_parameter_name);
   state_parameter.setRange(0,constants::STATE_COUNT-1);
 
-  ModularDevice::Parameter& percent_parameter = modular_device.createParameter(constants::percent_parameter_name);
-  percent_parameter.setRange(constants::percent_min,constants::percent_max);
+  ModularDevice::Parameter& duration_parameter = modular_device.createParameter(constants::duration_parameter_name);
+  duration_parameter.setRange(constants::duration_min,constants::duration_max);
+  duration_parameter.setUnits(constants::duration_units);
 
   ModularDevice::Parameter& ain_value_parameter = modular_device.createParameter(constants::ain_value_parameter_name);
-  percent_parameter.setRange(constants::ain_value_min,constants::ain_value_max);
-
-  ModularDevice::Parameter& set_until_index_parameter = modular_device.createParameter(constants::set_until_index_parameter_name);
-  set_until_index_parameter.setRange(0,(constants::INDEXED_SET_UNTILS_COUNT_MAX-1));
+  ain_value_parameter.setRange(constants::ain_value_min,constants::ain_value_max);
 
   // Methods
   ModularDevice::Method& execute_standalone_callback_method = modular_device.createMethod(constants::execute_standalone_callback_method_name);
@@ -64,10 +62,6 @@ void Controller::setup()
 
   ModularDevice::Method& get_leds_powered_method = modular_device.createMethod(constants::get_leds_powered_method_name);
   get_leds_powered_method.attachCallback(callbacks::getLedsPoweredCallback);
-
-  ModularDevice::Method& get_analog_input_method = modular_device.createMethod(constants::get_analog_input_method_name);
-  get_analog_input_method.attachCallback(callbacks::getAnalogInputCallback);
-  get_analog_input_method.addParameter(ain_parameter);
 
   ModularDevice::Method& get_analog_inputs_method = modular_device.createMethod(constants::get_analog_inputs_method_name);
   get_analog_inputs_method.attachCallback(callbacks::getAnalogInputsCallback);
@@ -136,22 +130,27 @@ void Controller::setup()
   set_channels_off_until_method.addParameter(ain_parameter);
   set_channels_off_until_method.addParameter(ain_value_parameter);
 
-  ModularDevice::Method& is_set_until_complete_method = modular_device.createMethod(constants::is_set_until_complete_method_name);
-  is_set_until_complete_method.attachCallback(callbacks::isSetUntilCompleteCallback);
-  is_set_until_complete_method.addParameter(set_until_index_parameter);
-
   ModularDevice::Method& are_all_set_untils_complete_method = modular_device.createMethod(constants::are_all_set_untils_complete_method_name);
   are_all_set_untils_complete_method.attachCallback(callbacks::areAllSetUntilsCompleteCallback);
-
-  ModularDevice::Method& remove_set_until_method = modular_device.createMethod(constants::remove_set_until_method_name);
-  remove_set_until_method.attachCallback(callbacks::removeSetUntilCallback);
-  remove_set_until_method.addParameter(set_until_index_parameter);
 
   ModularDevice::Method& remove_all_set_untils_method = modular_device.createMethod(constants::remove_all_set_untils_method_name);
   remove_all_set_untils_method.attachCallback(callbacks::removeAllSetUntilsCallback);
 
-  ModularDevice::Method& get_all_set_until_indexes_method = modular_device.createMethod(constants::get_all_set_until_indexes_method_name);
-  get_all_set_until_indexes_method.attachCallback(callbacks::getAllSetUntilIndexesCallback);
+  ModularDevice::Method& set_channels_on_for_method = modular_device.createMethod(constants::set_channels_on_for_method_name);
+  set_channels_on_for_method.attachCallback(callbacks::setChannelsOnForCallback);
+  set_channels_on_for_method.addParameter(channels_parameter);
+  set_channels_on_for_method.addParameter(duration_parameter);
+
+  ModularDevice::Method& set_channels_off_for_method = modular_device.createMethod(constants::set_channels_off_for_method_name);
+  set_channels_off_for_method.attachCallback(callbacks::setChannelsOffForCallback);
+  set_channels_off_for_method.addParameter(channels_parameter);
+  set_channels_off_for_method.addParameter(duration_parameter);
+
+  ModularDevice::Method& are_all_set_fors_complete_method = modular_device.createMethod(constants::are_all_set_fors_complete_method_name);
+  are_all_set_fors_complete_method.attachCallback(callbacks::areAllSetForsCompleteCallback);
+
+  ModularDevice::Method& remove_all_set_fors_method = modular_device.createMethod(constants::remove_all_set_fors_method_name);
+  remove_all_set_fors_method.attachCallback(callbacks::removeAllSetForsCallback);
 
  // Start Server
   modular_device.startServer(constants::baudrate);

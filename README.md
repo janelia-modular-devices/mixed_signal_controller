@@ -30,13 +30,8 @@ License:
     "setSerialNumber",
     "executeStandaloneCallback",
     "getLedsPowered",
-    "getAnalogInput",
     "getAnalogInputs",
-    "getAnalogMinValues",
-    "getAnalogMaxValues",
-    "setAsAnalogMinValues",
-    "setAsAnalogMaxValues",
-    "resetAnalogMinMaxDefaults",
+    "getAnalogInputsFiltered",
     "setChannelsOn",
     "setChannelsOff",
     "toggleChannels",
@@ -53,11 +48,12 @@ License:
     "getSavedStates",
     "setChannelsOnUntil",
     "setChannelsOffUntil",
-    "isSetUntilComplete",
     "areAllSetUntilsComplete",
-    "removeSetUntil",
     "removeAllSetUntils",
-    "getAllSetUntilIndexes"
+    "setChannelsOnFor",
+    "setChannelsOffFor",
+    "areAllSetForsComplete",
+    "removeAllSetFors"
   ],
   "status":success
 }
@@ -103,39 +99,12 @@ License:
       }
     },
     {
-      "getAnalogInput":{
-        "parameters":[
-          "ain"
-        ]
-      }
-    },
-    {
       "getAnalogInputs":{
         "parameters":[]
       }
     },
     {
-      "getAnalogMinValues":{
-        "parameters":[]
-      }
-    },
-    {
-      "getAnalogMaxValues":{
-        "parameters":[]
-      }
-    },
-    {
-      "setAsAnalogMinValues":{
-        "parameters":[]
-      }
-    },
-    {
-      "setAsAnalogMaxValues":{
-        "parameters":[]
-      }
-    },
-    {
-      "resetAnalogMinMaxDefaults":{
+      "getAnalogInputsFiltered":{
         "parameters":[]
       }
     },
@@ -228,7 +197,7 @@ License:
         "parameters":[
           "channels",
           "ain",
-          "percent"
+          "ain_value"
         ]
       }
     },
@@ -237,14 +206,7 @@ License:
         "parameters":[
           "channels",
           "ain",
-          "percent"
-        ]
-      }
-    },
-    {
-      "isSetUntilComplete":{
-        "parameters":[
-          "set_until_index"
+          "ain_value"
         ]
       }
     },
@@ -254,19 +216,33 @@ License:
       }
     },
     {
-      "removeSetUntil":{
-        "parameters":[
-          "set_until_index"
-        ]
-      }
-    },
-    {
       "removeAllSetUntils":{
         "parameters":[]
       }
     },
     {
-      "getAllSetUntilIndexes":{
+      "setChannelsOnFor":{
+        "parameters":[
+          "channels",
+          "duration"
+        ]
+      }
+    },
+    {
+      "setChannelsOffFor":{
+        "parameters":[
+          "channels",
+          "duration"
+        ]
+      }
+    },
+    {
+      "areAllSetForsComplete":{
+        "parameters":[]
+      }
+    },
+    {
+      "removeAllSetFors":{
         "parameters":[]
       }
     }

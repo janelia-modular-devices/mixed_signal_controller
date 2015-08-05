@@ -26,9 +26,14 @@ struct SetUntilInfo
   EventController::EventId event_id;
 };
 
-void getLedsPoweredCallback();
+struct SetForInfo
+{
+  uint32_t channels;
+  bool complete;
+  EventController::EventIdPair event_id_pair;
+};
 
-void getAnalogInputCallback();
+void getLedsPoweredCallback();
 
 void getAnalogInputsCallback();
 
@@ -66,15 +71,17 @@ void setChannelsOnUntilCallback();
 
 void setChannelsOffUntilCallback();
 
-void isSetUntilCompleteCallback();
-
 void areAllSetUntilsCompleteCallback();
-
-void removeSetUntilCallback();
 
 void removeAllSetUntilsCallback();
 
-void getAllSetUntilIndexesCallback();
+void setChannelsOnForCallback();
+
+void setChannelsOffForCallback();
+
+void areAllSetForsCompleteCallback();
+
+void removeAllSetForsCallback();
 
 uint32_t arrayToChannels(ArduinoJson::Parser::JsonArray channels_array);
 
@@ -90,9 +97,15 @@ void recallStateStandaloneCallback();
 // EventController Callbacks
 // void removeIndexedSetUntilCallback(int index);
 
-void setChannelsOnEventCallback(int index);
+void setChannelsOnUntilEventCallback(int index);
 
-void setChannelsOffEventCallback(int index);
+void setChannelsOffUntilEventCallback(int index);
+
+void setChannelsOnForEventCallback(int index);
+
+void setChannelsOffForEventCallback(int index);
+
+void completeForEventCallback(int index);
 
 void setChannelsOffWhenGreaterThanEventCallback(int index);
 

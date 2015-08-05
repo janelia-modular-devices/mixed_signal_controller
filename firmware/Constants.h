@@ -18,6 +18,7 @@ enum {STATE_COUNT=16};
 enum {CHANNELS_DISPLAY_COUNT=4};
 enum {INDEXED_SET_UNTILS_COUNT_MAX=8};
 enum {FILTER_SAMPLE_COUNT=5};
+enum {INDEXED_SET_FORS_COUNT_MAX=1};
 
 extern const int baudrate;
 
@@ -48,6 +49,9 @@ extern const int ain_value_max;
 
 extern const int set_until_update_period;
 
+extern const int duration_min;
+extern const int duration_max;
+
 extern const uint8_t filter_block_ain_count;
 extern const uint8_t filter_update_period;
 
@@ -71,8 +75,7 @@ extern const uint8_t channels_dsp_var_display_width;
 extern const uint8_t state_dsp_lbl_display_position;
 extern const uint8_t state_int_var_display_position;
 
-extern ConstantString ain_min_array_name;
-extern ConstantString ain_max_array_name;
+extern ConstantString duration_units;
 
 extern ConstantString states_name;
 
@@ -83,13 +86,11 @@ extern ConstantString device_name;
 extern ConstantString ain_parameter_name;
 extern ConstantString channels_parameter_name;
 extern ConstantString state_parameter_name;
-extern ConstantString percent_parameter_name;
+extern ConstantString duration_parameter_name;
 extern ConstantString ain_value_parameter_name;
-extern ConstantString set_until_index_parameter_name;
 
 extern ConstantString execute_standalone_callback_method_name;
 extern ConstantString get_leds_powered_method_name;
-extern ConstantString get_analog_input_method_name;
 extern ConstantString get_analog_inputs_method_name;
 extern ConstantString get_analog_inputs_filtered_method_name;
 
@@ -111,11 +112,13 @@ extern ConstantString get_saved_states_method_name;
 
 extern ConstantString set_channels_on_until_method_name;
 extern ConstantString set_channels_off_until_method_name;
-extern ConstantString is_set_until_complete_method_name;
 extern ConstantString are_all_set_untils_complete_method_name;
-extern ConstantString remove_set_until_method_name;
 extern ConstantString remove_all_set_untils_method_name;
-extern ConstantString get_all_set_until_indexes_method_name;
+
+extern ConstantString set_channels_on_for_method_name;
+extern ConstantString set_channels_off_for_method_name;
+extern ConstantString are_all_set_fors_complete_method_name;
+extern ConstantString remove_all_set_fors_method_name;
 
 extern ConstantString frame0_name;
 extern ConstantString frame1_name;

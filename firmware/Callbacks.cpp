@@ -29,19 +29,14 @@ namespace callbacks
 
 IndexedContainer<SetUntilInfo,constants::INDEXED_SET_UNTILS_COUNT_MAX> indexed_set_untils;
 CONSTANT_STRING(indexed_set_untils_full_error,"No more available space for a new set_until, remove some to make more room.");
-CONSTANT_STRING(set_until_index_invalid_error,"Invalid set_until_index, it never existed or has been removed.");
+
+IndexedContainer<SetForInfo,constants::INDEXED_SET_FORS_COUNT_MAX> indexed_set_fors;
+CONSTANT_STRING(indexed_set_fors_full_error,"No more available space for a new set_for, wait until they have completed and try again.");
 
 void getLedsPoweredCallback()
 {
   bool leds_powered = controller.getLedsPowered();
   modular_device.addBoolToResponse("leds_powered",leds_powered);
-}
-
-void getAnalogInputCallback()
-{
-  long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  int ain_value = controller.getAnalogInput(ain);
-  modular_device.addToResponse("ain_value",ain_value);
 }
 
 void getAnalogInputsCallback()
@@ -97,12 +92,14 @@ void toggleAllChannelsCallback()
 void setAllChannelsOnCallback()
 {
   removeAllSetUntilsCallback();
+  removeAllSetForsCallback();
   controller.setAllChannelsOn();
 }
 
 void setAllChannelsOffCallback()
 {
   removeAllSetUntilsCallback();
+  removeAllSetForsCallback();
   controller.setAllChannelsOff();
 }
 
@@ -111,6 +108,7 @@ void setChannelsOnAllOthersOffCallback()
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   removeAllSetUntilsCallback();
+  removeAllSetForsCallback();
   controller.setChannelsOnAllOthersOff(channels);
 }
 
@@ -119,6 +117,7 @@ void setChannelsOffAllOthersOnCallback()
   JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   removeAllSetUntilsCallback();
+  removeAllSetForsCallback();
   controller.setChannelsOffAllOthersOn(channels);
 }
 
@@ -223,14 +222,14 @@ void setChannelsOnUntilCallback()
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenGreaterThanEventCallback,
                                                                            constants::set_until_update_period,
                                                                            set_until_index,
-                                                                           setChannelsOnEventCallback);
+                                                                           setChannelsOnUntilEventCallback);
   }
   else
   {
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOffWhenLessThanEventCallback,
                                                                            constants::set_until_update_period,
                                                                            set_until_index,
-                                                                           setChannelsOnEventCallback);
+                                                                           setChannelsOnUntilEventCallback);
   }
   indexed_set_untils[set_until_index].event_id =  event_id;
   modular_device.addToResponse("set_until_index",set_until_index);
@@ -260,30 +259,17 @@ void setChannelsOffUntilCallback()
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOnWhenGreaterThanEventCallback,
                                                                            constants::set_until_update_period,
                                                                            set_until_index,
-                                                                           setChannelsOffEventCallback);
+                                                                           setChannelsOffUntilEventCallback);
   }
   else
   {
     event_id = EventController::event_controller.addInfiniteRecurringEvent(setChannelsOnWhenLessThanEventCallback,
                                                                            constants::set_until_update_period,
                                                                            set_until_index,
-                                                                           setChannelsOffEventCallback);
+                                                                           setChannelsOffUntilEventCallback);
   }
   indexed_set_untils[set_until_index].event_id =  event_id;
   modular_device.addToResponse("set_until_index",set_until_index);
-}
-
-void isSetUntilCompleteCallback()
-{
-  long set_until_index = modular_device.getParameterValue(constants::set_until_index_parameter_name);
-  if (indexed_set_untils.indexHasValue(set_until_index))
-  {
-    modular_device.addBoolToResponse("complete",indexed_set_untils[set_until_index].complete);
-  }
-  else
-  {
-    modular_device.sendErrorResponse(set_until_index_invalid_error);
-  }
 }
 
 void areAllSetUntilsCompleteCallback()
@@ -297,16 +283,6 @@ void areAllSetUntilsCompleteCallback()
     }
   }
   modular_device.addBoolToResponse("complete",complete);
-}
-
-void removeSetUntilCallback()
-{
-  long set_until_index = modular_device.getParameterValue(constants::set_until_index_parameter_name);
-  if (!indexed_set_untils[set_until_index].complete)
-  {
-    EventController::event_controller.removeEvent(indexed_set_untils[set_until_index].event_id);
-  }
-  indexed_set_untils.remove(set_until_index);
 }
 
 void removeAllSetUntilsCallback()
@@ -324,20 +300,88 @@ void removeAllSetUntilsCallback()
   }
 }
 
-void getAllSetUntilIndexesCallback()
+void setChannelsOnForCallback()
 {
-  uint32_t channels_on = controller.getChannelsOn();
-  uint32_t bit = 1;
-  modular_device.addKeyToResponse("set_until_indexes");
-  modular_device.startResponseArray();
-  for (int i=0; i<indexed_set_untils.max_size(); ++i)
+  if (indexed_set_fors.full())
   {
-    if (indexed_set_untils.indexHasValue(i))
+    modular_device.sendErrorResponse(indexed_set_fors_full_error);
+    return;
+  }
+  JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  uint32_t channels = arrayToChannels(channels_array);
+  long duration = modular_device.getParameterValue(constants::duration_parameter_name);
+  SetForInfo set_for_info;
+  set_for_info.channels = channels;
+  set_for_info.complete = false;
+  int set_for_index = indexed_set_fors.add(set_for_info);
+  EventController::EventIdPair event_id_pair;
+  event_id_pair = EventController::event_controller.addPwmUsingDelayPeriodOnDuration(setChannelsOnForEventCallback,
+                                                                                     setChannelsOffForEventCallback,
+                                                                                     200,
+                                                                                     duration*2,
+                                                                                     duration,
+                                                                                     1,
+                                                                                     set_for_index,
+                                                                                     NULL,
+                                                                                     completeForEventCallback);
+  indexed_set_fors[set_for_index].event_id_pair =  event_id_pair;
+  modular_device.addToResponse("set_for_index",set_for_index);
+}
+
+void setChannelsOffForCallback()
+{
+  if (indexed_set_fors.full())
+  {
+    modular_device.sendErrorResponse(indexed_set_fors_full_error);
+    return;
+  }
+  JsonArray channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  uint32_t channels = arrayToChannels(channels_array);
+  long duration = modular_device.getParameterValue(constants::duration_parameter_name);
+  SetForInfo set_for_info;
+  set_for_info.channels = channels;
+  set_for_info.complete = false;
+  int set_for_index = indexed_set_fors.add(set_for_info);
+  EventController::EventIdPair event_id_pair;
+  event_id_pair = EventController::event_controller.addPwmUsingDelayPeriodOnDuration(setChannelsOffForEventCallback,
+                                                                                     setChannelsOnForEventCallback,
+                                                                                     200,
+                                                                                     duration*2,
+                                                                                     duration,
+                                                                                     1,
+                                                                                     set_for_index,
+                                                                                     NULL,
+                                                                                     completeForEventCallback);
+  indexed_set_fors[set_for_index].event_id_pair =  event_id_pair;
+  modular_device.addToResponse("set_for_index",set_for_index);
+}
+
+void areAllSetForsCompleteCallback()
+{
+  bool complete = true;
+  for (int i=0; i<indexed_set_fors.max_size(); ++i)
+  {
+    if (indexed_set_fors.indexHasValue(i))
     {
-      modular_device.addToResponse(i);
+      complete = complete && indexed_set_fors[i].complete;
     }
   }
-  modular_device.stopResponseArray();
+  modular_device.addBoolToResponse("complete",complete);
+}
+
+void removeAllSetForsCallback()
+{
+  for (int i=0; i<indexed_set_fors.max_size(); ++i)
+  {
+    if (indexed_set_fors.indexHasValue(i))
+    {
+      if (!indexed_set_fors[i].complete)
+      {
+        EventController::event_controller.removeEventPair(indexed_set_fors[i].event_id_pair);
+      }
+      indexed_set_fors.remove(i);
+    }
+  }
 }
 
 uint32_t arrayToChannels(JsonArray channels_array)
@@ -379,14 +423,29 @@ void recallStateStandaloneCallback()
 }
 
 // EventController Callbacks
-void setChannelsOnEventCallback(int index)
+void setChannelsOnUntilEventCallback(int index)
 {
   controller.setChannelsOn(indexed_set_untils[index].channels);
 }
 
-void setChannelsOffEventCallback(int index)
+void setChannelsOffUntilEventCallback(int index)
 {
   controller.setChannelsOff(indexed_set_untils[index].channels);
+}
+
+void setChannelsOnForEventCallback(int index)
+{
+  controller.setChannelsOn(indexed_set_fors[index].channels);
+}
+
+void setChannelsOffForEventCallback(int index)
+{
+  controller.setChannelsOff(indexed_set_fors[index].channels);
+}
+
+void completeForEventCallback(int index)
+{
+  indexed_set_fors[index].complete = true;
 }
 
 void setChannelsOffWhenGreaterThanEventCallback(int index)
