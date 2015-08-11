@@ -1,4 +1,4 @@
-update=Fri 08 May 2015 12:57:17 PM EDT
+update=Mon 10 Aug 2015 04:51:42 PM EDT
 version=1
 last_client=kicad
 [cvpcb]
@@ -75,4 +75,4 @@ LibName27=atmel
 LibName28=contrib
 LibName29=valves
 LibName30=mixed_signal_controller
-LibName31=/home/polidorop/git/kicad-libraries/components
+LibName31=/home/polidorop/git/kicad/kicad-libraries/components
