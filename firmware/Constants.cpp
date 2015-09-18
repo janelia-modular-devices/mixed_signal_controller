@@ -23,10 +23,10 @@ const int enc_btn_pin = 19;
 const int enc_btn_int = 4;
 const int btn_pin = 21;
 const int btn_int = 2;
-const int led_pwr_pin = 17;
+const int lights_pin = 17;
 const int standalone_update_period = 300;
 
-const int ain_pins[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+const int ain_pins[] = {7,3,6,2,5,1,4,0,15,11,14,10,13,9,12,8};
 
 const int ain_min = 0;
 const int ain_max = 1023;
@@ -44,6 +44,7 @@ const int duration_max = 30000;
 
 const uint8_t filter_block_ain_count = 4;
 const uint8_t filter_update_period = 10;
+const boolean use_filters = false;
 
 const uint8_t ain_dsp_lbl_display_positions[] = {21,28,35,41,48,55,61,68,
                                                  21,28,35,41,48,55,61,68};
@@ -54,10 +55,10 @@ const uint8_t percent_display_width = 3;
 const uint8_t ain_dsp_var_display_positions[] = {23,30,37,43,50,57,63,70,
                                                  23,30,37,43,50,57,63,70};
 
-const int io_pins[] = {6,7,8,9,10,11,12,13,
-                       22,23,24,25,26,27,28,29,
-                       30,31,32,33,34,35,36,37,
-                       45,44,43,42,41,40,39,38};
+const int io_pins[] = {29,28,27,26,25,24,23,22,
+                       37,36,35,34,33,32,31,30,
+                       45,44,43,42,41,40,39,38,
+                       53,52,51,50,49,48,47,46};
 
 const uint32_t states_array_default[STATE_COUNT] = {0};
 

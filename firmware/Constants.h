@@ -33,7 +33,7 @@ extern const int enc_btn_pin;
 extern const int enc_btn_int;
 extern const int btn_pin;
 extern const int btn_int;
-extern const int led_pwr_pin;
+extern const int lights_pin;
 extern const int standalone_update_period;
 
 extern const int ain_pins[AIN_COUNT];
@@ -54,6 +54,7 @@ extern const int duration_max;
 
 extern const uint8_t filter_block_ain_count;
 extern const uint8_t filter_update_period;
+extern const boolean use_filters;
 
 extern const uint8_t ain_dsp_lbl_display_positions[AIN_COUNT];
 

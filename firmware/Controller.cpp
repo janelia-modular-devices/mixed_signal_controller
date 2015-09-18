@@ -14,7 +14,7 @@ Controller::Controller() :
                                                         constants::enc_btn_int,
                                                         constants::btn_pin,
                                                         constants::btn_int,
-                                                        constants::led_pwr_pin,
+                                                        constants::lights_pin,
                                                         constants::standalone_update_period))
 {
 }
@@ -287,7 +287,10 @@ void Controller::setup()
   // Enable Standalone Interface
   standalone_interface_.enable();
 
-  setupFilters();
+  if (constants::use_filters)
+  {
+    setupFilters();
+  }
 }
 
 void Controller::update()
@@ -307,7 +310,7 @@ void Controller::executeStandaloneCallback()
 
 bool Controller::getLedsPowered()
 {
-  return digitalRead(constants::led_pwr_pin) == HIGH;
+  return digitalRead(constants::lights_pin) == HIGH;
 }
 
 int Controller::getAnalogInput(const uint8_t ain)
@@ -582,12 +585,19 @@ void Controller::updateAnalogInputFilter(const uint8_t ain)
 
 int Controller::getAnalogInputFiltered(const uint8_t ain)
 {
-  if (ain >= constants::AIN_COUNT)
+  if (constants::use_filters)
   {
-    return 0;
+    if (ain >= constants::AIN_COUNT)
+    {
+      return 0;
+    }
+    int ain_value = filters_[ain].getFilteredValue();
+    return ain_value;
   }
-  int ain_value = filters_[ain].getFilteredValue();
-  return ain_value;
+  else
+  {
+    return getAnalogInput(ain);
+  }
 }
 
 void Controller::updateDisplayVariables()
