@@ -8,6 +8,7 @@
 #include "ConstantVariable.h"
 #include "SavedVariable.h"
 #include "BetterMap.h"
+#include "GenericSerial.h"
 #include "ModularDevice.h"
 #include "NewhavenDisplay.h"
 #include "Encoder.h"
