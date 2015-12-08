@@ -20,10 +20,13 @@ enum {INDEXED_SET_UNTILS_COUNT_MAX=1};
 enum {FILTER_SAMPLE_COUNT=5};
 enum {INDEXED_SET_FORS_COUNT_MAX=8};
 
-extern const int baudrate;
+extern const unsigned int baudrate;
 
-extern const int model_number;
-extern const int firmware_number;
+extern const unsigned int model_number;
+
+extern const unsigned char firmware_major;
+extern const unsigned char firmware_minor;
+extern const unsigned char firmware_patch;
 
 extern HardwareSerial& display_serial;
 

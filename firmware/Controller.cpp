@@ -33,7 +33,9 @@ void Controller::setup()
   // Device Info
   modular_device.setName(constants::device_name);
   modular_device.setModelNumber(constants::model_number);
-  modular_device.setFirmwareNumber(constants::firmware_number);
+  modular_device.setFirmwareVersion(constants::firmware_major,constants::firmware_minor,constants::firmware_patch);
+
+  // Add Server Streams
 
   // Saved Variables
   modular_device.createSavedVariable(constants::states_name,constants::states_array_default,constants::STATE_COUNT);
@@ -152,8 +154,11 @@ void Controller::setup()
   ModularDevice::Method& remove_all_set_fors_method = modular_device.createMethod(constants::remove_all_set_fors_method_name);
   remove_all_set_fors_method.attachCallback(callbacks::removeAllSetForsCallback);
 
- // Start Server
-  modular_device.startServer(constants::baudrate);
+  // Setup Streams
+  Serial.begin(constants::baudrate);
+
+  // Start Server
+  modular_device.startServer();
 
   // Standalone Interface
   standalone_interface_.setup(constants::frame_name_array,constants::FRAME_COUNT);

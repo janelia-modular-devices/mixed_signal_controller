@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 #ifndef CALLBACKS_H
 #define CALLBACKS_H
-#include "JsonParser.h"
+#include "ArduinoJson.h"
 #include "EventController.h"
 #include "IndexedContainer.h"
 #include "ModularDevice.h"
@@ -83,7 +83,7 @@ void areAllSetForsCompleteCallback();
 
 void removeAllSetForsCallback();
 
-uint32_t arrayToChannels(ArduinoJson::Parser::JsonArray channels_array);
+uint32_t arrayToChannels(ArduinoJson::JsonArray& channels_array);
 
 // Standalone Callbacks
 void executeStandaloneCallbackCallback();

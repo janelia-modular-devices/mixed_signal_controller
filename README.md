@@ -21,7 +21,11 @@ License:
     "name":"mixed_signal_controller",
     "model_number":1120,
     "serial_number":0,
-    "firmware_number":1
+    "firmware_version":{
+      "major":0,
+      "minor":1,
+      "patch":0
+    }
   },
   "methods":[
     "getMemoryFree",
@@ -54,7 +58,7 @@ License:
     "areAllSetForsComplete",
     "removeAllSetFors"
   ],
-  "status":success
+  "status":"success"
 }
 ```
 
@@ -67,185 +71,229 @@ License:
     "name":"mixed_signal_controller",
     "model_number":1120,
     "serial_number":0,
-    "firmware_number":1
+    "firmware_version":{
+      "major":0,
+      "minor":1,
+      "patch":0
+    }
   },
   "methods":[
     {
-      "getMemoryFree":{
-        "parameters":[]
-      }
+      "name":"getMemoryFree",
+      "parameters":[],
+      "result_type":"long"
     },
     {
-      "resetDefaults":{
-        "parameters":[]
-      }
+      "name":"resetDefaults",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setSerialNumber":{
-        "parameters":[
-          "serial_number"
-        ]
-      }
+      "name":"setSerialNumber",
+      "parameters":[
+        "serial_number"
+      ],
+      "result_type":null
     },
     {
-      "executeStandaloneCallback":{
-        "parameters":[]
-      }
+      "name":"executeStandaloneCallback",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "getLedsPowered":{
-        "parameters":[]
-      }
+      "name":"getLedsPowered",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "getAnalogInputs":{
-        "parameters":[]
-      }
+      "name":"getAnalogInputs",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "getAnalogInputsFiltered":{
-        "parameters":[]
-      }
+      "name":"getAnalogInputsFiltered",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setChannelsOn":{
-        "parameters":[
-          "channels"
-        ]
-      }
+      "name":"setChannelsOn",
+      "parameters":[
+        "channels"
+      ],
+      "result_type":null
     },
     {
-      "setChannelsOff":{
-        "parameters":[
-          "channels"
-        ]
-      }
+      "name":"setChannelsOff",
+      "parameters":[
+        "channels"
+      ],
+      "result_type":null
     },
     {
-      "toggleChannels":{
-        "parameters":[
-          "channels"
-        ]
-      }
+      "name":"toggleChannels",
+      "parameters":[
+        "channels"
+      ],
+      "result_type":null
     },
     {
-      "toggleAllChannels":{
-        "parameters":[]
-      }
+      "name":"toggleAllChannels",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setAllChannelsOn":{
-        "parameters":[]
-      }
+      "name":"setAllChannelsOn",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setAllChannelsOff":{
-        "parameters":[]
-      }
+      "name":"setAllChannelsOff",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setChannelsOnAllOthersOff":{
-        "parameters":[
-          "channels"
-        ]
-      }
+      "name":"setChannelsOnAllOthersOff",
+      "parameters":[
+        "channels"
+      ],
+      "result_type":null
     },
     {
-      "setChannelsOffAllOthersOn":{
-        "parameters":[
-          "channels"
-        ]
-      }
+      "name":"setChannelsOffAllOthersOn",
+      "parameters":[
+        "channels"
+      ],
+      "result_type":null
     },
     {
-      "getChannelsOn":{
-        "parameters":[]
-      }
+      "name":"getChannelsOn",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "getChannelsOff":{
-        "parameters":[]
-      }
+      "name":"getChannelsOff",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "getChannelCount":{
-        "parameters":[]
-      }
+      "name":"getChannelCount",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "saveState":{
-        "parameters":[
-          "state"
-        ]
-      }
+      "name":"saveState",
+      "parameters":[
+        "state"
+      ],
+      "result_type":null
     },
     {
-      "recallState":{
-        "parameters":[
-          "state"
-        ]
-      }
+      "name":"recallState",
+      "parameters":[
+        "state"
+      ],
+      "result_type":null
     },
     {
-      "getSavedStates":{
-        "parameters":[]
-      }
+      "name":"getSavedStates",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setChannelsOnUntil":{
-        "parameters":[
-          "channels",
-          "ain",
-          "ain_value"
-        ]
-      }
+      "name":"setChannelsOnUntil",
+      "parameters":[
+        "channels",
+        "ain",
+        "ain_value"
+      ],
+      "result_type":null
     },
     {
-      "setChannelsOffUntil":{
-        "parameters":[
-          "channels",
-          "ain",
-          "ain_value"
-        ]
-      }
+      "name":"setChannelsOffUntil",
+      "parameters":[
+        "channels",
+        "ain",
+        "ain_value"
+      ],
+      "result_type":null
     },
     {
-      "areAllSetUntilsComplete":{
-        "parameters":[]
-      }
+      "name":"areAllSetUntilsComplete",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "removeAllSetUntils":{
-        "parameters":[]
-      }
+      "name":"removeAllSetUntils",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "setChannelsOnFor":{
-        "parameters":[
-          "channels",
-          "duration"
-        ]
-      }
+      "name":"setChannelsOnFor",
+      "parameters":[
+        "channels",
+        "duration"
+      ],
+      "result_type":null
     },
     {
-      "setChannelsOffFor":{
-        "parameters":[
-          "channels",
-          "duration"
-        ]
-      }
+      "name":"setChannelsOffFor",
+      "parameters":[
+        "channels",
+        "duration"
+      ],
+      "result_type":null
     },
     {
-      "areAllSetForsComplete":{
-        "parameters":[]
-      }
+      "name":"areAllSetForsComplete",
+      "parameters":[],
+      "result_type":null
     },
     {
-      "removeAllSetFors":{
-        "parameters":[]
-      }
+      "name":"removeAllSetFors",
+      "parameters":[],
+      "result_type":null
     }
   ],
-  "status":success
+  "parameters":[
+    {
+      "name":"serial_number",
+      "type":"long",
+      "min":0,
+      "max":65535
+    },
+    {
+      "name":"ain",
+      "type":"long",
+      "min":0,
+      "max":15
+    },
+    {
+      "name":"channels",
+      "type":"array",
+      "array_element_type":"long",
+      "min":0,
+      "max":31
+    },
+    {
+      "name":"state",
+      "type":"long",
+      "min":0,
+      "max":15
+    },
+    {
+      "name":"duration",
+      "units":"ms",
+      "type":"long",
+      "min":1,
+      "max":30000
+    },
+    {
+      "name":"ain_value",
+      "type":"long",
+      "min":0,
+      "max":1023
+    }
+  ],
+  "status":"success"
 }
 ```
