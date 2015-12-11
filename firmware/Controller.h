@@ -7,8 +7,8 @@
 
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#include "ModularDevice.h"
-#include "StandaloneInterface.h"
+#include "ModularServer.h"
+#include "ModularStandalone.h"
 #include "FilterSmooth.h"
 #include "Constants.h"
 #include "Callbacks.h"
@@ -51,7 +51,7 @@ public:
   void updateAnalogInputFilter(const uint8_t ain);
   int getAnalogInputFiltered(const uint8_t ain);
 private:
-  Standalone::StandaloneInterface standalone_interface_;
+  Standalone::ModularStandalone standalone_interface_;
   Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
   Standalone::InteractiveVariable *channel_int_var_ptr_;
   Standalone::InteractiveVariable *state_int_var_ptr_;

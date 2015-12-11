@@ -10,7 +10,7 @@
 #include "ArduinoJson.h"
 #include "EventController.h"
 #include "IndexedContainer.h"
-#include "ModularDevice.h"
+#include "ModularServer.h"
 #include "Constants.h"
 #include "Controller.h"
 

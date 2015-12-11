@@ -7,15 +7,15 @@
 #include "Controller.h"
 
 Controller::Controller() :
-  standalone_interface_(Standalone::StandaloneInterface(constants::display_serial,
-                                                        constants::enc_a_pin,
-                                                        constants::enc_b_pin,
-                                                        constants::enc_btn_pin,
-                                                        constants::enc_btn_int,
-                                                        constants::btn_pin,
-                                                        constants::btn_int,
-                                                        constants::lights_pin,
-                                                        constants::standalone_update_period))
+  standalone_interface_(Standalone::ModularStandalone(constants::display_serial,
+                                                      constants::enc_a_pin,
+                                                      constants::enc_b_pin,
+                                                      constants::enc_btn_pin,
+                                                      constants::enc_btn_int,
+                                                      constants::btn_pin,
+                                                      constants::btn_int,
+                                                      constants::lights_pin,
+                                                      constants::standalone_update_period))
 {
 }
 
@@ -31,134 +31,134 @@ void Controller::setup()
   setAllChannelsOff();
 
   // Device Info
-  modular_device.setName(constants::device_name);
-  modular_device.setModelNumber(constants::model_number);
-  modular_device.setFirmwareVersion(constants::firmware_major,constants::firmware_minor,constants::firmware_patch);
+  modular_server.setName(constants::device_name);
+  modular_server.setModelNumber(constants::model_number);
+  modular_server.setFirmwareVersion(constants::firmware_major,constants::firmware_minor,constants::firmware_patch);
 
   // Add Server Streams
 
   // Saved Variables
-  modular_device.createSavedVariable(constants::states_name,constants::states_array_default,constants::STATE_COUNT);
+  modular_server.createSavedVariable(constants::states_name,constants::states_array_default,constants::STATE_COUNT);
 
   // Parameters
-  ModularDevice::Parameter& ain_parameter = modular_device.createParameter(constants::ain_parameter_name);
+  ModularDevice::Parameter& ain_parameter = modular_server.createParameter(constants::ain_parameter_name);
   ain_parameter.setRange(0,constants::AIN_COUNT-1);
 
-  ModularDevice::Parameter& channels_parameter = modular_device.createParameter(constants::channels_parameter_name);
+  ModularDevice::Parameter& channels_parameter = modular_server.createParameter(constants::channels_parameter_name);
   channels_parameter.setTypeArray();
   channels_parameter.setRange(0,constants::CHANNEL_COUNT-1);
 
-  ModularDevice::Parameter& state_parameter = modular_device.createParameter(constants::state_parameter_name);
+  ModularDevice::Parameter& state_parameter = modular_server.createParameter(constants::state_parameter_name);
   state_parameter.setRange(0,constants::STATE_COUNT-1);
 
-  ModularDevice::Parameter& duration_parameter = modular_device.createParameter(constants::duration_parameter_name);
+  ModularDevice::Parameter& duration_parameter = modular_server.createParameter(constants::duration_parameter_name);
   duration_parameter.setRange(constants::duration_min,constants::duration_max);
   duration_parameter.setUnits(constants::duration_units);
 
-  ModularDevice::Parameter& ain_value_parameter = modular_device.createParameter(constants::ain_value_parameter_name);
+  ModularDevice::Parameter& ain_value_parameter = modular_server.createParameter(constants::ain_value_parameter_name);
   ain_value_parameter.setRange(constants::ain_value_min,constants::ain_value_max);
 
   // Methods
-  ModularDevice::Method& execute_standalone_callback_method = modular_device.createMethod(constants::execute_standalone_callback_method_name);
+  ModularDevice::Method& execute_standalone_callback_method = modular_server.createMethod(constants::execute_standalone_callback_method_name);
   execute_standalone_callback_method.attachCallback(callbacks::executeStandaloneCallbackCallback);
 
-  ModularDevice::Method& get_leds_powered_method = modular_device.createMethod(constants::get_leds_powered_method_name);
+  ModularDevice::Method& get_leds_powered_method = modular_server.createMethod(constants::get_leds_powered_method_name);
   get_leds_powered_method.attachCallback(callbacks::getLedsPoweredCallback);
 
-  ModularDevice::Method& get_analog_inputs_method = modular_device.createMethod(constants::get_analog_inputs_method_name);
+  ModularDevice::Method& get_analog_inputs_method = modular_server.createMethod(constants::get_analog_inputs_method_name);
   get_analog_inputs_method.attachCallback(callbacks::getAnalogInputsCallback);
 
-  ModularDevice::Method& get_analog_inputs_filtered_method = modular_device.createMethod(constants::get_analog_inputs_filtered_method_name);
+  ModularDevice::Method& get_analog_inputs_filtered_method = modular_server.createMethod(constants::get_analog_inputs_filtered_method_name);
   get_analog_inputs_filtered_method.attachCallback(callbacks::getAnalogInputsFilteredCallback);
 
-  ModularDevice::Method& set_channels_on_method = modular_device.createMethod(constants::set_channels_on_method_name);
+  ModularDevice::Method& set_channels_on_method = modular_server.createMethod(constants::set_channels_on_method_name);
   set_channels_on_method.attachCallback(callbacks::setChannelsOnCallback);
   set_channels_on_method.addParameter(channels_parameter);
 
-  ModularDevice::Method& set_channels_off_method = modular_device.createMethod(constants::set_channels_off_method_name);
+  ModularDevice::Method& set_channels_off_method = modular_server.createMethod(constants::set_channels_off_method_name);
   set_channels_off_method.attachCallback(callbacks::setChannelsOffCallback);
   set_channels_off_method.addParameter(channels_parameter);
 
-  ModularDevice::Method& toggle_channels_method = modular_device.createMethod(constants::toggle_channels_method_name);
+  ModularDevice::Method& toggle_channels_method = modular_server.createMethod(constants::toggle_channels_method_name);
   toggle_channels_method.attachCallback(callbacks::toggleChannelsCallback);
   toggle_channels_method.addParameter(channels_parameter);
 
-  ModularDevice::Method& toggle_all_channels_method = modular_device.createMethod(constants::toggle_all_channels_method_name);
+  ModularDevice::Method& toggle_all_channels_method = modular_server.createMethod(constants::toggle_all_channels_method_name);
   toggle_all_channels_method.attachCallback(callbacks::toggleAllChannelsCallback);
 
-  ModularDevice::Method& set_all_channels_on_method = modular_device.createMethod(constants::set_all_channels_on_method_name);
+  ModularDevice::Method& set_all_channels_on_method = modular_server.createMethod(constants::set_all_channels_on_method_name);
   set_all_channels_on_method.attachCallback(callbacks::setAllChannelsOnCallback);
 
-  ModularDevice::Method& set_all_channels_off_method = modular_device.createMethod(constants::set_all_channels_off_method_name);
+  ModularDevice::Method& set_all_channels_off_method = modular_server.createMethod(constants::set_all_channels_off_method_name);
   set_all_channels_off_method.attachCallback(callbacks::setAllChannelsOffCallback);
 
-  ModularDevice::Method& set_channels_on_all_others_off_method = modular_device.createMethod(constants::set_channels_on_all_others_off_method_name);
+  ModularDevice::Method& set_channels_on_all_others_off_method = modular_server.createMethod(constants::set_channels_on_all_others_off_method_name);
   set_channels_on_all_others_off_method.attachCallback(callbacks::setChannelsOnAllOthersOffCallback);
   set_channels_on_all_others_off_method.addParameter(channels_parameter);
 
-  ModularDevice::Method& set_channels_off_all_others_on_method = modular_device.createMethod(constants::set_channels_off_all_others_on_method_name);
+  ModularDevice::Method& set_channels_off_all_others_on_method = modular_server.createMethod(constants::set_channels_off_all_others_on_method_name);
   set_channels_off_all_others_on_method.attachCallback(callbacks::setChannelsOffAllOthersOnCallback);
   set_channels_off_all_others_on_method.addParameter(channels_parameter);
 
-  ModularDevice::Method& get_channels_on_method = modular_device.createMethod(constants::get_channels_on_method_name);
+  ModularDevice::Method& get_channels_on_method = modular_server.createMethod(constants::get_channels_on_method_name);
   get_channels_on_method.attachCallback(callbacks::getChannelsOnCallback);
 
-  ModularDevice::Method& get_channels_off_method = modular_device.createMethod(constants::get_channels_off_method_name);
+  ModularDevice::Method& get_channels_off_method = modular_server.createMethod(constants::get_channels_off_method_name);
   get_channels_off_method.attachCallback(callbacks::getChannelsOffCallback);
 
-  ModularDevice::Method& get_channel_count_method = modular_device.createMethod(constants::get_channel_count_method_name);
+  ModularDevice::Method& get_channel_count_method = modular_server.createMethod(constants::get_channel_count_method_name);
   get_channel_count_method.attachCallback(callbacks::getChannelCountCallback);
 
-  ModularDevice::Method& save_state_method = modular_device.createMethod(constants::save_state_method_name);
+  ModularDevice::Method& save_state_method = modular_server.createMethod(constants::save_state_method_name);
   save_state_method.attachCallback(callbacks::saveStateCallback);
   save_state_method.addParameter(state_parameter);
 
-  ModularDevice::Method& recall_state_method = modular_device.createMethod(constants::recall_state_method_name);
+  ModularDevice::Method& recall_state_method = modular_server.createMethod(constants::recall_state_method_name);
   recall_state_method.attachCallback(callbacks::recallStateCallback);
   recall_state_method.addParameter(state_parameter);
 
-  ModularDevice::Method& get_saved_states_method = modular_device.createMethod(constants::get_saved_states_method_name);
+  ModularDevice::Method& get_saved_states_method = modular_server.createMethod(constants::get_saved_states_method_name);
   get_saved_states_method.attachCallback(callbacks::getSavedStatesCallback);
 
-  ModularDevice::Method& set_channels_on_until_method = modular_device.createMethod(constants::set_channels_on_until_method_name);
+  ModularDevice::Method& set_channels_on_until_method = modular_server.createMethod(constants::set_channels_on_until_method_name);
   set_channels_on_until_method.attachCallback(callbacks::setChannelsOnUntilCallback);
   set_channels_on_until_method.addParameter(channels_parameter);
   set_channels_on_until_method.addParameter(ain_parameter);
   set_channels_on_until_method.addParameter(ain_value_parameter);
 
-  ModularDevice::Method& set_channels_off_until_method = modular_device.createMethod(constants::set_channels_off_until_method_name);
+  ModularDevice::Method& set_channels_off_until_method = modular_server.createMethod(constants::set_channels_off_until_method_name);
   set_channels_off_until_method.attachCallback(callbacks::setChannelsOffUntilCallback);
   set_channels_off_until_method.addParameter(channels_parameter);
   set_channels_off_until_method.addParameter(ain_parameter);
   set_channels_off_until_method.addParameter(ain_value_parameter);
 
-  ModularDevice::Method& are_all_set_untils_complete_method = modular_device.createMethod(constants::are_all_set_untils_complete_method_name);
+  ModularDevice::Method& are_all_set_untils_complete_method = modular_server.createMethod(constants::are_all_set_untils_complete_method_name);
   are_all_set_untils_complete_method.attachCallback(callbacks::areAllSetUntilsCompleteCallback);
 
-  ModularDevice::Method& remove_all_set_untils_method = modular_device.createMethod(constants::remove_all_set_untils_method_name);
+  ModularDevice::Method& remove_all_set_untils_method = modular_server.createMethod(constants::remove_all_set_untils_method_name);
   remove_all_set_untils_method.attachCallback(callbacks::removeAllSetUntilsCallback);
 
-  ModularDevice::Method& set_channels_on_for_method = modular_device.createMethod(constants::set_channels_on_for_method_name);
+  ModularDevice::Method& set_channels_on_for_method = modular_server.createMethod(constants::set_channels_on_for_method_name);
   set_channels_on_for_method.attachCallback(callbacks::setChannelsOnForCallback);
   set_channels_on_for_method.addParameter(channels_parameter);
   set_channels_on_for_method.addParameter(duration_parameter);
 
-  ModularDevice::Method& set_channels_off_for_method = modular_device.createMethod(constants::set_channels_off_for_method_name);
+  ModularDevice::Method& set_channels_off_for_method = modular_server.createMethod(constants::set_channels_off_for_method_name);
   set_channels_off_for_method.attachCallback(callbacks::setChannelsOffForCallback);
   set_channels_off_for_method.addParameter(channels_parameter);
   set_channels_off_for_method.addParameter(duration_parameter);
 
-  ModularDevice::Method& are_all_set_fors_complete_method = modular_device.createMethod(constants::are_all_set_fors_complete_method_name);
+  ModularDevice::Method& are_all_set_fors_complete_method = modular_server.createMethod(constants::are_all_set_fors_complete_method_name);
   are_all_set_fors_complete_method.attachCallback(callbacks::areAllSetForsCompleteCallback);
 
-  ModularDevice::Method& remove_all_set_fors_method = modular_device.createMethod(constants::remove_all_set_fors_method_name);
+  ModularDevice::Method& remove_all_set_fors_method = modular_server.createMethod(constants::remove_all_set_fors_method_name);
   remove_all_set_fors_method.attachCallback(callbacks::removeAllSetForsCallback);
 
   // Setup Streams
   Serial.begin(constants::baudrate);
 
-  // Start Server
-  modular_device.startServer();
+  // Start Modular Device Server
+  modular_server.startServer();
 
   // Standalone Interface
   standalone_interface_.setup(constants::frame_name_array,constants::FRAME_COUNT);
@@ -300,7 +300,7 @@ void Controller::setup()
 
 void Controller::update()
 {
-  modular_device.handleServerRequests();
+  modular_server.handleServerRequests();
   bool updated = standalone_interface_.update();
   if (updated)
   {
@@ -538,7 +538,7 @@ void Controller::saveState(const int state)
   }
   uint32_t channels = getChannelsOn();
   states_array_[state] = channels;
-  modular_device.setSavedVariableValue(constants::states_name,states_array_,state);
+  modular_server.setSavedVariableValue(constants::states_name,states_array_,state);
 }
 
 void Controller::recallState(const int state)
@@ -547,7 +547,7 @@ void Controller::recallState(const int state)
   {
     return;
   }
-  modular_device.getSavedVariableValue(constants::states_name,states_array_,state);
+  modular_server.getSavedVariableValue(constants::states_name,states_array_,state);
   uint32_t channels = states_array_[state];
   setChannels(channels);
 }
@@ -556,7 +556,7 @@ void Controller::getStatesArray(uint32_t states_array[])
 {
   for (int state=0; state<constants::STATE_COUNT; state++)
   {
-    modular_device.getSavedVariableValue(constants::states_name,states_array,state);
+    modular_server.getSavedVariableValue(constants::states_name,states_array,state);
   }
 }
 

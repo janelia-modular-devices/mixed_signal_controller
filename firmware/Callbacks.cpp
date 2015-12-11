@@ -12,7 +12,7 @@ namespace callbacks
 {
 // Callbacks must be non-blocking (avoid 'delay')
 //
-// modular_device.getParameterValue must be cast to either:
+// modular_server.getParameterValue must be cast to either:
 // const char*
 // long
 // double
@@ -22,8 +22,8 @@ namespace callbacks
 //
 // For more info read about ArduinoJson parsing https://github.com/janelia-arduino/ArduinoJson
 //
-// modular_device.getSavedVariableValue type must match the saved variable default type
-// modular_device.setSavedVariableValue type must match the saved variable default type
+// modular_server.getSavedVariableValue type must match the saved variable default type
+// modular_server.setSavedVariableValue type must match the saved variable default type
 
 
 IndexedContainer<SetUntilInfo,constants::INDEXED_SET_UNTILS_COUNT_MAX> indexed_set_untils;
@@ -35,50 +35,50 @@ CONSTANT_STRING(indexed_set_fors_full_error,"No more available space for a new s
 void getLedsPoweredCallback()
 {
   bool leds_powered = controller.getLedsPowered();
-  modular_device.writeToResponse("leds_powered",leds_powered);
+  modular_server.writeResultToResponse(leds_powered);
 }
 
 void getAnalogInputsCallback()
 {
-  modular_device.writeKeyToResponse("ain_values");
-  modular_device.beginResponseArray();
+  modular_server.writeResultKeyToResponse();
+  modular_server.beginResponseArray();
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
     int ain_value = controller.getAnalogInput(ain);
-    modular_device.writeToResponse(ain_value);
+    modular_server.writeToResponse(ain_value);
   }
-  modular_device.endResponseArray();
+  modular_server.endResponseArray();
 }
 
 void getAnalogInputsFilteredCallback()
 {
-  modular_device.writeKeyToResponse("ain_values");
-  modular_device.beginResponseArray();
+  modular_server.writeResultKeyToResponse();
+  modular_server.beginResponseArray();
   for (int ain=0; ain<constants::AIN_COUNT; ain++)
   {
     int ain_value = controller.getAnalogInputFiltered(ain);
-    modular_device.writeToResponse(ain_value);
+    modular_server.writeToResponse(ain_value);
   }
-  modular_device.endResponseArray();
+  modular_server.endResponseArray();
 }
 
 void setChannelsOnCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   controller.setChannelsOn(channels);
 }
 
 void setChannelsOffCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   controller.setChannelsOff(channels);
 }
 
 void toggleChannelsCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   controller.toggleChannels(channels);
 }
@@ -104,7 +104,7 @@ void setAllChannelsOffCallback()
 
 void setChannelsOnAllOthersOffCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   removeAllSetUntilsCallback();
   removeAllSetForsCallback();
@@ -113,7 +113,7 @@ void setChannelsOnAllOthersOffCallback()
 
 void setChannelsOffAllOthersOnCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   removeAllSetUntilsCallback();
   removeAllSetForsCallback();
@@ -124,16 +124,16 @@ void getChannelsOnCallback()
 {
   uint32_t channels_on = controller.getChannelsOn();
   uint32_t bit = 1;
-  modular_device.writeKeyToResponse("channels_on");
-  modular_device.beginResponseArray();
+  modular_server.writeResultKeyToResponse();
+  modular_server.beginResponseArray();
   for (int channel=0; channel<constants::CHANNEL_COUNT; channel++)
   {
     if (channels_on & (bit << channel))
     {
-      modular_device.writeToResponse(channel);
+      modular_server.writeToResponse(channel);
     }
   }
-  modular_device.endResponseArray();
+  modular_server.endResponseArray();
 }
 
 void getChannelsOffCallback()
@@ -141,33 +141,33 @@ void getChannelsOffCallback()
   uint32_t channels_on = controller.getChannelsOn();
   uint32_t channels_off = ~channels_on;
   uint32_t bit = 1;
-  modular_device.writeKeyToResponse("channels_off");
-  modular_device.beginResponseArray();
+  modular_server.writeResultKeyToResponse();
+  modular_server.beginResponseArray();
   for (int channel=0; channel<constants::CHANNEL_COUNT; channel++)
   {
     if (channels_off & (bit << channel))
     {
-      modular_device.writeToResponse(channel);
+      modular_server.writeToResponse(channel);
     }
   }
-  modular_device.endResponseArray();
+  modular_server.endResponseArray();
 }
 
 void getChannelCountCallback()
 {
   int channel_count = controller.getChannelCount();
-  modular_device.writeToResponse("channel_count",channel_count);
+  modular_server.writeResultToResponse(channel_count);
 }
 
 void saveStateCallback()
 {
-  long state = modular_device.getParameterValue(constants::state_parameter_name);
+  long state = modular_server.getParameterValue(constants::state_parameter_name);
   controller.saveState(state);
 }
 
 void recallStateCallback()
 {
-  long state = modular_device.getParameterValue(constants::state_parameter_name);
+  long state = modular_server.getParameterValue(constants::state_parameter_name);
   controller.recallState(state);
 }
 
@@ -176,38 +176,38 @@ void getSavedStatesCallback()
   uint32_t states_array[constants::STATE_COUNT];
   controller.getStatesArray(states_array);
   uint32_t bit = 1;
-  modular_device.writeKeyToResponse("saved_states");
-  modular_device.beginResponseArray();
+  modular_server.writeResultKeyToResponse();
+  modular_server.beginResponseArray();
   for (int state=0; state<constants::STATE_COUNT; state++)
   {
-    modular_device.beginResponseArray();
+    modular_server.beginResponseArray();
     for (int channel=0; channel<=(constants::CHANNEL_COUNT-1); channel++)
     {
       if ((bit<<channel) & states_array[state])
       {
-        modular_device.writeToResponse("on");
+        modular_server.writeToResponse("on");
       }
       else
       {
-        modular_device.writeToResponse("off");
+        modular_server.writeToResponse("off");
       }
     }
-    modular_device.endResponseArray();
+    modular_server.endResponseArray();
   }
-  modular_device.endResponseArray();
+  modular_server.endResponseArray();
 }
 
 void setChannelsOnUntilCallback()
 {
   if (indexed_set_untils.full())
   {
-    modular_device.sendErrorResponse(indexed_set_untils_full_error);
+    modular_server.sendErrorResponse(indexed_set_untils_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
-  long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  long ain_value_goal = modular_device.getParameterValue(constants::ain_value_parameter_name);
+  long ain = modular_server.getParameterValue(constants::ain_parameter_name);
+  long ain_value_goal = modular_server.getParameterValue(constants::ain_value_parameter_name);
   SetUntilInfo set_until_info;
   set_until_info.channels = channels;
   set_until_info.ain = ain;
@@ -231,20 +231,20 @@ void setChannelsOnUntilCallback()
                                                                            setChannelsOnUntilEventCallback);
   }
   indexed_set_untils[set_until_index].event_id =  event_id;
-  modular_device.writeToResponse("set_until_index",set_until_index);
+  modular_server.writeResultToResponse(set_until_index);
 }
 
 void setChannelsOffUntilCallback()
 {
   if (indexed_set_untils.full())
   {
-    modular_device.sendErrorResponse(indexed_set_untils_full_error);
+    modular_server.sendErrorResponse(indexed_set_untils_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
-  long ain = modular_device.getParameterValue(constants::ain_parameter_name);
-  long ain_value_goal = modular_device.getParameterValue(constants::ain_value_parameter_name);
+  long ain = modular_server.getParameterValue(constants::ain_parameter_name);
+  long ain_value_goal = modular_server.getParameterValue(constants::ain_value_parameter_name);
   SetUntilInfo set_until_info;
   set_until_info.channels = channels;
   set_until_info.ain = ain;
@@ -268,7 +268,7 @@ void setChannelsOffUntilCallback()
                                                                            setChannelsOffUntilEventCallback);
   }
   indexed_set_untils[set_until_index].event_id =  event_id;
-  modular_device.writeToResponse("set_until_index",set_until_index);
+  modular_server.writeResultToResponse(set_until_index);
 }
 
 void areAllSetUntilsCompleteCallback()
@@ -281,7 +281,7 @@ void areAllSetUntilsCompleteCallback()
       complete = complete && indexed_set_untils[i].complete;
     }
   }
-  modular_device.writeToResponse("complete",complete);
+  modular_server.writeResultToResponse(complete);
 }
 
 void removeAllSetUntilsCallback()
@@ -303,12 +303,12 @@ void setChannelsOnForCallback()
 {
   if (indexed_set_fors.full())
   {
-    modular_device.sendErrorResponse(indexed_set_fors_full_error);
+    modular_server.sendErrorResponse(indexed_set_fors_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
-  long duration = modular_device.getParameterValue(constants::duration_parameter_name);
+  long duration = modular_server.getParameterValue(constants::duration_parameter_name);
   SetForInfo set_for_info;
   set_for_info.channels = channels;
   set_for_info.complete = false;
@@ -324,19 +324,19 @@ void setChannelsOnForCallback()
                                                                                      NULL,
                                                                                      completeForEventCallback);
   indexed_set_fors[set_for_index].event_id_pair =  event_id_pair;
-  modular_device.writeToResponse("set_for_index",set_for_index);
+  modular_server.writeResultToResponse(set_for_index);
 }
 
 void setChannelsOffForCallback()
 {
   if (indexed_set_fors.full())
   {
-    modular_device.sendErrorResponse(indexed_set_fors_full_error);
+    modular_server.sendErrorResponse(indexed_set_fors_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_device.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
-  long duration = modular_device.getParameterValue(constants::duration_parameter_name);
+  long duration = modular_server.getParameterValue(constants::duration_parameter_name);
   SetForInfo set_for_info;
   set_for_info.channels = channels;
   set_for_info.complete = false;
@@ -352,7 +352,7 @@ void setChannelsOffForCallback()
                                                                                      NULL,
                                                                                      completeForEventCallback);
   indexed_set_fors[set_for_index].event_id_pair =  event_id_pair;
-  modular_device.writeToResponse("set_for_index",set_for_index);
+  modular_server.writeResultToResponse(set_for_index);
 }
 
 void areAllSetForsCompleteCallback()
@@ -365,7 +365,7 @@ void areAllSetForsCompleteCallback()
       complete = complete && indexed_set_fors[i].complete;
     }
   }
-  modular_device.writeToResponse("complete",complete);
+  modular_server.writeResultToResponse(complete);
 }
 
 void removeAllSetForsCallback()
