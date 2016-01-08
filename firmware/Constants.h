@@ -11,7 +11,16 @@
 
 namespace constants
 {
+//MAX values must be >= 1, < RAM limit, <= created
+enum{METHOD_COUNT_MAX=26};
+enum{PARAMETER_COUNT_MAX=5};
+enum{SAVED_VARIABLE_COUNT_MAX=1};
+
+enum{DISPLAY_LABEL_COUNT_MAX=22};
+enum{DISPLAY_VARIABLE_COUNT_MAX=20};
+enum{INTERACTIVE_VARIABLE_COUNT_MAX=2};
 enum {FRAME_COUNT=7};
+
 enum {AIN_COUNT=16};
 enum {CHANNEL_COUNT=32};
 enum {STATE_COUNT=16};

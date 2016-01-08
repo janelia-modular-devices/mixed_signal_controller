@@ -25,6 +25,7 @@ namespace callbacks
 // modular_server.getSavedVariableValue type must match the saved variable default type
 // modular_server.setSavedVariableValue type must match the saved variable default type
 
+ModularDevice::ModularServer& modular_server = controller.getModularServer();
 
 IndexedContainer<SetUntilInfo,constants::INDEXED_SET_UNTILS_COUNT_MAX> indexed_set_untils;
 CONSTANT_STRING(indexed_set_untils_full_error,"No more available space for a new set_until, remove some to make more room.");
