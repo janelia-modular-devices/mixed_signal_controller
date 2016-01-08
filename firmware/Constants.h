@@ -12,9 +12,9 @@
 namespace constants
 {
 //MAX values must be >= 1, < RAM limit, <= created
-enum{METHOD_COUNT_MAX=26};
-enum{PARAMETER_COUNT_MAX=5};
 enum{SAVED_VARIABLE_COUNT_MAX=1};
+enum{PARAMETER_COUNT_MAX=5};
+enum{METHOD_COUNT_MAX=26};
 
 enum{DISPLAY_LABEL_COUNT_MAX=22};
 enum{DISPLAY_VARIABLE_COUNT_MAX=20};

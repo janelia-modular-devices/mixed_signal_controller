@@ -54,9 +54,9 @@ public:
   int getAnalogInputFiltered(const uint8_t ain);
 private:
   ModularDevice::ModularServer modular_server_;
-  ModularDevice::Method methods_[constants::METHOD_COUNT_MAX];
-  ModularDevice::Parameter parameters_[constants::PARAMETER_COUNT_MAX];
   SavedVariable saved_variables_[constants::SAVED_VARIABLE_COUNT_MAX];
+  ModularDevice::Parameter parameters_[constants::PARAMETER_COUNT_MAX];
+  ModularDevice::Method methods_[constants::METHOD_COUNT_MAX];
 
   Standalone::StandaloneInterface standalone_interface_;
   Standalone::DisplayLabel display_labels_[constants::DISPLAY_LABEL_COUNT_MAX];
