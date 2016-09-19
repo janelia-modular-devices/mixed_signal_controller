@@ -22,7 +22,7 @@ public:
   Controller();
   void setup();
   void update();
-  ModularDevice::ModularServer& getModularServer();
+  ModularDevice::ModularServer & getModularServer();
 
   void executeStandaloneCallback();
   bool getLedsPowered();
@@ -63,11 +63,11 @@ private:
   Standalone::DisplayVariable display_variables_[constants::DISPLAY_VARIABLE_COUNT_MAX];
   Standalone::InteractiveVariable interactive_variables_[constants::INTERACTIVE_VARIABLE_COUNT_MAX];
 
-  Standalone::DisplayVariable* ain_dsp_var_ptr_array_[constants::AIN_COUNT];
-  Standalone::InteractiveVariable *channel_int_var_ptr_;
-  Standalone::InteractiveVariable *state_int_var_ptr_;
-  Standalone::DisplayLabel* channels_dsp_lbl_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
-  Standalone::DisplayVariable* channels_dsp_var_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
+  Standalone::DisplayVariable * ain_dsp_var_ptr_array_[constants::AIN_COUNT];
+  Standalone::InteractiveVariable * channel_int_var_ptr_;
+  Standalone::InteractiveVariable * state_int_var_ptr_;
+  Standalone::DisplayLabel * channels_dsp_lbl_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
+  Standalone::DisplayVariable * channels_dsp_var_ptr_array_[constants::CHANNELS_DISPLAY_COUNT];
   uint32_t channels_;
   uint32_t states_array_[constants::STATE_COUNT];
   Filter filters_[constants::AIN_COUNT];

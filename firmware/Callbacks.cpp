@@ -13,19 +13,19 @@ namespace callbacks
 // Callbacks must be non-blocking (avoid 'delay')
 //
 // modular_server.getParameterValue must be cast to either:
-// const char*
+// const char *
 // long
 // double
 // bool
-// ArduinoJson::JsonArray&&
-// ArduinoJson::JsonObject&
+// ArduinoJson::JsonArray &
+// ArduinoJson::JsonObject &
 //
 // For more info read about ArduinoJson parsing https://github.com/janelia-arduino/ArduinoJson
 //
 // modular_server.getSavedVariableValue type must match the saved variable default type
 // modular_server.setSavedVariableValue type must match the saved variable default type
 
-ModularDevice::ModularServer& modular_server = controller.getModularServer();
+ModularDevice::ModularServer & modular_server = controller.getModularServer();
 
 IndexedContainer<SetUntilInfo,constants::INDEXED_SET_UNTILS_COUNT_MAX> indexed_set_untils;
 CONSTANT_STRING(indexed_set_untils_full_error,"No more available space for a new set_until, remove some to make more room.");
@@ -65,21 +65,21 @@ void getAnalogInputsFilteredCallback()
 
 void setChannelsOnCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   controller.setChannelsOn(channels);
 }
 
 void setChannelsOffCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   controller.setChannelsOff(channels);
 }
 
 void toggleChannelsCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   controller.toggleChannels(channels);
 }
@@ -105,7 +105,7 @@ void setAllChannelsOffCallback()
 
 void setChannelsOnAllOthersOffCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   removeAllSetUntilsCallback();
   removeAllSetForsCallback();
@@ -114,7 +114,7 @@ void setChannelsOnAllOthersOffCallback()
 
 void setChannelsOffAllOthersOnCallback()
 {
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   removeAllSetUntilsCallback();
   removeAllSetForsCallback();
@@ -205,7 +205,7 @@ void setChannelsOnUntilCallback()
     modular_server.sendErrorResponse(indexed_set_untils_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long ain = modular_server.getParameterValue(constants::ain_parameter_name);
   long ain_value_goal = modular_server.getParameterValue(constants::ain_value_parameter_name);
@@ -242,7 +242,7 @@ void setChannelsOffUntilCallback()
     modular_server.sendErrorResponse(indexed_set_untils_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long ain = modular_server.getParameterValue(constants::ain_parameter_name);
   long ain_value_goal = modular_server.getParameterValue(constants::ain_value_parameter_name);
@@ -307,7 +307,7 @@ void setChannelsOnForCallback()
     modular_server.sendErrorResponse(indexed_set_fors_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long duration = modular_server.getParameterValue(constants::duration_parameter_name);
   SetForInfo set_for_info;
@@ -335,7 +335,7 @@ void setChannelsOffForCallback()
     modular_server.sendErrorResponse(indexed_set_fors_full_error);
     return;
   }
-  ArduinoJson::JsonArray& channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
+  ArduinoJson::JsonArray & channels_array = modular_server.getParameterValue(constants::channels_parameter_name);
   uint32_t channels = arrayToChannels(channels_array);
   long duration = modular_server.getParameterValue(constants::duration_parameter_name);
   SetForInfo set_for_info;
@@ -384,7 +384,7 @@ void removeAllSetForsCallback()
   }
 }
 
-uint32_t arrayToChannels(ArduinoJson::JsonArray& channels_array)
+uint32_t arrayToChannels(ArduinoJson::JsonArray & channels_array)
 {
   uint32_t channels = 0;
   uint32_t bit = 1;
@@ -450,7 +450,7 @@ void completeForEventCallback(int index)
 
 void setChannelsOffWhenGreaterThanEventCallback(int index)
 {
-  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  SetUntilInfo & set_until_info = indexed_set_untils[index];
   int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current >= set_until_info.ain_value_goal)
   {
@@ -462,7 +462,7 @@ void setChannelsOffWhenGreaterThanEventCallback(int index)
 
 void setChannelsOffWhenLessThanEventCallback(int index)
 {
-  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  SetUntilInfo & set_until_info = indexed_set_untils[index];
   int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current <= set_until_info.ain_value_goal)
   {
@@ -474,7 +474,7 @@ void setChannelsOffWhenLessThanEventCallback(int index)
 
 void setChannelsOnWhenGreaterThanEventCallback(int index)
 {
-  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  SetUntilInfo & set_until_info = indexed_set_untils[index];
   int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current >= set_until_info.ain_value_goal)
   {
@@ -486,7 +486,7 @@ void setChannelsOnWhenGreaterThanEventCallback(int index)
 
 void setChannelsOnWhenLessThanEventCallback(int index)
 {
-  SetUntilInfo& set_until_info = indexed_set_untils[index];
+  SetUntilInfo & set_until_info = indexed_set_untils[index];
   int ain_value_current = controller.getAnalogInputFiltered(set_until_info.ain);
   if (ain_value_current <= set_until_info.ain_value_goal)
   {

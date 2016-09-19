@@ -19,7 +19,7 @@ const unsigned char firmware_major = 0;
 const unsigned char firmware_minor = 1;
 const unsigned char firmware_patch = 0;
 
-HardwareSerial& display_serial = Serial3;
+HardwareSerial & display_serial = Serial3;
 
 const int enc_a_pin = 18;
 const int enc_b_pin = 2;

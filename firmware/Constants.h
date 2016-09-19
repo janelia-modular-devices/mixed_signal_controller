@@ -37,7 +37,7 @@ extern const unsigned char firmware_major;
 extern const unsigned char firmware_minor;
 extern const unsigned char firmware_patch;
 
-extern HardwareSerial& display_serial;
+extern HardwareSerial & display_serial;
 
 extern const int enc_a_pin;
 extern const int enc_b_pin;
