@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name mixed_signal_controller)(type KiCad)(uri ${KIPRJMOD}/mixed_signal_controller.pretty)(options "")(descr ""))
+  (lib (name footprints)(type KiCad)(uri /home/polidorop/git/kicad/kicad-libraries/footprints.pretty)(options "")(descr ""))
+)
