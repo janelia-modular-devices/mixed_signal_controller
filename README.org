@@ -1,0 +1,7 @@
+#+TITLE: mixed_signal_controller
+#+AUTHOR: Peter Polidoro
+#+EMAIL: peterpolidoro@gmail.com
+
+* Repository Information
+  - Author :: Peter Polidoro
+  - License :: BSD
