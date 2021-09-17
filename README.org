@@ -1,6 +1,6 @@
 #+TITLE: mixed_signal_controller
 #+AUTHOR: Peter Polidoro
-#+EMAIL: peterpolidoro@gmail.com
+#+EMAIL: peter@polidoro.io
 
 * Repository Information
   - Author :: Peter Polidoro
